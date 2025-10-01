@@ -1,0 +1,22 @@
+{
+  "name": "trello-softsign",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Elv500/trello-softsign.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Elv500/trello-softsign/issues"
+  },
+  "homepage": "https://github.com/Elv500/trello-softsign#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.55.1",
+    "@types/node": "^24.6.1"
+  }
+}
