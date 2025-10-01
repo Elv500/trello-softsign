@@ -1,0 +1,3 @@
+# DIPLOMADO INGENIERÍA DE CALIDAD DE SOFTWARE COMERCIAL (3ra Edición)
+## CARRERA DE INGENIERÍA INFORMÁTICA Y SISTEMAS
+### Módulo 6 - Automatización de Pruebas en Sistemas Web
