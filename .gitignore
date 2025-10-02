@@ -92,7 +92,7 @@ dist
 .vuepress/dist
 
 # vuepress v2.x temp and cache directory
-.temp
+
 .cache
 
 # Sveltekit cache directory
@@ -150,3 +150,10 @@ test-results/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+#Enrique corregir
+auth-state.json
+
+# Temporary files
+.temp/*
+!.temp/.gitkeep

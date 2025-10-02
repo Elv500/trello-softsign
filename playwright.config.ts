@@ -27,18 +27,31 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'api-tests',
+      testMatch: 'tests/api/**/*.spec.ts',
+      use: {
+        baseURL: process.env.API_URL,
+      },
     },
 
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      name: 'login-tests',
+      testMatch: 'tests/ui/login.spec.ts',
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: undefined,
+      },
     },
 
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      name: 'authenticated-ui-tests',
+      testIgnore: 'tests/ui/login.spec.ts',
+      testMatch: 'tests/ui/**/*.spec.ts',
+      use: {
+        ...devices['Desktop Chrome'],
+        storageState: 'auth-state.json',
+        baseURL: process.env.BASE_URL_UI
+      },
     },
   ],
 });
