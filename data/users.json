@@ -1,0 +1,6 @@
+{
+  "invalid": { "email": "@", "password": "trello test" },
+  "invalid2": { "email": "Pablo.delgadillo@gmail.com", "password": "trello test" },
+  "invalid3": { "email": "asdasd", "password": " " },
+  "invalid4": { "email": "@gmail.com", "password": "admin"}
+}
