@@ -17,6 +17,12 @@
   "homepage": "https://github.com/Elv500/trello-softsign#readme",
   "devDependencies": {
     "@playwright/test": "^1.55.1",
-    "@types/node": "^24.6.1"
+    "@types/node": "^24.6.1",
+    "@types/speakeasy": "^2.0.10",
+    "dotenv": "^17.2.3"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.0.0",
+    "speakeasy": "^2.0.0"
   }
 }
