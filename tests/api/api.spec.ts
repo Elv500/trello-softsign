@@ -16,4 +16,15 @@ test.describe('CRUD de Board en Trello', () => {
     const data = await response.json();
     console.log(data);
   });
+
+  test('Crear board', async () => {
+    const boardName = 'Nuevo Board desde API';
+    const response = await TrelloRequest.post('boards', {
+      name: boardName,
+    });
+    expect(response.status()).toBe(200);
+    const data = await response.json();
+    console.log(data);
+    expect(data.name).toBe(boardName);
+  });
 });
