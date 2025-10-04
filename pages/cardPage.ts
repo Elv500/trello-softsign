@@ -111,10 +111,36 @@ export class CardPage {
     await addCardButton.click();
     await this.page.waitForTimeout(1000);
     
-    const cardTextarea = this.page.getByTestId(this.listCardComposerTextareaSelector);
-    await cardTextarea.waitFor({ state: 'visible', timeout: 10000 });
-    await expect(cardTextarea).toBeVisible();
-    await cardTextarea.fill(cardName);
+    // Try multiple selectors for card textarea
+    const possibleTextareaSelectors = [
+      `[data-testid="${this.listCardComposerTextareaSelector}"]`,
+      'textarea[placeholder*="Enter a title"]',
+      'textarea[placeholder*="title"]',
+      '.list-card-composer-textarea',
+      'textarea[class*="composer"]',
+      'textarea[class*="card"]',
+      '.js-card-title'
+    ];
+    
+    let textareaFound = false;
+    for (const selector of possibleTextareaSelectors) {
+      try {
+        const textarea = this.page.locator(selector).first();
+        await textarea.waitFor({ state: 'visible', timeout: 3000 });
+        await textarea.fill(cardName);
+        console.log(`✅ Found and filled card textarea with selector: ${selector}`);
+        textareaFound = true;
+        break;
+      } catch (error) {
+        console.log(`❌ Card textarea not found with selector: ${selector}`);
+        continue;
+      }
+    }
+    
+    if (!textareaFound) {
+      throw new Error('Could not find card textarea with any selector');
+    }
+    
     await this.page.waitForTimeout(500);
     
     const addCardSubmitButton = this.page.getByTestId(this.listCardComposerAddButtonSelector);

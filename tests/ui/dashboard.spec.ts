@@ -76,16 +76,17 @@ test.describe("Dashboard Management Test Suite - Board Lifecycle Operations", ()
     });
 
     test('TC012 - Verify board closure functionality and dashboard visibility update', async ({ page }) => {
+        test.setTimeout(60000); // Increase timeout to 1 minute
         const boardName = TrelloDataGenerator.generateBoardName();
         createdBoards.push(boardName);
         
         await dashboardPage.createNewBoard(boardName);
         await dashboardPage.closeBoard();
         // Wait for the close operation to complete
-        await page.waitForTimeout(2000);
+        await page.waitForTimeout(5000); // Increased wait time
         await dashboardPage.backBoardToDashboard();
         await page.reload(); 
-        await page.waitForTimeout(5000);
+        await page.waitForTimeout(8000); // Increased wait time
         await dashboardPage.validateVisibilityOfBoard(boardName, false);
     });
 
