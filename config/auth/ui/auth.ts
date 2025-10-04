@@ -6,7 +6,6 @@ export class AuthHelper {
   
   /**
    * Realiza login completo y mantiene la sesión activa
-   * IMPORTANTE: Si tu cuenta tiene MFA, debes configurar el código en app-config.json
    */
   static async loginAndSaveState(page: Page): Promise<void> {
     const loginPage = new LoginPage(page);
@@ -16,12 +15,10 @@ export class AuthHelper {
     await loginPage.fillCredentials(process.env.EMAIL!, process.env.PASSWORD!);
 
     await loginPage.submit();
-    
-    // Esperar un momento para ver si aparece MFA
-    await page.waitForTimeout(3000);
+        await page.waitForTimeout(3000);
     const currentUrl = page.url();
     
-    // Si aparece MFA, generar código automáticamente y completarlo
+    // Generar código automáticamente y completarlo
     if (currentUrl.includes('mfa') || currentUrl.includes('login/mfa')) {
       console.log('🔐 MFA detected - generating code automatically...');
       const mfaCode = await MfaHelper.getCurrentMfaCode();
@@ -33,7 +30,7 @@ export class AuthHelper {
       id: 'valid_user',
       email: process.env.EMAIL,
       password: process.env.PASSWORD,
-      description: 'Usuario válido de app-config.json',
+      description: 'Usuario válido de .env',
       isValid: true
     });
     

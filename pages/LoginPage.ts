@@ -47,9 +47,7 @@ export class LoginPage {
       await passwordInput.waitFor({ state: 'visible', timeout: 8000 });
       await expect(passwordInput).toBeVisible();
       await passwordInput.fill(password);
-      console.log('✅ Password field found and filled');
     } catch (error) {
-      console.log('⚠️  Password field not found - possibly invalid email');
       // Don't throw error here, let validation handle it
     }
   }
@@ -63,9 +61,7 @@ export class LoginPage {
       await submitButton.waitFor({ state: 'visible', timeout: 8000 });
       await expect(submitButton).toBeVisible();
       await submitButton.click();
-      console.log('✅ Submit button clicked');
     } catch (error) {
-      console.log('⚠️  Submit button not found or not clickable');
       // Don't throw error here, let validation handle it
     }
   }
@@ -155,7 +151,7 @@ export class LoginPage {
         await this.page.waitForURL('**/boards**', { timeout: 20000 });
         const currentUrl = this.page.url();
         console.log('✅ SUCCESS: Redirected to boards page');
-        console.log(`Final URL: ${currentUrl}`);
+        // console.log(`Final URL: ${currentUrl}`);
         
         // Verify we're actually on the boards page
         expect(currentUrl).toContain('boards');

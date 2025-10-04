@@ -18,7 +18,6 @@ export const config = {
   // Datos de prueba específicos de la aplicación
   testData: {
     // Aquí puedes agregar datos de prueba específicos
-    // como nombres de clientes, productos, etc.
   }
 };
 
@@ -38,9 +37,7 @@ export const validateConfig = () => {
       'Please check your app-config.json file'
     );
   }
-  
-  console.log('All required configuration is set');
-  return true;
+    return true;
 };
 
 export default config;

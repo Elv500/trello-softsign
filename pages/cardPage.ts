@@ -1,7 +1,4 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { config } from '../config/auth/ui/config';
-import { TrelloDataGenerator } from "../utils/ui/trelloDataGenerator";
-
 export class CardPage {
   private page: Page;
   
@@ -266,9 +263,7 @@ export class CardPage {
     await fileInput.waitFor({ state: 'attached', timeout: 10000 });
     await fileInput.setInputFiles('./resources/images/ImageTest.jpeg');
     await this.page.waitForTimeout(2000);
-    
-    console.log(`✅ Image file uploaded successfully!`);
-  }
+    }
 
   /**
    * Add JSON file to card with verification
@@ -296,8 +291,6 @@ export class CardPage {
     await fileInput.waitFor({ state: 'attached', timeout: 10000 });
     await fileInput.setInputFiles('./data/users.json');
     await this.page.waitForTimeout(2000);
-    
-    console.log(`✅ JSON file uploaded successfully!`);
   }
 
   /**

@@ -108,7 +108,6 @@ export class DashboardPage {
     try {
       await menuButton.click();
     } catch (error) {
-      console.log('Normal click failed, trying force click...');
       await menuButton.click({ force: true });
     }
     
@@ -138,7 +137,6 @@ export class DashboardPage {
     try {
       await menuButton.click();
     } catch (error) {
-      console.log('Normal click failed, trying force click...');
       await menuButton.click({ force: true });
     }
     
@@ -164,7 +162,6 @@ export class DashboardPage {
     try {
       await menuButton2.click();
     } catch (error) {
-      console.log('Normal click failed, trying force click...');
       await menuButton2.click({ force: true });
     }
     
@@ -243,7 +240,6 @@ export class DashboardPage {
       const boardElement = this.page.locator(boardSelector).first();
       return await boardElement.isVisible();
     } catch (error) {
-      console.log(`Board "${boardName}" is not visible: ${error}`);
       return false;
     }
   }

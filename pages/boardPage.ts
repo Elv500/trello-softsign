@@ -1,7 +1,4 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { config } from '../config/auth/ui/config';
-import { TrelloDataGenerator } from "../utils/ui/trelloDataGenerator";
-
 export class BoardPage {
   private page: Page;
   
@@ -176,7 +173,7 @@ export class BoardPage {
     await plannerHeading.waitFor({ state: 'visible', timeout: 15000 });
     await expect(plannerHeading).toBeVisible();
   }
-  // ========== CARD CREATION METHODS ==========
+ 
   /**
    * Create a card in the To Do list with verification
    */
