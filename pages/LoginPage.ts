@@ -21,7 +21,7 @@ export class LoginPage {
     
     // Verify login page loaded correctly
     const emailInput = this.page.locator(this.inputEmail);
-    await emailInput.waitFor({ state: 'visible', timeout: 15000 });
+    // await emailInput.waitFor({ state: 'visible', timeout: 15000 });
     await expect(emailInput).toBeVisible();
   }
 
