@@ -47,7 +47,7 @@ export default defineConfig({
 
     {
       name: 'authenticated-ui-tests',
-      testIgnore: 'tests/ui/login.spec.ts',
+      testIgnore: ['tests/ui/login.spec.ts', 'tests/api/**/*.spec.ts'],
       testMatch: 'tests/ui/**/*.spec.ts',
       use: {
         ...devices['Desktop Chrome'],

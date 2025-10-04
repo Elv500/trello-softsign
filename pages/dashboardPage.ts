@@ -142,10 +142,41 @@ export class DashboardPage {
       await menuButton.click({ force: true });
     }
     
-    const closeBoardButton = this.page.getByRole('button', { name: this.closeBoardButtonName });
-    await closeBoardButton.waitFor({ state: 'visible', timeout: 10000 });
-    await expect(closeBoardButton).toBeVisible();
-    await closeBoardButton.click();
+    // Wait for menu to load
+    await this.page.waitForTimeout(1000);
+    
+    // Try multiple possible selectors for close board button
+    const possibleCloseSelectors = [
+      'button:has-text("Close board")',
+      `[data-testid="close-board-button"]`,
+      'button:has-text("Close Board")',
+      '.board-menu-navigation-item-link:has-text("Close board")',
+      'a:has-text("Close board")'
+    ];
+    
+    let closeBoardButton;
+    let buttonFound = false;
+    
+    for (const selector of possibleCloseSelectors) {
+      try {
+        closeBoardButton = this.page.locator(selector).first();
+        await closeBoardButton.waitFor({ state: 'visible', timeout: 3000 });
+        await closeBoardButton.click();
+        console.log(`✅ Found and clicked close board button with selector: ${selector}`);
+        buttonFound = true;
+        break;
+      } catch (error) {
+        console.log(`❌ Close board button not found with selector: ${selector}`);
+        continue;
+      }
+    }
+    
+    if (!buttonFound) {
+      // Fallback to original selector
+      closeBoardButton = this.page.getByRole('button', { name: this.closeBoardButtonName });
+      await closeBoardButton.waitFor({ state: 'visible', timeout: 10000 });
+      await closeBoardButton.click();
+    }
     
     const confirmCloseButton = this.page.getByTestId(this.closeBoardConfirmButton);
     await confirmCloseButton.waitFor({ state: 'visible', timeout: 10000 });

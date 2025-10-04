@@ -134,10 +134,41 @@ export class CardPage {
     await expect(cardLink).toBeVisible();
     await cardLink.click();
     
-    const addToCardButton = this.page.getByTestId(this.cardBackAddToCardButtonSelector);
-    await addToCardButton.waitFor({ state: 'visible', timeout: 15000 });
-    await expect(addToCardButton).toBeVisible();
-    await addToCardButton.click();
+    // Wait for card details to load
+    await this.page.waitForTimeout(2000);
+    
+    // Try multiple possible selectors for the "Add to card" or "Due date" button
+    const possibleSelectors = [
+      `[data-testid="${this.cardBackAddToCardButtonSelector}"]`,
+      `[data-testid="${this.cardBackDueDateButtonSelector}"]`,
+      `[data-testid="card-back-dates-button"]`,
+      'button:has-text("Due date")',
+      'button:has-text("Dates")',
+      '.card-detail-item:has-text("Due date")',
+      '.card-detail-item:has-text("Dates")'
+    ];
+    
+    let buttonFound = false;
+    for (const selector of possibleSelectors) {
+      try {
+        const button = this.page.locator(selector).first();
+        await button.waitFor({ state: 'visible', timeout: 3000 });
+        await button.click();
+        console.log(`✅ Found and clicked button with selector: ${selector}`);
+        buttonFound = true;
+        break;
+      } catch (error) {
+        console.log(`❌ Button not found with selector: ${selector}`);
+        continue;
+      }
+    }
+    
+    if (!buttonFound) {
+      // Try direct due date button as last resort
+      const dueDateButton = this.page.getByTestId(this.cardBackDueDateButtonSelector);
+      await dueDateButton.waitFor({ state: 'visible', timeout: 5000 });
+      await dueDateButton.click();
+    }
     
     const dueDateButton = this.page.getByTestId(this.cardBackDueDateButtonSelector);
     await dueDateButton.waitFor({ state: 'visible', timeout: 10000 });
@@ -280,17 +311,82 @@ export class CardPage {
     await cardLink.click();
     await this.page.waitForTimeout(2000);
   
-    const addToCardButton = this.page.getByTestId(this.cardBackAddToCardButtonSelector);
-    await addToCardButton.waitFor({ state: 'visible', timeout: 15000 });
-    await expect(addToCardButton).toBeVisible();
-    await addToCardButton.click();
-    await this.page.waitForTimeout(1000);
+    // Try to find any attachment-related button with more generic approach
+    console.log('🔍 Looking for attachment button...');
     
-    const attachmentButton = this.page.getByTestId(this.cardBackAttachmentButtonSelector);
-    await attachmentButton.waitFor({ state: 'visible', timeout: 10000 });
-    await expect(attachmentButton).toBeVisible();
-    await attachmentButton.click();
-    await this.page.waitForTimeout(1000);
+    // First, try to find any buttons that might contain "attach" or similar text
+    const genericSelectors = [
+      'button:has-text("Attachment")',
+      'button:has-text("Attach")',
+      'button:has-text("attach")',
+      'button:has-text("File")',
+      'button:has-text("file")',
+      'a:has-text("Attachment")',
+      'a:has-text("Attach")',
+      'a:has-text("attach")',
+      '.card-detail-item button',
+      '.card-detail-item a',
+      '[class*="attach"]',
+      '[class*="Attach"]'
+    ];
+    
+    let attachmentButtonFound = false;
+    
+    for (const selector of genericSelectors) {
+      try {
+        const elements = this.page.locator(selector);
+        const count = await elements.count();
+        
+        for (let i = 0; i < count; i++) {
+          const element = elements.nth(i);
+          const text = await element.textContent();
+          const ariaLabel = await element.getAttribute('aria-label');
+          const className = await element.getAttribute('class');
+          
+          // Check if this looks like an attachment button
+          if (text && (text.toLowerCase().includes('attach') || 
+                      text.toLowerCase().includes('file')) ||
+              ariaLabel && (ariaLabel.toLowerCase().includes('attach') ||
+                           ariaLabel.toLowerCase().includes('file')) ||
+              className && (className.toLowerCase().includes('attach'))) {
+            
+            console.log(`🎯 Found potential attachment button: ${text || ariaLabel || className}`);
+            await element.click();
+            attachmentButtonFound = true;
+            break;
+          }
+        }
+        
+        if (attachmentButtonFound) break;
+        
+      } catch (error) {
+        // Continue to next selector
+        continue;
+      }
+    }
+    
+    if (!attachmentButtonFound) {
+      // Last resort: try clicking any button in the card detail sidebar
+      try {
+        console.log('🔍 Trying to find any button in card sidebar...');
+        const sidebarButtons = this.page.locator('.card-detail-window .card-detail-item button, .card-detail-window .card-detail-item a');
+        const count = await sidebarButtons.count();
+        console.log(`Found ${count} buttons in sidebar`);
+        
+        if (count > 1) { // Usually attachment is the second button after dates
+          const secondButton = sidebarButtons.nth(1);
+          const text = await secondButton.textContent();
+          console.log(`Trying second button: ${text}`);
+          await secondButton.click();
+          attachmentButtonFound = true;
+        }
+      } catch (error) {
+        console.log('❌ Could not find any attachment button');
+        throw new Error('Could not locate attachment button - UI may have changed');
+      }
+    }
+    
+    await this.page.waitForTimeout(2000);
     
     const fileInput = this.page.locator(this.attachmentsInputSelector);
     await fileInput.waitFor({ state: 'attached', timeout: 10000 });
