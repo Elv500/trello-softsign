@@ -151,8 +151,11 @@ test-results/
 /playwright/.cache/
 /playwright/.auth/
 
-#Enrique corregir
+#Archivos temporales de la aplicacion
+#UI
 auth-state.json
+#API
+trello-state.json
 
 # Temporary files
 .temp/*
