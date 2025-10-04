@@ -30,7 +30,6 @@ export class BoardPage {
   private readonly cardBackTitleInputSelector = 'card-back-title-input';
   private readonly cardBackAddToCardButtonSelector = 'card-back-add-to-card-button';
   private readonly cardBackLabelsButtonSelector = 'card-back-labels-button';
-  private readonly cardBackMoveButtonSelector = 'card-back-move-button';
   private readonly moveCardPopoverSelectSelector = 'move-card-popover-select-list-destination-select--input-container';
   private readonly moveCardPopoverMoveButtonSelector = 'move-card-popover-move-button';
   private readonly cardBackActionsButtonSelector = 'card-back-actions-button';
@@ -40,7 +39,6 @@ export class BoardPage {
   private readonly closeDialogButtonName = 'Close dialog';
   
   // Selectores para movimiento de tarjetas
-  private readonly moveCardPopoverSelectDestinationSelector = 'move-card-popover-select-list-destination-select';
   private readonly toDoListButtonName = 'To Do';
   private readonly inProgressListButtonName = 'In Progress';
   private readonly doneListButtonName = 'Done';

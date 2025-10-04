@@ -15,24 +15,12 @@ export class CardPage {
   private readonly toDoListName = 'To Do';
   
   // Selectores para operaciones de tarjetas
-  private readonly cardNameSelector = 'card-name';
-  private readonly cardBackTitleInputSelector = 'card-back-title-input';
-  private readonly cardBackDescriptionButtonSelector = 'card-back-description-button';
-  private readonly cardBackDescriptionTextareaSelector = 'card-back-description-textarea';
-  private readonly cardBackDescriptionSaveButtonSelector = 'card-back-description-save-button';
+
   private readonly cardBackAttachmentButtonSelector = 'card-back-attachment-button';
-  private readonly cardBackDatesButtonSelector = 'card-back-dates-button';
-  private readonly cardBackMembersButtonSelector = 'card-back-members-button';
   private readonly cardBackLabelsButtonSelector = 'card-back-labels-button';
-  private readonly cardBackMoveButtonSelector = 'card-back-move-button';
-  private readonly cardBackCopyButtonSelector = 'card-back-copy-button';
-  private readonly cardBackArchiveButtonSelector = 'card-back-archive-button';
   
   // Selectores para diálogos y popover
   private readonly attachmentsInputSelector = 'input[type="file"]';
-  private readonly dueDateInputSelector = '[data-testid="due-date-popover-date-input"]';
-  private readonly saveDateButtonSelector = '[data-testid="due-date-popover-save-button"]';
-  private readonly copyCardButtonSelector = '[data-testid="quick-card-editor-copy"]';
   private readonly closeDialogButtonName = 'Close dialog';
   
   // Selectores adicionales para funcionalidades de tarjetas
@@ -42,10 +30,6 @@ export class CardPage {
   private readonly dueDateReminderSelectSelector = 'due-reminder-select-select--dropdown-indicator';
   private readonly dayBeforeOptionSelector = 'due-reminder-select-select--option-7';
   private readonly cardBackChecklistButtonSelector = 'card-back-checklist-button';
-  private readonly checklistTitleInputSelector = 'create-checklist-name-input';
-  private readonly addChecklistButtonSelector = 'create-checklist-add-checklist-button';
-  private readonly checklistItemInputSelector = 'checklist-new-item-text';
-  private readonly addChecklistItemButtonSelector = 'checklist-new-item-add-button';
   private readonly checklistAddButtonSelector = 'checklist-add-button';
   private readonly checkItemNameInputSelector = 'check-item-name-input';
   private readonly checkItemAddButtonSelector = 'check-item-add-button';
