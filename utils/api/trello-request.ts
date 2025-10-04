@@ -1,6 +1,7 @@
 import { request, APIRequestContext } from '@playwright/test';
 import { authParams } from '../../config/auth/api/auth-params';
 
+
 export class TrelloRequest {
   private static api: APIRequestContext;
 
@@ -31,5 +32,16 @@ export class TrelloRequest {
   static async delete(endpoint: string) {
     const api = await TrelloRequest.getApi();
     return api.delete(endpoint, { params: authParams() });
+  }
+
+  static async postFormData(endpoint: string, formData: Record<string, any>) {
+    const api = await TrelloRequest.getApi();
+    return api.post(endpoint, {
+      params: authParams(),
+      headers: {
+        'Accept': 'application/json',
+      },
+      form: formData,
+    });
   }
 }
