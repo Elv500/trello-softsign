@@ -28,7 +28,7 @@ async function apiGlobalTeardown() {
     console.log(`Error al eliminar board ${boardId}, status: ${resp.status()}`);
   }
 
-  fs.unlinkSync(statePath);
+  //fs.unlinkSync(statePath);
 }
 
 export default apiGlobalTeardown;
