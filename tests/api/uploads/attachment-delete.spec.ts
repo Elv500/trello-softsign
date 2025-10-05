@@ -3,6 +3,7 @@ import { TrelloRequest } from '../../../utils/api/trello-request';
 import { readState } from '../../../utils/api/state-manager';
 import { attachUrlToCard } from '../../../utils/api/attachment-helper';
 import { loadRandomImageFromJson } from '../../../utils/api/image-loader';
+import { AssertionStatusCode } from '../../../assertions/assertions-status';
 
 let cardId: string;
 
@@ -21,12 +22,13 @@ test.describe('Attachment DELETE tests', () => {
 
   // TC: Eliminar un attachment específico de una card
   test('Delete attachment by id from card', async () => {
-    const { url, name } = loadRandomImageFromJson();
-    const attachData = await attachUrlToCard(cardId, url, `Attachment for DELETE: ${name}`);
-    const attachmentId = attachData.id;
-    const response = await TrelloRequest.delete(`cards/${cardId}/attachments/${attachmentId}`);
-    expect(response.status()).toBe(200);
-    const getResp = await TrelloRequest.get(`cards/${cardId}/attachments/${attachmentId}`);
-    expect([400, 404]).toContain(getResp.status());
+  const { url, name } = loadRandomImageFromJson();
+  const { status, body: attachData } = await attachUrlToCard(cardId, url, `Attachment for DELETE: ${name}`);
+  AssertionStatusCode.assert_status_code_200(status);
+  const attachmentId = attachData.id;
+  const response = await TrelloRequest.delete(`cards/${cardId}/attachments/${attachmentId}`);
+  expect(response.status()).toBe(200);
+  const getResp = await TrelloRequest.get(`cards/${cardId}/attachments/${attachmentId}`);
+  expect([400, 404]).toContain(getResp.status());
   });
 });

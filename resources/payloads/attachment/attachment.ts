@@ -45,8 +45,39 @@ export function attachmentFromLocalFileAsBase64(filePath: string, mimeType?: str
 	};
 }
 
+// Helper para construir el payload completo que usará los tests y validaciones
+export function buildAttachmentInput(
+	cardId: string,
+	body: AttachmentByUrl | AttachmentByBase64 | Record<string, any>,
+	opts?: { validate?: boolean; headers?: Record<string, string>; extraQuery?: Record<string, string> }
+) {
+	// import dinámico para evitar ciclos en tiempo de compilación
+	// Schema validation y authParams se resuelven en tiempo de ejecución
+	// eslint-disable-next-line @typescript-eslint/no-var-requires
+	const { authParams } = require('../../../config/auth/api/auth-params');
+	// eslint-disable-next-line @typescript-eslint/no-var-requires
+	const { AssertionAttachment } = require('../../../assertions/attachment-assertions/assertion-attachment');
+
+	const query = authParams(opts?.extraQuery);
+	const headers = { Accept: 'application/json', ...(opts?.headers ?? {}) };
+
+	const payload = {
+		pathParams: { id: cardId },
+		query,
+		headers,
+		body,
+	};
+
+	if (opts?.validate) {
+		AssertionAttachment.assert_post_input_schema(payload);
+	}
+
+	return payload;
+}
+
 export default {
 	randomAttachmentByUrl,
 	attachmentFromLocalFileAsBase64,
+ buildAttachmentInput,
 };
 

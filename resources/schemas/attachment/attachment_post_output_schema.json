@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Attachment POST output schema",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "url": { "type": "string", "format": "uri" },
+    "name": { "type": "string" },
+    "mimeType": { "type": "string" },
+    "bytes": { "type": "integer" }
+  },
+  "required": ["id", "url", "name"],
+  "additionalProperties": true
+}
