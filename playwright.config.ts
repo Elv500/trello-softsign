@@ -23,6 +23,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: process.env.BASE_URL,
+    headless: false,
     trace: 'on-first-retry',
   },
 

@@ -93,7 +93,10 @@ export class LoginPage {
       throw error;
     }
   }
-
+  async ValidateMFALogin() {
+     const mfaSelector = '#two-step-verification-otp-code-input';
+            await this.page.waitForSelector(mfaSelector, { timeout: 5000 });
+  }
   /**
    * Check if any error is visible on the page
    */

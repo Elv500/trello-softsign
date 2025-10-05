@@ -72,9 +72,9 @@ test.afterEach(async ({ page }, testInfo) => {
         await test.step('Completar MFA (si es necesario)', async () => {
           try {
             // Verificar si aparece el campo MFA
-            const mfaSelector = '#two-step-verification-otp-code-input';
-            await page.waitForSelector(mfaSelector, { timeout: 5000 });
-            
+
+            await loginPage.ValidateMFALogin();
+
             console.log('🔐 MFA detected - generating code automatically...');
             const mfaCode = MfaHelper.generateMfaCode();
             console.log(`🔐 Generated MFA code: ${mfaCode}`);
