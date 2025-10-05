@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import Ajv from "ajv";
 import { TrelloRequest } from "../../../utils/api/trello-request";
-import { createBoardForSuite, deleteBoard } from "../../../utils/api/board-helper";
+import { createBoardForSuite, deleteBoard } from "../../../utils/api/base-helper";
 import { createCardUtils } from "../../../utils/api/card-helper";
 import { input_create_checklist } from "../../../resources/schemas/checklist/post_input";
 import { output_create_checklist } from "../../../resources/schemas/checklist/post_output";
