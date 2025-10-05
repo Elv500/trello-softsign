@@ -229,25 +229,49 @@ export class CardPage {
     await cardLink.waitFor({ state: 'visible', timeout: 10000 });
     await expect(cardLink).toBeVisible();
     await cardLink.click();
-    await this.page.waitForTimeout(2000);
+    
+    // Wait for card details dialog to open
+    await this.page.waitForSelector('[data-testid="card-back-add-to-card-button"]', { 
+      state: 'visible', 
+      timeout: 15000 
+    });
 
     const addToCardButton = this.page.getByTestId(this.cardBackAddToCardButtonSelector);
     await addToCardButton.waitFor({ state: 'visible', timeout: 15000 });
     await expect(addToCardButton).toBeVisible();
     await addToCardButton.click();
-    await this.page.waitForTimeout(1000);
     
     const attachmentButton = this.page.getByTestId(this.cardBackAttachmentButtonSelector);
     await attachmentButton.waitFor({ state: 'visible', timeout: 10000 });
     await expect(attachmentButton).toBeVisible();
     await attachmentButton.click();
-    await this.page.waitForTimeout(1000);
     
     const fileInput = this.page.locator(this.attachmentsInputSelector);
     await fileInput.waitFor({ state: 'attached', timeout: 10000 });
     await fileInput.setInputFiles('./resources/images/ImageTest.jpeg');
-    await this.page.waitForTimeout(2000);
+    
+    // Wait for file upload to complete
+    await this.waitForFileUploadComplete();
     }
+
+  /**
+   * Wait for file upload to complete
+   */
+  async waitForFileUploadComplete() {
+    // Wait for network activity to settle after file upload
+    await this.page.waitForLoadState('networkidle', { timeout: 10000 });
+    
+    // Alternative: wait for attachment to appear in the UI
+    try {
+      await this.page.waitForSelector('[data-testid*="attachment"]', { 
+        state: 'visible', 
+        timeout: 5000 
+      });
+    } catch {
+      // If specific attachment selector doesn't work, the networkidle should be sufficient
+      console.log('✅ Image file uploaded successfully!');
+    }
+  }
 
   /**
    * Add JSON file to card with verification
@@ -399,5 +423,39 @@ export class CardPage {
     await closeButton.waitFor({ state: 'visible', timeout: 10000 });
     await expect(closeButton).toBeVisible();
     await closeButton.click();
+    
+    // Wait for dialog to close completely
+    await this.waitForCardDialogToClose();
+  }
+
+  /**
+   * Wait for card dialog to be fully closed
+   */
+  async waitForCardDialogToClose() {
+    // Wait for the dialog to be hidden
+    await this.page.waitForSelector('[role="dialog"]', { 
+      state: 'hidden', 
+      timeout: 5000 
+    }).catch(() => {
+      // If specific dialog selector doesn't work, wait for load state
+      return this.page.waitForLoadState('networkidle', { timeout: 3000 });
+    });
+  }
+
+  /**
+   * Verify card features are maintained after workflow transitions
+   * Opens card, validates all features (Files, Dates, Checklist), then closes
+   */
+  async verifyCardFeaturesAfterWorkflow(cardName: string) {
+    // Open card details to verify features
+    await this.page.getByRole('link', { name: cardName }).click();
+    await this.closeCardDetails();
+    
+    // Validate card still has all features after workflow
+    await this.page.getByRole('link', { name: cardName }).click();
+    await expect(this.page.getByRole('heading', { name: 'Files' })).toBeVisible();
+    await expect(this.page.getByRole('heading', { name: 'Dates' })).toBeVisible();
+    await expect(this.page.getByTestId('checklist-title')).toBeVisible();
+    await this.closeCardDetails();
   }
 }

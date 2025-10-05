@@ -83,6 +83,21 @@ export class DashboardPage {
     
     // Verify board creation was successful
     await this.page.waitForURL('**/b/**', { timeout: 15000 });
+    // Wait for board to be fully loaded
+    await this.waitForBoardToLoad();
+  }
+
+  /**
+   * Wait for board to be fully loaded after creation
+   */
+  async waitForBoardToLoad() {
+    // Wait for essential board elements to be visible
+    await this.page.waitForLoadState('networkidle');
+    // Wait for board name display to be visible (indicates board is ready)
+    await this.page.waitForSelector('[data-testid="board-name-display"]', { 
+      state: 'visible', 
+      timeout: 10000 
+    });
   } 
 
   /**

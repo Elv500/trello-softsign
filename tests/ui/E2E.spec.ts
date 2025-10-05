@@ -26,7 +26,7 @@ test.describe("End-to-End Integration Test Suite - Complete Trello Workflow Vali
     
     await test.step('Create board', async () => {
       await dashboardPage.createNewBoard(boardName);
-      await page.waitForTimeout(3000);
+      // Board loading is now handled in createNewBoard method
       console.log(`✅ Board created: ${boardName}`);
     });
 
@@ -47,20 +47,20 @@ test.describe("End-to-End Integration Test Suite - Complete Trello Workflow Vali
     await test.step('Add date to card', async () => {
       await cardPage.addCardDate(cardName);
       await cardPage.closeCardDetails();
-      await page.waitForTimeout(1000);
+      // Dialog closing is now handled in closeCardDetails method
       console.log(`✅ Date added to card`);
     });
 
     await test.step('Add checklist to card', async () => {
       await cardPage.addCardChecklist(cardName);
       await cardPage.closeCardDetails();
-      await page.waitForTimeout(1000);
+      // Dialog closing is now handled in closeCardDetails method
       console.log(`✅ Checklist added to card`);
     });
 
     await test.step('Add file to card', async () => {
       await cardPage.addCardFilesImage(cardName);
-      await page.waitForTimeout(1000);
+      // File upload completion is now handled in addCardFilesImage method
       console.log(`✅ File uploaded to card`);
     });
 
@@ -69,36 +69,26 @@ test.describe("End-to-End Integration Test Suite - Complete Trello Workflow Vali
       console.log(`✅ Complete E2E workflow validation successful!`);
     });
 
-    await test.step('Verify card in different lists workflow', async () => {
-      // Move card to In Progress (simulation of real workflow)
-      await page.getByRole('link', { name: cardName }).click();
-      await cardPage.closeCardDetails();
-      
-      // Validate card still has all features after workflow
-      await page.getByRole('link', { name: cardName }).click();
-      await expect(page.getByRole('heading', { name: 'Files' })).toBeVisible();
-      await expect(page.getByRole('heading', { name: 'Dates' })).toBeVisible();
-      await expect(page.getByTestId('checklist-title')).toBeVisible();
-      await cardPage.closeCardDetails();
-      
-      console.log(`✅ Card workflow completed successfully!`);
+    await test.step('Verify card features are maintained', async () => {
+      await cardPage.verifyCardFeaturesAfterWorkflow(cardName);
+      console.log(`✅ Card features validated before workflow transitions`);
     });
 
     await test.step('Move card to In Progress', async () => {
       await boardPage.moveCardToDoing(cardName);
-      await page.waitForTimeout(2000);
+      // Card movement completion is now handled in moveCardToDoing method
       console.log(`✅ Card moved to In Progress: ${cardName}`);
     });
 
     await test.step('Move card to Done', async () => {
       await boardPage.moveCardToDone(cardName);
-      await page.waitForTimeout(2000);
+      // Card movement completion is now handled in moveCardToDone method
       console.log(`✅ Card moved to Done: ${cardName}`);
     });
 
     await test.step('Archive card', async () => {
       await boardPage.archiveCard(cardName);
-      await page.waitForTimeout(2000);
+      // Card archiving completion is now handled in archiveCard method
       console.log(`✅ Card archived: ${cardName}`);
     });
 

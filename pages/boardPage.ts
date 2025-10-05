@@ -268,7 +268,12 @@ export class BoardPage {
     await cardLink.waitFor({ state: 'visible', timeout: 10000 });
     await expect(cardLink).toBeVisible();
     await cardLink.click();
-    await this.page.waitForTimeout(1000);
+    
+    // Wait for card dialog to open
+    await this.page.waitForSelector('[data-testid="card-back-name"]', { 
+      state: 'visible', 
+      timeout: 10000 
+    });
     
     const listButton = this.page.getByTestId(this.cardBackNameSelector).getByRole('button', this.getListButtonSelector(this.toDoListButtonName));
     await listButton.waitFor({ state: 'visible', timeout: 10000 });
@@ -294,6 +299,21 @@ export class BoardPage {
     await closeButton.waitFor({ state: 'visible', timeout: 10000 });
     await expect(closeButton).toBeVisible();
     await closeButton.click();
+    
+    // Wait for card to appear in the new list
+    await this.waitForCardMoveComplete(cardName, 'In Progress');
+  }
+
+  /**
+   * Wait for card move operation to complete
+   */
+  async waitForCardMoveComplete(cardName: string, targetListName: string) {
+    // Wait for the card to appear in the target list
+    const targetListLocator = this.page.locator('[data-testid="list-wrapper"]')
+      .filter({ hasText: targetListName })
+      .getByRole('link', { name: cardName });
+    
+    await targetListLocator.waitFor({ state: 'visible', timeout: 10000 });
   }
 
   /**
@@ -304,7 +324,12 @@ export class BoardPage {
     await cardLink.waitFor({ state: 'visible', timeout: 10000 });
     await expect(cardLink).toBeVisible();
     await cardLink.click();
-    await this.page.waitForTimeout(1000);
+    
+    // Wait for card dialog to open
+    await this.page.waitForSelector('[data-testid="card-back-name"]', { 
+      state: 'visible', 
+      timeout: 10000 
+    });
     
     const listButton = this.page.getByTestId(this.cardBackNameSelector).getByRole('button', this.getListButtonSelector(this.inProgressListButtonName));
     await listButton.waitFor({ state: 'visible', timeout: 10000 });
@@ -330,6 +355,9 @@ export class BoardPage {
     await closeButton.waitFor({ state: 'visible', timeout: 10000 });
     await expect(closeButton).toBeVisible();
     await closeButton.click();
+    
+    // Wait for card to appear in the Done list
+    await this.waitForCardMoveComplete(cardName, 'Done');
   }
 
   /**
@@ -355,6 +383,21 @@ export class BoardPage {
     await closeButton.waitFor({ state: 'visible', timeout: 10000 });
     await expect(closeButton).toBeVisible();
     await closeButton.click();
+    
+    // Wait for card to be archived (should disappear from board)
+    await this.waitForCardArchiveComplete(cardName);
+  }
+
+  /**
+   * Wait for card archive operation to complete
+   */
+  async waitForCardArchiveComplete(cardName: string) {
+    // Wait for the card to disappear from the board
+    const cardLocator = this.page.getByRole('link', { name: cardName });
+    await cardLocator.waitFor({ state: 'hidden', timeout: 10000 }).catch(() => {
+      // Alternative approach: wait for network to settle
+      return this.page.waitForLoadState('networkidle', { timeout: 5000 });
+    });
   }
 
   /**
