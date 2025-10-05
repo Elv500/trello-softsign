@@ -388,6 +388,32 @@ export class BoardPage {
   }
 
   /**
+   * Validate that a single card is visible
+   */
+  async validateCardIsVisible(cardName: string) {
+    const cardLocator = this.page.getByRole('link', { name: cardName });
+    await expect(cardLocator).toBeVisible();
+  }
+
+  /**
+   * Validate that multiple cards are visible
+   */
+  async validateCardsAreVisible(cardNames: string[]) {
+    for (const cardName of cardNames) {
+      await this.validateCardIsVisible(cardName);
+    }
+  }
+
+  /**
+   * Validate that multiple cards are visible (alternative with array destructuring)
+   */
+  async validateMultipleCards(...cardNames: string[]) {
+    for (const cardName of cardNames) {
+      await this.validateCardIsVisible(cardName);
+    }
+  }
+
+  /**
    * Validate that card is not visible (after archive/delete)
    */
   async validateCardInNotVisible(cardName: string) {

@@ -40,7 +40,7 @@ test.describe("End-to-End Integration Test Suite - Complete Trello Workflow Vali
 
     await test.step('Create initial card', async () => {
       await boardPage.createCard(cardName);
-      await expect(page.getByRole('link', { name: cardName })).toBeVisible();
+      await boardPage.validateCardIsVisible(cardName);
       console.log(`✅ Card created: ${cardName}`);
     });
 

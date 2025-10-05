@@ -37,7 +37,7 @@ test.describe("Board Management Test Suite - Creation, Modification and Navigati
     });
 
     await test.step('Validate card was created', async () => {
-      await expect(page.getByRole('link', { name: cardName })).toBeVisible();
+      await boardPage.validateCardIsVisible(cardName);
     });
   });
 
@@ -73,9 +73,7 @@ test.describe("Board Management Test Suite - Creation, Modification and Navigati
     });
 
     await test.step('Validate all cards were created', async () => {
-      await expect(page.getByRole('link', { name: cardName1 })).toBeVisible();
-      await expect(page.getByRole('link', { name: cardName2 })).toBeVisible();
-      await expect(page.getByRole('link', { name: cardName3 })).toBeVisible();
+      await boardPage.validateMultipleCards(cardName1, cardName2, cardName3);
     });
 
   });
