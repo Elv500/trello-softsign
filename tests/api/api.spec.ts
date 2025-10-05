@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { TrelloRequest } from '../../utils/api/trello-request';
 import { readState } from '../../utils/api/state-manager';
-import { createBoardForSuite, deleteBoard } from '../../utils/api/board-helper';
+import { createBoardForSuite, deleteBoard } from '../../utils/api/base-helper';
 
 let boardId: string;
 let todoListId: string;
+let cardId: string;
 
 test.describe('CRUD de Board en Trello', () => {
   
@@ -13,6 +14,7 @@ test.describe('CRUD de Board en Trello', () => {
     const state = await createBoardForSuite('Board de Prueba API');
     boardId = state.boardId;
     todoListId = state.todoListId;
+    cardId = state.cardId;
   });
 
   test.afterAll(async () => {
@@ -60,20 +62,20 @@ test.describe('CRUD de Board en Trello', () => {
   //   console.log(data);
   //   expect(data.name).toBe(boardName);
   // });
+  test('Crear nuevo card en la lista To Do', async () => {
+    const cardName = 'Nueva Card desde API';
+    const response = await TrelloRequest.post('cards', {
+      name: cardName,
+      idList: todoListId,
+    });
+    expect(response.status()).toBe(200);
+    const data = await response.json();
+    console.log(todoListId);
+    console.log(boardId);
+    console.log(cardId);
+    console.log(data);
+    //expect(data.name).toBe(cardName);
+    //expect(data.idList).toBe(todoListId);
+  });
 
-  // test('Crear nuevo card en la lista To Do', async () => {
-  //   const cardName = 'Nueva Card desde API';
-  //   const response = await TrelloRequest.post('cards', {
-  //     name: cardName,
-  //     idList: todoListId,
-  //   });
-  //   expect(response.status()).toBe(200);
-  //   const data = await response.json();
-  //   console.log(todoListId);
-  //   console.log(boardId);
-  //   console.log(data);
-    
-  //   //expect(data.name).toBe(cardName);
-  //   //expect(data.idList).toBe(todoListId);
-  // });
 });
