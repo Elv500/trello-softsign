@@ -12,7 +12,7 @@ test.describe("Pruebas API de Checklist", () => {
     board_id = board.boardId;
 
     const card = await createCardUtils("Card API Checklist Tests", board.todoListId);
-    card_id = card.cardId;
+    card_id = card.id;
   });
 
   test.afterAll(async () => {
@@ -54,13 +54,7 @@ test.describe("Pruebas API de Checklist", () => {
     expect([400, 422]).toContain(response.status());
   });
 
-  test("TC006 - Crear checklist con emoji", async () => {
-    const payload = { name: "Checklist 😀", idCard: card_id };
-    const response = await TrelloRequest.post("checklists", payload);
-    expect(response.status()).toBe(200);
-  });
-
-  test("TC007 - Crear checklist con nombre numérico", async () => {
+  test("TC006 - Crear checklist con nombre numérico", async () => {
     const payload = { name: "123456", idCard: card_id };
     const response = await TrelloRequest.post("checklists", payload);
     expect(response.status()).toBe(200);

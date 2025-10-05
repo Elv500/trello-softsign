@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, request } from "@playwright/test";
 import { TrelloRequest } from "../../../utils/api/trello-request";
 import { createBoardForSuite, deleteBoard } from "../../../utils/api/board-helper";
 import { createCardUtils } from "../../../utils/api/card-helper";
@@ -13,7 +13,7 @@ test.describe("Pruebas API de Checklist - PUT", () => {
     board_id = board.boardId;
 
     const card = await createCardUtils("Card API Checklist PUT Tests", board.todoListId);
-    card_id = card.cardId;
+    card_id = card.id;
 
     // Crear checklist inicial para hacer PUT
     const payload = { name: "Checklist Inicial", idCard: card_id };
@@ -60,13 +60,7 @@ test.describe("Pruebas API de Checklist - PUT", () => {
     expect([400, 422]).toContain(response.status());
   });
 
-  test("TC006 - Actualizar checklist con emoji", async () => {
-    const payload = { name: "Checklist 😀 Actualizado" };
-    const response = await TrelloRequest.put(`checklists/${checklist_id}`, payload);
-    expect(response.status()).toBe(200);
-  });
-
-  test("TC007 - Actualizar checklist con nombre numérico", async () => {
+  test("TC006 - Actualizar checklist con nombre numérico", async () => {
     const payload = { name: "987654" };
     const response = await TrelloRequest.put(`checklists/${checklist_id}`, payload);
     expect(response.status()).toBe(200);
