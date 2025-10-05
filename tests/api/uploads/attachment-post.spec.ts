@@ -54,7 +54,6 @@ test('Attach image with custom name', async () => {
   expect(attachData).toHaveProperty('name', customName);
 });
 
-// 4. Adjuntar a diferentes cards
 // TC: Adjuntar imágenes a diferentes cards
 test('Attach images to different cards', async () => {
   const { todoListId } = readState();
