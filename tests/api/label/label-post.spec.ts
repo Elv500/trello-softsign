@@ -3,7 +3,8 @@ import { TrelloRequest } from '../../../utils/api/trello-request';
 import { readState } from '../../../utils/api/state-manager';
 import { createBoardForSuite, deleteBoard } from '../../../utils/api/base-helper';
 import { LabelHelper } from '../../../utils/api/label-helper';
-import { SchemaValidator } from '../../../utils/api/schema-validator';
+//import { SchemaValidator } from '../../../utils/api/schema-validator';
+import { AssertionLabel } from '../../../assertions/assertions-label';
 
 test.describe('Tests de creación de Labels en Trello', () => {
   
@@ -33,8 +34,7 @@ test.describe('Tests de creación de Labels en Trello', () => {
             idBoard: boardId
         }
 
-        const isValidInput = SchemaValidator.validate('label/label_post_input_schema.json',payload);
-        expect(isValidInput, 'Schema de entrada inválido').toBe(true);
+        AssertionLabel.assert_post_input_schema(payload);
 
         const response = await TrelloRequest.post('labels', {
             name: labelName,
@@ -44,8 +44,7 @@ test.describe('Tests de creación de Labels en Trello', () => {
         expect(response.status()).toBe(200);
         const data = await response.json();
 
-        const isValidOutput = SchemaValidator.validate('label/label_post_output_schema.json',data);
-        expect(isValidOutput, 'Schema de salida inválido').toBe(true);
+        AssertionLabel.assert_post_output_schema(data);
 
         expect(data.idBoard).toBe(boardId);
         expect(data.name).toBe(labelName);
@@ -55,6 +54,5 @@ test.describe('Tests de creación de Labels en Trello', () => {
         // Guardar el id del label creado
         // const state = readState();
         // state.labelId = data.id;
-
     });
 });
