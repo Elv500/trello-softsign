@@ -9,7 +9,7 @@ async function globalSetup(config: FullConfig) {
   await apiGlobalSetup(config);
 
   // 2. Setup UI
-  await uiGlobalSetup(config);
+  //await uiGlobalSetup(config);
 
   console.log('⚡ Global-setup combinado completado');
 }
