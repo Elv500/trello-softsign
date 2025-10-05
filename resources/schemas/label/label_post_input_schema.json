@@ -1,0 +1,19 @@
+{
+    "type": "object",
+    "required": [
+        "name",
+        "idBoard"
+    ],
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "color": {
+            "type": ["string", "null"]
+        },
+        "idBoard": {
+            "type": "string"
+        }
+    },
+    "additionalProperties": false
+}
