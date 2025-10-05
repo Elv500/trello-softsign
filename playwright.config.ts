@@ -44,7 +44,7 @@ export default defineConfig({
     },
 
     {
-      name: 'authenticated-ui-tests',
+      name: 'ui-tests',
       testIgnore: 'tests/ui/login.spec.ts',
       testMatch: 'tests/ui/**/*.spec.ts',
       use: {
