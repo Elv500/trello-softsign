@@ -1,0 +1,25 @@
+export const customFieldPayloads = {
+  validList: {
+    modelType: "board",
+    name: "Priority",
+    type: "list",
+    options: [
+      { value: { text: "High" } },
+      { value: { text: "Medium" } },
+      { value: { text: "Low" } },
+    ],
+  },
+  emptyName: { modelType: "board", name: "", type: "text" },
+  longName: { modelType: "board", name: "X".repeat(600), type: "text" },
+  specialChars: { modelType: "board", name: "!@#$%^&*()_+|~`", type: "text" },
+  blankSpaces: { modelType: "board", name: "    ", type: "checkbox" },
+  withEmoji: { modelType: "board", name: "Risk 🔥", type: "text" },
+  numericName: { modelType: "board", name: "123456", type: "text" },
+  invalidType: { modelType: "board", name: "Campo inválido", type: "unsupportedType" },
+  missingType: { modelType: "board", name: "Sin tipo" },
+  noModelId: { name: "Sin modelo", type: "text" },
+  textField: { modelType: "board", name: "Comentario", type: "text" },
+  checkboxField: { modelType: "board", name: "Aceptado", type: "checkbox" },
+  listWithoutOptions: { modelType: "board", name: "Prioridad sin opciones", type: "list", options: [] },
+  duplicateName: { modelType: "board", name: "Duplicado", type: "text" },
+};
