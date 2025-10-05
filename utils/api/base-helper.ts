@@ -11,13 +11,22 @@ export async function createBoardForSuite(name: string) {
   });
   const board = await boardResp.json();
 
+  //Obtener la lista "To Do"
   const listsResp = await api.get(`boards/${board.id}/lists`, {
     params: authParams(),
   });
   const lists = await listsResp.json();
   const todoList = lists.find((l: any) => l.name === "To Do");
 
-  return { boardId: board.id, todoListId: todoList.id };
+  //Crear un card en la lista "To Do"
+  const cardRes = await api.post(`lists/${todoList.id}/cards`, {
+    params: authParams(),
+    data: { name: "Card Test" },
+  });
+  const card = await cardRes.json();
+
+  //Guardando el id del board, de la lista "To Do" y del card creado
+  return { boardId: board.id, todoListId: todoList.id, cardId: card.id };
 }
 
 //Eliminar board
