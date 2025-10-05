@@ -3,7 +3,7 @@ import { ChecklistPage } from "./../../pages/CheckList";
 import { validateConfig } from "../../config/auth/ui/config";
 import { AuthHelper } from "../../config/auth/ui/auth";
 import checklists from "./../../data/checklist.json";
-import { createBoardForSuite, deleteBoard } from "../../utils/api/board-helper";
+import { createBoardForSuite, deleteBoard } from "../../utils/api/base-helper";
 import { createCardUtils } from "../../utils/api/card-helper";
 
 // Combina checklists de JSON con un checklist manual
