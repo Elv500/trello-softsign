@@ -1,44 +1,25 @@
 import { test, expect, Page, BrowserContext } from "@playwright/test";
 import { ChecklistPage } from "./../../pages/CheckList";
 import { validateConfig } from "../../config/auth/ui/config";
-import { AuthHelper } from "../../config/auth/ui/auth";
-import checklists from "./../../data/checklist.json";
 import { createBoardForSuite, deleteBoard } from "../../utils/api/board-helper";
 import { createCardUtils } from "../../utils/api/card-helper";
 
-// Combina checklists de JSON con un checklist manual
-const allChecklists = [
-  ...Object.entries(checklists).map(([key, data]) => ({
-    id: key,
-    title: data.title,
-    item: data.item,
-    description: data.description,
-  })),
-  {
-    id: "manual_checklist",
-    title: "QA Auto Checklist",
-    item: "Verificar login UI",
-    description: "Checklist generado directamente desde el test",
-  },
-];
-
-test.describe("Checklist Tests - Trello UI (Single Session)", () => {
+test.describe("Checklist Tests - Trello UI (Independent Test Cases with Separate Cards)", () => {
   let context: BrowserContext;
   let page: Page;
   let checklistPage: ChecklistPage;
-  let url_card: string;
   let board_id: string;
-
+  let  list_id: string;
   test.beforeAll(async ({ browser }) => {
     validateConfig();
+
     context = await browser.newContext({
       storageState: "auth-state.json",
     });
-    page = await context.newPage();
-    const board = await createBoardForSuite('Board de Prueba UI');
+    const board = await createBoardForSuite('tests board checklist')
     board_id = board.boardId;
-    const card = await createCardUtils('Tarjeta de Prueba UI', board.todoListId);
-    url_card = card.cardUrl;
+    list_id = board.todoListId
+    page = await context.newPage();
     checklistPage = new ChecklistPage(page);
   });
 
@@ -49,42 +30,117 @@ test.describe("Checklist Tests - Trello UI (Single Session)", () => {
     console.log("✅ Session cerrada");
   });
 
-  test("Ejecutar todos los checklists en un solo flujo", async () => {
-    for (const checklistCase of allChecklists) {
-      console.log(`\n🧩 Testing checklist: ${checklistCase.title}`);
-      console.log(`📌 Card URL: ${url_card}`);
+  // ---------------------- TEST CASES ---------------------- //
 
-      await test.step("Ir a la tarjeta", async () => {
-        await checklistPage.gotoCard(url_card);
-      });
+  test('TC001 - Crear checklist "Checklist 1" en card nueva', async () => {
+    const card = await createCardUtils('Card TC001',  list_id);
+    const url_card = card.url
 
-      await test.step("Crear checklist", async () => {
-        await checklistPage.createChecklist(checklistCase.title);
-      });
+    const checklistTitle = 'Checklist 1';
+    const item = 'TC001 Item';
 
-      await test.step("Agregar ítem", async () => {
-        await checklistPage.addChecklistItem(checklistCase.item);
-      });
+    await checklistPage.gotoCard(url_card);
+    await checklistPage.createChecklist(checklistTitle);
+    await checklistPage.addChecklistItem(item);
+    await checklistPage.validateChecklistExists(checklistTitle);
+  });
 
-      await test.step("Validar checklist visible", async () => {
-        await checklistPage.validateChecklistExists(checklistCase.title);
-      });
+  test('TC002 - Marcar ítem de "Checklist 2" como completado en card nueva', async () => {
+    const card = await createCardUtils('Card TC002',  list_id);
+    const url_card = card.url
 
-      await test.step("Marcar ítem como completado", async () => {
-        await checklistPage.toggleChecklistItem(checklistCase.item);
-      });
+    const checklistTitle = 'Checklist 2';
+    const item = 'TC002 Item';
 
-      await test.step("Validar ítem completado", async () => {
-        await checklistPage.validateItemCompleted(checklistCase.item);
-      });
+    await checklistPage.gotoCard(url_card);
+    await checklistPage.createChecklist(checklistTitle);
+    await checklistPage.addChecklistItem(item);
 
-      await test.step("Eliminar checklist", async () => {
-        await checklistPage.deleteChecklist(checklistCase.title);
-      });
+    await checklistPage.toggleChecklistItem(item);
+    await checklistPage.validateItemCompleted(item);
+  });
 
-      console.log(
-        `✅ Checklist completado correctamente: ${checklistCase.title}`
-      );
-    }
+  test('TC003 - Eliminar checklist "Checklist 3" en card nueva', async () => {
+    const card = await createCardUtils('Card TC003',  list_id);
+    const url_card = card.url
+
+    const checklistTitle = 'Checklist 3';
+    const item = 'TC003 Item';
+
+    await checklistPage.gotoCard(url_card);
+    await checklistPage.createChecklist(checklistTitle);
+    await checklistPage.addChecklistItem(item);
+
+    await checklistPage.deleteChecklist(checklistTitle);
+  });
+
+  test('TC004 - Crear checklist "Checklist 4" con item adicional', async () => {
+    const card = await createCardUtils('Card TC004',  list_id);
+    const url_card = card.url
+
+    const checklistTitle = 'Checklist 4';
+    const item = 'TC004 Item';
+
+    await checklistPage.gotoCard(url_card);
+    await checklistPage.createChecklist(checklistTitle);
+    await checklistPage.addChecklistItem(item);
+    await checklistPage.validateChecklistExists(checklistTitle);
+  });
+
+  test('TC005 - Completar item de "Checklist 5"', async () => {
+    const card = await createCardUtils('Card TC005',  list_id);
+    const url_card = card.url
+
+    const checklistTitle = 'Checklist 5';
+    const item = 'TC005 Item';
+
+    await checklistPage.gotoCard(url_card);
+    await checklistPage.createChecklist(checklistTitle);
+    await checklistPage.addChecklistItem(item);
+
+    await checklistPage.toggleChecklistItem(item);
+    await checklistPage.validateItemCompleted(item);
+  });
+
+  test('TC006 - Crear checklist "Checklist 6"', async () => {
+    const card = await createCardUtils('Card TC006',  list_id);
+    const url_card = card.url
+
+    const checklistTitle = 'Checklist 6';
+    const item = 'TC006 Item';
+
+    await checklistPage.gotoCard(url_card);
+    await checklistPage.createChecklist(checklistTitle);
+    await checklistPage.addChecklistItem(item);
+    await checklistPage.validateChecklistExists(checklistTitle);
+  });
+
+  test('TC007 - Completar item de "Checklist 7"', async () => {
+    const card = await createCardUtils('Card TC007',  list_id);
+    const url_card = card.url
+
+    const checklistTitle = 'Checklist 7';
+    const item = 'TC007 Item';
+
+    await checklistPage.gotoCard(url_card);
+    await checklistPage.createChecklist(checklistTitle);
+    await checklistPage.addChecklistItem(item);
+
+    await checklistPage.toggleChecklistItem(item);
+    await checklistPage.validateItemCompleted(item);
+  });
+
+  test('TC008 - Eliminar checklist "Checklist 8"', async () => {
+    const card = await createCardUtils('Card TC008',  list_id);
+    const url_card = card.url
+
+    const checklistTitle = 'Checklist 8';
+    const item = 'TC008 Item';
+
+    await checklistPage.gotoCard(url_card);
+    await checklistPage.createChecklist(checklistTitle);
+    await checklistPage.addChecklistItem(item);
+
+    await checklistPage.deleteChecklist(checklistTitle);
   });
 });
