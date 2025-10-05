@@ -13,7 +13,7 @@ test.describe("Pruebas API de Checklist Items", () => {
     board_id = board.boardId;
 
     const card = await createCardUtils("Card API Checklist Items Tests", board.todoListId);
-    card_id = card.cardId;
+    card_id = card.id;
 
     // Crear checklist inicial
     const payload = { name: "Checklist Inicial", idCard: card_id };
