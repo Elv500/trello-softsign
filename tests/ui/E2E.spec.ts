@@ -19,14 +19,14 @@ test.describe("End-to-End Integration Test Suite - Complete Trello Workflow Vali
   });
 
   test('TC050 - Verify complete end-to-end workflow: board creation, lists setup, card management with attachments, dates, checklists and workflow transitions', async ({ page }) => {
-    test.setTimeout(180000); // 3 minutes timeout for complete E2E test
+    test.setTimeout(180000); 
     
     const boardName = TrelloDataGenerator.generateBoardName();
     const cardName = TrelloDataGenerator.generateCardName();
     
     await test.step('Create board', async () => {
       await dashboardPage.createNewBoard(boardName);
-      // Board loading is now handled in createNewBoard method
+
       console.log(`✅ Board created: ${boardName}`);
     });
 
@@ -34,7 +34,7 @@ test.describe("End-to-End Integration Test Suite - Complete Trello Workflow Vali
       boardPage = new BoardPage(page);
       cardPage = new CardPage(page);
       
-      await boardPage.createList("setup"); // This creates To Do, In Progress, Done lists
+      await boardPage.createList("setup"); 
       console.log(`✅ Lists created (To Do, In Progress, Done)`);
     });
 
@@ -47,20 +47,17 @@ test.describe("End-to-End Integration Test Suite - Complete Trello Workflow Vali
     await test.step('Add date to card', async () => {
       await cardPage.addCardDate(cardName);
       await cardPage.closeCardDetails();
-      // Dialog closing is now handled in closeCardDetails method
       console.log(`✅ Date added to card`);
     });
 
     await test.step('Add checklist to card', async () => {
       await cardPage.addCardChecklist(cardName);
       await cardPage.closeCardDetails();
-      // Dialog closing is now handled in closeCardDetails method
       console.log(`✅ Checklist added to card`);
     });
 
     await test.step('Add file to card', async () => {
       await cardPage.addCardFilesImage(cardName);
-      // File upload completion is now handled in addCardFilesImage method
       console.log(`✅ File uploaded to card`);
     });
 
@@ -76,19 +73,16 @@ test.describe("End-to-End Integration Test Suite - Complete Trello Workflow Vali
 
     await test.step('Move card to In Progress', async () => {
       await boardPage.moveCardToDoing(cardName);
-      // Card movement completion is now handled in moveCardToDoing method
       console.log(`✅ Card moved to In Progress: ${cardName}`);
     });
 
     await test.step('Move card to Done', async () => {
       await boardPage.moveCardToDone(cardName);
-      // Card movement completion is now handled in moveCardToDone method
       console.log(`✅ Card moved to Done: ${cardName}`);
     });
 
     await test.step('Archive card', async () => {
       await boardPage.archiveCard(cardName);
-      // Card archiving completion is now handled in archiveCard method
       console.log(`✅ Card archived: ${cardName}`);
     });
 

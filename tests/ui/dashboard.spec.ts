@@ -13,16 +13,14 @@ test.describe("Dashboard Management Test Suite - Board Lifecycle Operations", ()
 
     test.afterEach(async ({ page }) => {
         if (createdBoards.length === 0) {
-            console.log('🚀 No boards to clean up - skipping cleanup');
-            return; // ⚡ Sale inmediatamente si no hay nada que limpiar
+            // console.log('🚀 No boards to clean up - skipping cleanup');
+            return; 
         }
         
-        // Cleanup: Delete any boards created during the test
         for (const boardName of createdBoards) {
             try {
-                // Check if page is still open
                 if (page.isClosed()) {
-                    console.log(`⚠️ Page is closed, cannot clean up board: ${boardName}`);
+                    // console.log(`⚠️ Page is closed, cannot clean up board: ${boardName}`);
                     continue;
                 }
                 
@@ -30,36 +28,33 @@ test.describe("Dashboard Management Test Suite - Board Lifecycle Operations", ()
                 await dashboardPage.gotoDashboard();
                 await page.waitForTimeout(3000);
                 
-                // Check if board is visible on dashboard (not closed yet)
                 const isBoardVisible = await dashboardPage.isBoardVisible(boardName);
                 
                 if (isBoardVisible) {
-                    console.log(`🧹 Cleaning up visible board: ${boardName}`);
+                    // console.log(`🧹 Cleaning up visible board: ${boardName}`);
                     await dashboardPage.openDashboard(boardName);
                     await dashboardPage.deleteBoard();
                 } else {
-                    console.log(`🧹 Cleaning up closed board: ${boardName}`);
+                    // console.log(`🧹 Cleaning up closed board: ${boardName}`);
                     await dashboardPage.deleteClosedBoard();
                 }
             } catch (error) {
-                console.log(`❌ Could not delete board ${boardName}:`, error);
-                // If page is closed, skip fallback
+                // console.log(`❌ Could not delete board ${boardName}:`, error);
                 if (page.isClosed()) {
-                    console.log(`⚠️ Page is closed, skipping fallback cleanup for: ${boardName}`);
+                    // console.log(`⚠️ Page is closed, skipping fallback cleanup for: ${boardName}`);
                     continue;
                 }
                 
                 try {
                     await dashboardPage.gotoDashboard();
                     await dashboardPage.deleteClosedBoard();
-                    console.log(`✅ Fallback cleanup succeeded for board: ${boardName}`);
+                    // console.log(`✅ Fallback cleanup succeeded for board: ${boardName}`);
                 } catch (fallbackError) {
-                    console.log(`❌ Fallback cleanup also failed for ${boardName}:`, fallbackError);
+                    // console.log(`❌ Fallback cleanup also failed for ${boardName}:`, fallbackError);
                 }
             }
         }
-        
-        // Clear the array for next test
+
         createdBoards = [];
     });
 
@@ -81,7 +76,6 @@ test.describe("Dashboard Management Test Suite - Board Lifecycle Operations", ()
         
         await dashboardPage.createNewBoard(boardName);
         await dashboardPage.closeBoard();
-        // Wait for the close operation to complete
         await page.waitForTimeout(2000);
         await dashboardPage.backBoardToDashboard();
         await page.reload(); 
@@ -91,14 +85,14 @@ test.describe("Dashboard Management Test Suite - Board Lifecycle Operations", ()
 
     test('TC013 - Verify complete board deletion process and removal from dashboard', async ({ page }) => {
         const boardName = TrelloDataGenerator.generateBoardName();
-        createdBoards.push(boardName); // Agregamos el board a la lista por si falla
+        createdBoards.push(boardName);
         
         await dashboardPage.createNewBoard(boardName);
         await dashboardPage.deleteBoard();
         await page.waitForTimeout(5000);
         await dashboardPage.validateVisibilityOfBoard(boardName, false);
         
-        // Si llegamos aquí, el board se eliminó correctamente, lo quitamos de la lista
+    
         const index = createdBoards.indexOf(boardName);
         if (index > -1) {
             createdBoards.splice(index, 1);

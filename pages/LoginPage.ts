@@ -4,7 +4,7 @@ import { config } from '../config/auth/ui/config';
 export class LoginPage {
   private page: Page;
   
-  // Selectores principales optimizados
+  // Selectores principales
   private inputEmail = '[data-testid="username"]';
   private inputPassword = '[data-testid="password"]'; 
   private continueButton  = '[data-testid="login-submit-idf-testid"]';
@@ -13,48 +13,36 @@ export class LoginPage {
     this.page = page;
   }
 
-  /**
-   * Navigate to login page with verification
-   */
+
   async gotoLogin() {
     await this.page.goto(config.urls.login, { timeout: 45000 });
     
-    // Verify login page loaded correctly
     const emailInput = this.page.locator(this.inputEmail);
-    // await emailInput.waitFor({ state: 'visible', timeout: 15000 });
     await expect(emailInput).toBeVisible();
   }
 
-  /**
-   * Fill login credentials with proper verification
-   */
+
   async fillCredentials(email: string, password: string) {
-    // Fill email field
     const emailInput = this.page.locator(this.inputEmail);
     await emailInput.waitFor({ state: 'visible', timeout: 10000 });
     await expect(emailInput).toBeVisible();
     await emailInput.fill(email);
     
-    // Click continue button
     const continueBtn = this.page.locator(this.continueButton);
     await continueBtn.waitFor({ state: 'visible', timeout: 10000 });
     await expect(continueBtn).toBeVisible();
     await continueBtn.click();
     
-    // Wait for and fill password field (if email is valid)
     try {
       const passwordInput = this.page.locator(this.inputPassword);
       await passwordInput.waitFor({ state: 'visible', timeout: 8000 });
       await expect(passwordInput).toBeVisible();
       await passwordInput.fill(password);
     } catch (error) {
-      // Don't throw error here, let validation handle it
     }
   }
 
-  /**
-   * Submit login form with verification
-   */
+
   async submit() {
     try {
       const submitButton = this.page.locator(this.continueButton);
@@ -62,29 +50,23 @@ export class LoginPage {
       await expect(submitButton).toBeVisible();
       await submitButton.click();
     } catch (error) {
-      // Don't throw error here, let validation handle it
     }
   }
 
-  /**
-   * Complete MFA (Multi-Factor Authentication) with verification
-   */
+
   async completeMfa(mfaCode: string) {
     console.log('🔐 Completing MFA verification...');
     
     try {
       const mfaSelector = '#two-step-verification-otp-code-input';
       
-      // Wait for MFA field to appear
       const mfaInput = this.page.locator(mfaSelector);
       await mfaInput.waitFor({ state: 'visible', timeout: 8000 });
       await expect(mfaInput).toBeVisible();
       
-      // Fill MFA code
       await mfaInput.fill(mfaCode);
       console.log('✅ MFA code entered - validating automatically...');
       
-      // Wait for automatic validation
       await this.page.waitForTimeout(3000);
       console.log('🔐 MFA validation completed');
       
@@ -97,16 +79,12 @@ export class LoginPage {
      const mfaSelector = '#two-step-verification-otp-code-input';
             await this.page.waitForSelector(mfaSelector, { timeout: 5000 });
   }
-  /**
-   * Check if any error is visible on the page
-   */
+
   async hasAnyError(): Promise<boolean> {
     try {
-      // Check for specific error selector
       const specificErrorElement = this.page.locator('[data-testid="form-error"]');
       const specificErrorCount = await specificErrorElement.count();
       
-      // Check for generic error messages
       const genericErrorElements = this.page.locator('text=/required|error|invalid|incorrect/i');
       const genericErrorCount = await genericErrorElements.count();
       
@@ -123,9 +101,7 @@ export class LoginPage {
     }
   }
 
-  /**
-   * Get specific error message from the page
-   */
+
   async getErrorMessage(): Promise<string> {
     try {
       const errorElement = this.page.locator('[data-testid="form-error--content"]');
@@ -142,30 +118,24 @@ export class LoginPage {
     return '';
   }
 
-  /**
-   * Validate login result (success or failure) with enhanced verification
-   */
+
   async validateLogin(isValidUser: boolean, userCase: any) {
     console.log(`🔍 Validating ${isValidUser ? 'successful' : 'failed'} login for user: ${userCase.id}...`);
     
     if (isValidUser) {
-      // For valid users, expect successful login and redirect to boards
       try {
         await this.page.waitForURL('**/boards**', { timeout: 20000 });
         const currentUrl = this.page.url();
         console.log('✅ SUCCESS: Redirected to boards page');
         // console.log(`Final URL: ${currentUrl}`);
         
-        // Verify we're actually on the boards page
         expect(currentUrl).toContain('boards');
         
-        // Additional verification: check for dashboard elements (more flexible)
         try {
           const createBoardButton = this.page.getByRole('button', { name: /create.*board/i });
           await createBoardButton.waitFor({ state: 'visible', timeout: 5000 });
           await expect(createBoardButton).toBeVisible();
         } catch {
-          // Fallback: check for any common dashboard elements
           const dashboardElements = [
             this.page.getByTestId('header-create-menu-button'),
             this.page.locator('button:has-text("Create")'),
@@ -197,7 +167,6 @@ export class LoginPage {
     } else {
       // For invalid users, expect login failure
       try {
-        // Wait a moment for any error messages to appear
         await this.page.waitForTimeout(3000);
         
         const hasError = await this.hasAnyError();
@@ -208,7 +177,6 @@ export class LoginPage {
         console.log(`Has error: ${hasError}`);
         console.log(`Error message: "${errorMessage}"`);
         
-        // Login should fail - either show error or not redirect to boards
         if (hasError) {
           console.log('✅ LOGIN FAILED CORRECTLY: Error message displayed');
           expect(hasError).toBe(true);
@@ -217,12 +185,10 @@ export class LoginPage {
           expect(currentUrl).not.toContain('boards');
         } else {
           console.log('❌ UNEXPECTED: Invalid user was incorrectly authenticated');
-          // This should not happen - invalid user got through
           expect(currentUrl).not.toContain('boards');
         }
         
       } catch (error) {
-        // If there's an error during validation, check URL as fallback
         const currentUrl = this.page.url();
         console.log('✅ LOGIN FAILED CORRECTLY: Exception during login process');
         console.log(`Current URL: ${currentUrl}`);

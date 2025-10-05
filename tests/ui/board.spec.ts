@@ -23,7 +23,6 @@ test.describe("Board Management Test Suite - Creation, Modification and Navigati
     
     await test.step("Create board", async () => {
       await dashboardPage.createNewBoard(boardName);
-      // Board loading is now handled in createNewBoard method
     });
 
     const boardPage = new BoardPage(page);
@@ -51,7 +50,6 @@ test.describe("Board Management Test Suite - Creation, Modification and Navigati
     
     await test.step("Create board", async () => {
       await dashboardPage.createNewBoard(boardName);
-      // Board loading is now handled in createNewBoard method
     });
 
     const boardPage = new BoardPage(page);
@@ -87,7 +85,6 @@ test.describe("Board Management Test Suite - Creation, Modification and Navigati
     
     await test.step("Create board", async () => {
       await dashboardPage.createNewBoard(boardName);
-      // Board loading is now handled in createNewBoard method
     });
 
     const boardPage = new BoardPage(page);
@@ -110,7 +107,6 @@ test.describe("Board Management Test Suite - Creation, Modification and Navigati
       
       await test.step("Create board", async () => {
         await dashboardPage.createNewBoard(boardName);
-        // Board loading is now handled in createNewBoard method
       });
 
       const boardPage = new BoardPage(page);
@@ -133,7 +129,6 @@ test.describe("Board Management Test Suite - Creation, Modification and Navigati
       
       await test.step("Create board", async () => {
         await dashboardPage.createNewBoard(boardName);
-        // Board loading is now handled in createNewBoard method
       });
 
       const boardPage = new BoardPage(page);

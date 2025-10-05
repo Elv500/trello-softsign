@@ -1,8 +1,5 @@
 import * as speakeasy from 'speakeasy';
 
-/**
- * Helper para generar códigos MFA automáticamente usando TOTP
- */
 export class MfaHelper {
   
   /**
@@ -28,16 +25,10 @@ export class MfaHelper {
     }
   }
 
-  /**
-   * Verifica si un código MFA es válido (formato)
-   */
   static isValidMfaCode(code: string): boolean {
     return /^\d{6}$/.test(code);
   }
 
-  /**
-   * Obtiene el código MFA actual
-   */
   static async getCurrentMfaCode(): Promise<string> {
     const code = this.generateMfaCode();
     

@@ -4,8 +4,6 @@ import { config } from '../config/auth/ui/config';
 export class DashboardPage {
   private page: Page;
   
-  // ========== SELECTORES DEFINIDOS ==========
-  
   // Selectores para boards en workspaces
   private readonly yourWorkspacesBoardSelector = 'h3.xtkiiaSp5ulDJM:has-text("YOUR WORKSPACES") ~ * .JeWt7esCgw4_73';
   
@@ -40,69 +38,51 @@ export class DashboardPage {
     return `a[title="${boardName}"]`;
   }
 
-  /**
-   * Navigate to Trello dashboard with retry mechanism
-   */
+
   async gotoDashboard() {
     await this.page.goto(config.urls.dashboard, { timeout: 45000 });
-    // Verify dashboard loaded correctly
     await this.page.waitForSelector('button[data-testid="header-create-menu-button"]', { 
       state: 'visible', 
       timeout: 15000 
     });
   }
 
-  /**
-   * Create a new board with enhanced error handling and verification
-   */
+ 
   async createNewBoard(boardName: string) {
-    // Wait for and click create menu button
     const createMenuButton = this.page.getByTestId(this.headerCreateMenuButton);
     await createMenuButton.waitFor({ state: 'visible', timeout: 15000 });
     await expect(createMenuButton).toBeVisible();
     await createMenuButton.click();
     
-    // Wait for and click create board button
     const createBoardButton = this.page.getByTestId(this.headerCreateBoardButton);
     await createBoardButton.waitFor({ state: 'visible', timeout: 15000 });
     await expect(createBoardButton).toBeVisible();
     await createBoardButton.click();
     
-    // Wait for and fill board title input
     const titleInput = this.page.getByTestId(this.createBoardTitleInput);
     await titleInput.waitFor({ state: 'visible', timeout: 15000 });
     await expect(titleInput).toBeVisible();
     await titleInput.click();
     await titleInput.fill(boardName);
     
-    // Wait for and click submit button
     const submitButton = this.page.getByTestId(this.createBoardSubmitButton);
     await submitButton.waitFor({ state: 'visible', timeout: 10000 });
     await expect(submitButton).toBeVisible();
     await submitButton.click();
     
-    // Verify board creation was successful
     await this.page.waitForURL('**/b/**', { timeout: 15000 });
-    // Wait for board to be fully loaded
     await this.waitForBoardToLoad();
   }
 
-  /**
-   * Wait for board to be fully loaded after creation
-   */
+
   async waitForBoardToLoad() {
-    // Wait for essential board elements to be visible
     await this.page.waitForLoadState('networkidle');
-    // Wait for board name display to be visible (indicates board is ready)
     await this.page.waitForSelector('[data-testid="board-name-display"]', { 
       state: 'visible', 
       timeout: 10000 
     });
   } 
 
-  /**
-   * Open a specific board from dashboard
-   */
   async openDashboard(boardName: string) {
     const boardLink = this.page.locator(this.getBoardLinkSelector(boardName)).first();
     await boardLink.waitFor({ state: 'visible', timeout: 15000 });
@@ -110,45 +90,34 @@ export class DashboardPage {
     await boardLink.click();
   }
 
-  /**
-   * Close a board with proper verification steps
-   */
   async closeBoard() {
-    // Open menu
     const menuButton = this.page.getByRole('button', { name: this.showMenuButtonName });
     await menuButton.waitFor({ state: 'visible', timeout: 10000 });
     await expect(menuButton).toBeVisible();
     
-    // Try to click with force if intercepted
     try {
       await menuButton.click();
     } catch (error) {
       await menuButton.click({ force: true });
     }
     
-    // Click close board
     const closeBoardButton = this.page.getByRole('button', { name: this.closeBoardButtonName });
     await closeBoardButton.waitFor({ state: 'visible', timeout: 10000 });
     await expect(closeBoardButton).toBeVisible();
     await closeBoardButton.click();
     
-    // Confirm close
     const confirmButton = this.page.getByTestId(this.closeBoardConfirmButton);
     await confirmButton.waitFor({ state: 'visible', timeout: 10000 });
     await expect(confirmButton).toBeVisible();
     await confirmButton.click();
   }
 
-  /**
-   * Delete a board completely (close + delete)
-   */
+
   async deleteBoard() {
-    // First close the board
     const menuButton = this.page.getByRole('button', { name: this.showMenuButtonName });
     await menuButton.waitFor({ state: 'visible', timeout: 10000 });
     await expect(menuButton).toBeVisible();
     
-    // Try to click with force if intercepted
     try {
       await menuButton.click();
     } catch (error) {
@@ -165,15 +134,12 @@ export class DashboardPage {
     await expect(confirmCloseButton).toBeVisible();
     await confirmCloseButton.click();
     
-    // Wait a moment for close operation to complete
     await this.page.waitForTimeout(2000);
     
-    // Then delete the closed board
     const menuButton2 = this.page.getByRole('button', { name: this.showMenuButtonName });
     await menuButton2.waitFor({ state: 'visible', timeout: 10000 });
     await expect(menuButton2).toBeVisible();
     
-    // Try to click with force if intercepted
     try {
       await menuButton2.click();
     } catch (error) {
@@ -191,9 +157,6 @@ export class DashboardPage {
     await confirmDeleteButton.click();
   }
 
-  /**
-   * Delete a board that is already closed
-   */
   async deleteClosedBoard() {
     const viewClosedBoardsButton = this.page.getByRole('button', { name: this.viewAllClosedBoardsButtonName });
     await viewClosedBoardsButton.waitFor({ state: 'visible', timeout: 10000 });
@@ -211,9 +174,7 @@ export class DashboardPage {
     await confirmDeleteButton.click();
   }
 
-  /**
-   * Validate if a board is visible or hidden on dashboard
-   */
+
   async validateVisibilityOfBoard(boardName: string, shouldBeVisible: boolean): Promise<void> {
     const boardSelector = this.getBoardInWorkspacesSelector(boardName);
     
@@ -222,29 +183,23 @@ export class DashboardPage {
       const boardElement = this.page.locator(boardSelector).first();
       await expect(boardElement).toBeVisible();
     } else {
-      // Wait a moment to ensure the board has been removed
       await this.page.waitForTimeout(3000);
       const boardElement = this.page.locator(boardSelector).first();
       await expect(boardElement).not.toBeVisible();
     }
   }
 
-  /**
-   * Navigate back to dashboard from board
-   */
+ 
   async backBoardToDashboard() {
     const backToHomeLink = this.page.getByRole('link', { name: this.backToHomeLinkName });
     await backToHomeLink.waitFor({ state: 'visible', timeout: 10000 });
     await expect(backToHomeLink).toBeVisible();
     await backToHomeLink.click();
     
-    // Wait for dashboard to load
     await this.page.waitForURL('**/boards', { timeout: 10000 });
   }
 
-  /**
-   * Check if a board is currently visible with error handling
-   */
+
   async isBoardVisible(boardName: string): Promise<boolean> {
     try {
       const boardSelector = this.getBoardInWorkspacesSelector(boardName);

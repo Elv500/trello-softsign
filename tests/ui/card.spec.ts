@@ -11,7 +11,6 @@ test.describe("Card Advanced Features Test Suite - Attachments, Dates, Checklist
     dashboardPage = new DashboardPage(page);
     await dashboardPage.gotoDashboard();
     
-    // Setup: Create board and basic card for testing card functionalities
     const boardName = TrelloDataGenerator.generateBoardName();
     await dashboardPage.createNewBoard(boardName);
     await page.waitForTimeout(3000);
@@ -24,7 +23,6 @@ test.describe("Card Advanced Features Test Suite - Attachments, Dates, Checklist
     await dashboardPage.deleteBoard();
   });
 
-  // Array de tipos de archivo para testear
   const fileTypes = [
     { 
       type: 'Image', 
@@ -38,7 +36,6 @@ test.describe("Card Advanced Features Test Suite - Attachments, Dates, Checklist
     }
   ];
 
-  // Generar un test para cada tipo de archivo
   fileTypes.forEach(({ type, method, description }) => {
     test(description, async ({ page }) => {
       test.setTimeout(60000);

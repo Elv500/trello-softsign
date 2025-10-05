@@ -2,8 +2,6 @@ import { Page, Locator, expect } from "@playwright/test";
 export class CardPage {
   private page: Page;
   
-  // ========== SELECTORES DEFINIDOS ==========
-  
   // Selectores para configuración inicial
   private readonly listNameTextareaSelector = 'list-name-textarea';
   private readonly listComposerAddButtonSelector = 'list-composer-add-list-button';
@@ -43,7 +41,6 @@ export class CardPage {
     this.page = page;
   }
   
-  // ========== MÉTODOS AUXILIARES PRIVADOS ==========
   
   private getAddCardInListButtonName(listName: string): string {
     return `Add a card in ${listName}`;
@@ -57,10 +54,6 @@ export class CardPage {
     return `${month}/${day}/${year}`;
   }
 
-  // ========== SETUP METHODS ==========
-  /**
-   * Create basic To Do list for testing card functionalities
-   */
   async createBasicListsAndCard() {
     const listNameTextarea = this.page.getByTestId(this.listNameTextareaSelector);
     await listNameTextarea.waitFor({ state: 'visible', timeout: 15000 });
@@ -82,9 +75,7 @@ export class CardPage {
     await this.page.waitForTimeout(1000);
   }
 
-  /**
-   * Create a card in the To Do list with verification
-   */
+
   async createCard(cardName: string) {
     const addCardButton = this.page.getByRole('button', { name: this.getAddCardInListButtonName(this.toDoListName) });
     await addCardButton.waitFor({ state: 'visible', timeout: 15000 });
@@ -105,10 +96,7 @@ export class CardPage {
     await this.page.waitForTimeout(2000);
   }
 
-  // ========== CARD FUNCTIONALITY METHODS ==========
-  /**
-   * Add due date to card with verification
-   */
+
   async addCardDate(cardName: string) {
     const cardLink = this.page.getByRole('link', { name: cardName });
     await cardLink.waitFor({ state: 'visible', timeout: 10000 });
@@ -125,10 +113,8 @@ export class CardPage {
     await expect(dueDateButton).toBeVisible();
     await dueDateButton.click();
     
-    // Wait for calendar to load and select any available date in the future
     await this.page.waitForTimeout(2000);
     
-    // Try to find any date button that's clickable (future dates)
     const availableDateButtons = this.page.locator('button[data-testid*="date-picker"]').or(
       this.page.locator('div[data-testid="date-picker"] button').filter({ hasNotText: /^(Mo|Tu|We|Th|Fr|Sa|Su)$/ })
     ).or(
@@ -140,7 +126,6 @@ export class CardPage {
     await expect(firstAvailableDate).toBeVisible();
     await firstAvailableDate.click();
     
-    // Select a second date for the due date range
     await this.page.waitForTimeout(1000);
     const secondAvailableDate = availableDateButtons.nth(1);
     if (await secondAvailableDate.isVisible()) {
@@ -168,9 +153,7 @@ export class CardPage {
     await saveDateButton.click();
   }
 
-  /**
-   * Add checklist to card with verification
-   */
+
   async addCardChecklist(cardName: string) {
     const cardLink = this.page.getByRole('link', { name: cardName });
     await cardLink.waitFor({ state: 'visible', timeout: 10000 });
@@ -221,16 +204,13 @@ export class CardPage {
     await this.page.waitForTimeout(500);
   }
 
-  /**
-   * Add image file to card with verification
-   */
+ 
   async addCardFilesImage(cardName: string) {
     const cardLink = this.page.getByRole('link', { name: cardName });
     await cardLink.waitFor({ state: 'visible', timeout: 10000 });
     await expect(cardLink).toBeVisible();
     await cardLink.click();
     
-    // Wait for card details dialog to open
     await this.page.waitForSelector('[data-testid="card-back-add-to-card-button"]', { 
       state: 'visible', 
       timeout: 15000 
@@ -250,32 +230,24 @@ export class CardPage {
     await fileInput.waitFor({ state: 'attached', timeout: 10000 });
     await fileInput.setInputFiles('./resources/images/ImageTest.jpeg');
     
-    // Wait for file upload to complete
     await this.waitForFileUploadComplete();
     }
 
-  /**
-   * Wait for file upload to complete
-   */
+
   async waitForFileUploadComplete() {
-    // Wait for network activity to settle after file upload
     await this.page.waitForLoadState('networkidle', { timeout: 10000 });
     
-    // Alternative: wait for attachment to appear in the UI
     try {
       await this.page.waitForSelector('[data-testid*="attachment"]', { 
         state: 'visible', 
         timeout: 5000 
       });
     } catch {
-      // If specific attachment selector doesn't work, the networkidle should be sufficient
       console.log('✅ Image file uploaded successfully!');
     }
   }
 
-  /**
-   * Add JSON file to card with verification
-   */
+
   async addCardFilesJson(cardName: string) {
     const cardLink = this.page.getByRole('link', { name: cardName });
     await cardLink.waitFor({ state: 'visible', timeout: 10000 });
@@ -301,9 +273,7 @@ export class CardPage {
     await this.page.waitForTimeout(2000);
   }
 
-  /**
-   * Add labels to card with verification
-   */
+
   async addLabelsToCard(cardName: string) {
     const cardLink = this.page.getByRole('link', { name: cardName });
     await cardLink.waitFor({ state: 'visible', timeout: 10000 });
@@ -331,10 +301,7 @@ export class CardPage {
     await closePopoverButton.click();
   }
 
-  // ========== VALIDATION METHODS ==========
-  /**
-   * Validate that file was uploaded successfully
-   */
+
   async validateUploadedFile() {
     const filesHeading = this.page.getByRole('heading', { name: this.filesHeadingName });
     await filesHeading.waitFor({ state: 'visible', timeout: 15000 });
@@ -346,9 +313,7 @@ export class CardPage {
     await closeButton.click();
   }
 
-  /**
-   * Validate that card has due date
-   */
+
   async validateCardDate() {
     const datesHeading = this.page.getByRole('heading', { name: this.datesHeadingName });
     await datesHeading.waitFor({ state: 'visible', timeout: 10000 });
@@ -360,9 +325,6 @@ export class CardPage {
     await closeButton.click();
   }
 
-  /**
-   * Validate that card has checklist
-   */
   async validateCardChecklist() {
     const checklistTitle = this.page.getByTestId(this.checklistTitleSelector);
     await checklistTitle.waitFor({ state: 'visible', timeout: 10000 });
@@ -374,9 +336,6 @@ export class CardPage {
     await closeButton.click();
   }
 
-  /**
-   * Validate that card has labels
-   */
   async validateCardLabels() {
     const labelsHeading = this.page.getByRole('heading', { name: this.labelsHeadingName });
     await labelsHeading.waitFor({ state: 'visible', timeout: 10000 });
@@ -388,21 +347,16 @@ export class CardPage {
     await closeButton.click();
   }
 
-  /**
-   * Validate that card has all features (complete card)
-   */
+
   async validateCompleteCard() {
-    // Validate files
     const filesHeading = this.page.getByRole('heading', { name: this.filesHeadingName });
     await filesHeading.waitFor({ state: 'visible', timeout: 10000 });
     await expect(filesHeading).toBeVisible();
     
-    // Validate dates
     const datesHeading = this.page.getByRole('heading', { name: this.datesHeadingName });
     await datesHeading.waitFor({ state: 'visible', timeout: 10000 });
     await expect(datesHeading).toBeVisible();
     
-    // Validate checklist
     const checklistTitle = this.page.getByTestId(this.checklistTitleSelector);
     await checklistTitle.waitFor({ state: 'visible', timeout: 10000 });
     await expect(checklistTitle).toBeVisible();
@@ -415,43 +369,31 @@ export class CardPage {
     console.log(`✅ Complete card validation successful!`);
   }
   
-  /**
-   * Close card details dialog
-   */
+
   async closeCardDetails() {
     const closeButton = this.page.getByRole('button', { name: this.closeDialogButtonName });
     await closeButton.waitFor({ state: 'visible', timeout: 10000 });
     await expect(closeButton).toBeVisible();
     await closeButton.click();
     
-    // Wait for dialog to close completely
     await this.waitForCardDialogToClose();
   }
 
-  /**
-   * Wait for card dialog to be fully closed
-   */
+ 
   async waitForCardDialogToClose() {
-    // Wait for the dialog to be hidden
     await this.page.waitForSelector('[role="dialog"]', { 
       state: 'hidden', 
       timeout: 5000 
     }).catch(() => {
-      // If specific dialog selector doesn't work, wait for load state
       return this.page.waitForLoadState('networkidle', { timeout: 3000 });
     });
   }
 
-  /**
-   * Verify card features are maintained after workflow transitions
-   * Opens card, validates all features (Files, Dates, Checklist), then closes
-   */
+
   async verifyCardFeaturesAfterWorkflow(cardName: string) {
-    // Open card details to verify features
     await this.page.getByRole('link', { name: cardName }).click();
     await this.closeCardDetails();
     
-    // Validate card still has all features after workflow
     await this.page.getByRole('link', { name: cardName }).click();
     await expect(this.page.getByRole('heading', { name: 'Files' })).toBeVisible();
     await expect(this.page.getByRole('heading', { name: 'Dates' })).toBeVisible();
