@@ -1,9 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { TrelloRequest } from '../../../utils/api/trello-request';
-import { readState } from '../../../utils/api/state-manager';
 import { createBoardForSuite, deleteBoard } from '../../../utils/api/base-helper';
 import { LabelHelper } from '../../../utils/api/label-helper';
-//import { SchemaValidator } from '../../../utils/api/schema-validator';
 import { AssertionLabel } from '../../../assertions/assertions-label';
 
 test.describe('Tests de creación de Labels en Trello', () => {
