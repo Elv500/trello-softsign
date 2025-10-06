@@ -1,17 +1,14 @@
 import * as speakeasy from 'speakeasy';
 
-/**
- * Helper para generar códigos MFA automáticamente usando TOTP
- */
 export class MfaHelper {
   
   /**
-   * Genera un código MFA de 6 dígitos usando el secret de app-config.json
+   * Genera un código MFA de 6 dígitos usando el secret de .env
    * @returns Código MFA de 6 dígitos
    */
   static generateMfaCode(): string {
     if (!process.env.MFA) {
-      throw new Error('MFA secret not found in app-config.json');
+      throw new Error('MFA secret not found in .env');
     }
 
     try {
@@ -20,7 +17,6 @@ export class MfaHelper {
         encoding: 'base32',
         digits: 6,
         step: 30
-        // window se usa solo para verificación, no para generación
       });
 
       return token;
@@ -29,16 +25,10 @@ export class MfaHelper {
     }
   }
 
-  /**
-   * Verifica si un código MFA es válido (formato)
-   */
   static isValidMfaCode(code: string): boolean {
     return /^\d{6}$/.test(code);
   }
 
-  /**
-   * Obtiene el código MFA actual
-   */
   static async getCurrentMfaCode(): Promise<string> {
     const code = this.generateMfaCode();
     
