@@ -1,14 +1,26 @@
 {
   "name": "trello-softsign",
   "version": "1.0.0",
-  "description": "",
+  "description": "Automatización API y UI con Playwright para Trello Softsign",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --project=ui-tests",
+    "test:api": "npx playwright test --project=api-tests",
+    "test:login": "npx playwright test --project=login-tests",
+    "report": "npx playwright show-report",
+    "postinstall": "npx playwright install chromium"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Elv500/trello-softsign.git"
   },
-  "keywords": [],
+  "keywords": [
+    "playwright",
+    "trello",
+    "automation",
+    "testing"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -19,6 +31,8 @@
     "@playwright/test": "^1.55.1",
     "@types/node": "^24.6.1",
     "@types/speakeasy": "^2.0.10",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
     "dotenv": "^17.2.3"
   },
   "dependencies": {

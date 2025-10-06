@@ -15,19 +15,32 @@ npm init playwright@latest
 ```bash
 npm install
 ```
+3. Por defecto, con npm install se instala solo el navegador chromium.
+Si se desea instalar todos los navegadores se debe cambiar en package.json el script: **"postinstall": "npx playwright install chromium"** de la siguente manera:
+```
+"postinstall": "npx playwright install --with-dep"
+```
+> Para éste proyecto solo estamos usando el navegador chromuim.
 
 ---
 
-### ⚙️ Ejecución de Tests
+### Ejecución de Tests
 
 El proyecto está configurado con **Playwright Projects** para separar API y UI:
 
+> Comandos principales
+
 | Comando | Descripción |
 |---------|-------------|
-| `npx playwright test` | Ejecuta **todos los tests** (API + UI Login + UI Autenticados) |
-| `npx playwright test --project=api-tests` | Ejecuta solo los tests de **API** (`tests/api/**/*.spec.ts`) |
-| `npx playwright test --project=login-tests` | Ejecuta solo el test de **login UI** (`tests/ui/login.spec.ts`) |
-| `npx playwright test --project=authenticated-ui-tests` | Ejecuta los tests de **UI autenticados** (`tests/ui/**/*.spec.ts` excepto `login.spec.ts`) |
+| `npm run test` | Ejecuta **todos los tests** (API + UI Login + UI Autenticados) |
+| `npm run test:api` | Ejecuta solo los tests de **API** (`tests/api/**/*.spec.ts`) |
+| `npm run test:login` | Ejecuta solo el test de **login UI** (`tests/ui/login.spec.ts`) |
+| `npm run test:ui` | Ejecuta los tests de **UI autenticados** (`tests/ui/**/*.spec.ts` excepto `login.spec.ts`) |
+
+> Comandos extras
+
+| Comando | Descripción |
+|---------|-------------|
 | `npx playwright test tests/api/api.spec.ts` | Ejecuta un archivo específico |
 | `npx playwright test -g "Recuperar board"` | Ejecuta un test específico por su título |
 | `npx playwright test --headed` | Corre los tests con navegador visible |
@@ -40,15 +53,15 @@ El proyecto está configurado con **Playwright Projects** para separar API y UI:
 
 ```
 ├── tests/
-│   ├── api/                 # Tests de API
+│   ├── api/                    # Tests de API
 │   │   └── api.spec.ts
-│   └── ui/                  # Tests de UI
-│       ├── login.spec.ts    # Login en frío
-│       └── ui.spec.ts       # Tests autenticados
-├── config/                  # Global setup, teardown, helpers
-├── utils/                   # Utilidades y helpers compartidos
-├── playwright.config.ts      # Configuración de Playwright con projects
-├── .env                      # Variables de entorno (API y UI)
+│   └── ui/                     # Tests de UI
+│       ├── login.spec.ts       # Login en frío
+│       └── ui.spec.ts          # Tests autenticados
+├── config/                     # Global setup, teardown, helpers
+├── utils/                      # Utilidades y helpers compartidos
+├── playwright.config.ts        # Configuración de Playwright con projects
+├── .env                        # Variables de entorno (API y UI)
 ```
 
 ---

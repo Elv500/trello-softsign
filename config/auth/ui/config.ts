@@ -10,19 +10,15 @@ export const config = {
     password: process.env.PASSWORD,
   },
 
-  // Configuración del navegador
   browser: {
-    // el headless se define en playwright.config.ts
+
   },
 
-  // Datos de prueba específicos de la aplicación
   testData: {
-    // Aquí puedes agregar datos de prueba específicos
-    // como nombres de clientes, productos, etc.
+   
   }
 };
 
-// Validar que las variables críticas están definidas //////Aumentar el MFA//////
 export const validateConfig = () => {
   const requiredVars = [
     { key: 'email', value: config.user.email },
@@ -38,9 +34,7 @@ export const validateConfig = () => {
       'Please check your app-config.json file'
     );
   }
-  
-  console.log('All required configuration is set');
-  return true;
+    return true;
 };
 
 export default config;

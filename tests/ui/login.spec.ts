@@ -4,7 +4,7 @@ import { config, validateConfig } from '../../config/auth/ui/config';
 import { MfaHelper } from '../../config/auth/ui/mfaHelper';
 import users from '../../data/users.json';
 
-// Combinamos usuarios de users.json + usuario válido de app-config.json
+// Combinamos usuarios de users.json + usuario válido de .env
 const allTestUsers = [
   // Usuarios de users.json (todos inválidos)
   ...Object.entries(users).map(([key, userData]) => ({
@@ -14,17 +14,17 @@ const allTestUsers = [
     description: `Usuario inválido: ${key}`,
     isValid: false
   })),
-  // Usuario válido de app-config.json
+  // Usuario válido de .env
   {
     id: 'valid_user',
     email: process.env.EMAIL,
     password: process.env.PASSWORD,
-    description: 'Usuario válido de app-config.json',
+    description: 'Usuario válido de .env',
     isValid: true
   }
 ];
 
-test.describe('Login Tests - Todos los usuarios (users.json + app-config.json)', () => {
+test.describe('Login Tests - Todos los usuarios (users.json + .env)', () => {
 
   test.beforeAll(() => {
     validateConfig();
@@ -49,8 +49,6 @@ test.afterEach(async ({ page }, testInfo) => {
       const loginPage = new LoginPage(page);
       
       console.log(`🧪 Testing user: ${userCase.id}`);
-      console.log(`📧 Email: "${userCase.email}"`);
-      console.log(`🔐 Password: "${userCase.password}"`);
       console.log(`"?" Expected to be valid: ${userCase.isValid}`);
       
       // 1. Ir a la página de login
@@ -74,9 +72,9 @@ test.afterEach(async ({ page }, testInfo) => {
         await test.step('Completar MFA (si es necesario)', async () => {
           try {
             // Verificar si aparece el campo MFA
-            const mfaSelector = '#two-step-verification-otp-code-input';
-            await page.waitForSelector(mfaSelector, { timeout: 5000 });
-            
+
+            await loginPage.ValidateMFALogin();
+
             console.log('🔐 MFA detected - generating code automatically...');
             const mfaCode = MfaHelper.generateMfaCode();
             console.log(`🔐 Generated MFA code: ${mfaCode}`);
