@@ -9,10 +9,10 @@ export default async function globalSetup(config: FullConfig) {
   const projectNames = config.projects.map((p) => p.name);
 
   if (projectNames.some((name) => name.includes("api"))) {
-    console.log("Ejecutando setup de API...");
+    //console.log("Ejecutando setup de API...");
     await apiGlobalSetup(config);
   } else if (projectNames.some((name) => name.includes("ui"))) {
-    console.log("Ejecutando setup de UI...");
+    //console.log("Ejecutando setup de UI...");
     await uiGlobalSetup(config);
   } else {
     console.log("No se encontró un proyecto válido (ni api ni ui).");
