@@ -1,23 +1,25 @@
 import { test, expect } from '@playwright/test';
 import { TrelloRequest } from '../../../utils/api/trello-request';
-import { readState } from '../../../utils/api/state-manager';
+import { createBoardForSuite, deleteBoard } from '../../../utils/api/base-helper';
 import { attachUrlToCard } from '../../../utils/api/attachment-helper';
 import { randomAttachmentByUrl, buildAttachmentInput } from '../../../resources/payloads/attachment/attachment';
 import { AssertionStatusCode } from '../../../assertions/assertions-status';
 import { AssertionAttachment } from '../../../assertions/attachment-assertions/assertion-attachment';
 
+let boardId: string;
+let todoListId: string;
 let cardId: string;
 
 test.describe('Attachment GET tests', () => {
   test.beforeAll(async () => {
-    const { todoListId } = readState();
-    const createCardResp = await TrelloRequest.post('cards', {
-      name: 'Card for attachment GET',
-      idList: todoListId,
-    });
-    expect(createCardResp.status()).toBe(200);
-    const cardData = await createCardResp.json();
-    cardId = cardData.id;
+    const state = await createBoardForSuite('Board for attachment GET suite');
+    boardId = state.boardId;
+    todoListId = state.todoListId;
+    cardId = state.cardId;
+  });
+
+  test.afterAll(async () => {
+    if (boardId) await deleteBoard(boardId);
   });
 
   // TC: Obtener un attachment específico de una card
