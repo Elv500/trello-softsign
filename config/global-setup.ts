@@ -1,17 +1,22 @@
-import { FullConfig } from '@playwright/test';
-import { apiGlobalSetup } from './api-global-setup';
-import { uiGlobalSetup } from './ui-global-setup';
+import { FullConfig } from "@playwright/test";
+import { apiGlobalSetup } from "./api-global-setup";
+import { uiGlobalSetup } from "./ui-global-setup";
 
-async function globalSetup(config: FullConfig) {
-  console.log('⚡ Iniciando global-setup combinado...');
+export default async function globalSetup(config: FullConfig) {
+  console.log("[Ejecutando global-setup combinado]");
 
-  // 1. Setup API
-  await apiGlobalSetup(config);
+  // Detectar el tipo de proyecto en ejecución
+  const projectNames = config.projects.map((p) => p.name);
 
-  // 2. Setup UI
-  await uiGlobalSetup(config);
+  if (projectNames.some((name) => name.includes("api"))) {
+    //console.log("Ejecutando setup de API...");
+    await apiGlobalSetup(config);
+  } else if (projectNames.some((name) => name.includes("ui"))) {
+    //console.log("Ejecutando setup de UI...");
+    await uiGlobalSetup(config);
+  } else {
+    console.log("No se encontró un proyecto válido (ni api ni ui).");
+  }
 
-  console.log('⚡ Global-setup combinado completado');
+  console.log("[Global-setup completado correctamente]");
 }
-
-export default globalSetup;

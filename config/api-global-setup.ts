@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 export async function apiGlobalSetup(config: FullConfig) {
-  console.log('Iniciando global-setup');
+  console.log('>>>Ejecutando global-setup - API<<<');
 
   const api = await request.newContext({
     baseURL: process.env.BASE_URL,
@@ -15,7 +15,7 @@ export async function apiGlobalSetup(config: FullConfig) {
   if (check.status() !== 200) {
     throw new Error(`No se pudo autenticar en Trello API. Status: ${check.status()}`);
   }
-  console.log('Credenciales válidas para Trello');
+  //console.log('Credenciales válidas para Trello');
 
   //Crear un board para los tests
   const createBoard = await api.post('boards', {
@@ -27,7 +27,7 @@ export async function apiGlobalSetup(config: FullConfig) {
   }
 
   const board = await createBoard.json();
-  console.log(`Board creado en global-setup: ${board.id}`);
+  //console.log(`Board creado en global-setup: ${board.id}`);
 
   //Obtener el id de la lista "To Do" del board creado
   const getLists = await api.get(`boards/${board.id}/lists`, { params: authParams() });
@@ -40,11 +40,13 @@ export async function apiGlobalSetup(config: FullConfig) {
   if (!todoList) {
     throw new Error('No se encontró la lista "To Do" en el board');
   }
-  console.log(`ID de la lista "To Do": ${todoList.id}`);
+  //console.log(`ID de la lista "To Do": ${todoList.id}`);
   
   //Guardar el boardId y todoListId en un archivo JSON para usarlos en los tests
   const statePath = path.join(__dirname, 'trello-state.json');
   fs.writeFileSync(statePath, JSON.stringify({ boardId: board.id, todoListId: todoList.id}, null, 2));
+
+  console.log('>>>Global-setup - API completado correctamente<<<');
 }
 
 //export default apiGlobalSetup;
