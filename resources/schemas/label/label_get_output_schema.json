@@ -1,0 +1,27 @@
+{
+    "type": "object",
+    "required": [
+        "color",
+        "id",
+        "idBoard",
+        "name",
+        "uses"
+    ],
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "idBoard": {
+            "type": "string"
+        },
+        "name": {
+            "type": "string"
+        },
+        "color": {
+            "type": ["string", "null"]
+        },
+        "uses": {
+            "type": "integer"
+        }
+    }
+}

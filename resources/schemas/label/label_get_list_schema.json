@@ -1,0 +1,33 @@
+{
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "id": {
+                "type": "string"
+            },
+            "idBoard": {
+                "type": "string"
+            },
+            "name": {
+                "type": "string"
+            },
+            "color": {
+                "type": [
+                    "null",
+                    "string"
+                ]
+            },
+            "uses": {
+                "type": "integer"
+            }
+        },
+        "required": [
+            "color",
+            "id",
+            "idBoard",
+            "name",
+            "uses"
+        ]
+    }
+}

@@ -10,4 +10,12 @@ export class AssertionLabel extends BaseAssertion {
   static assert_post_output_schema(data: any): void {
     this.validateSchema(this.MODULE, 'label_post_output_schema.json', data, 'Schema POST output');
   }
+
+  static assert_get_output_schema(data: any): void {
+    this.validateSchema(this.MODULE, 'label_get_output_schema.json', data, 'Schema GET output');
+  }
+
+  static assert_get_list_schema(data: any): void {
+    this.validateSchema(this.MODULE, 'label_get_list_schema.json', data, 'Schema GET list output');
+  }
 }
