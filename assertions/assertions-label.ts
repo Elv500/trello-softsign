@@ -25,4 +25,8 @@ export class AssertionLabel extends BaseAssertion {
   static assert_put_output_schema(data: any): void {
     this.validateSchema(this.MODULE, 'label_put_output_schema.json', data, 'Schema PUT output');
   }
+
+  static assert_delete_output_schema(data: any): void {
+    this.validateSchema(this.MODULE, 'label_delete_output_schema.json', data, 'Schema DELETE output');
+  }
 }
