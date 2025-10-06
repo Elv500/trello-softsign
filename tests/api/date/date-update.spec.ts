@@ -1,4 +1,3 @@
-// tests/api/cards/cards-update-dates.spec.ts
 import { test, expect } from '@playwright/test';
 import { TrelloRequest } from '../../../utils/api/trello-request';
 import { createBoardForSuite, deleteBoard } from '../../../utils/api/base-helper';
