@@ -26,7 +26,7 @@ export async function createBoardForSuite(name: string) {
   const card = await cardRes.json();
 
   //Guardando el id del board, de la lista "To Do" y del card creado
-  return { boardId: board.id, todoListId: todoList.id, cardId: card.id };
+  return { boardId: board.id, todoListId: todoList.id, cardId: card.id, cardUrl: card.url };
 }
 
 //Eliminar board
