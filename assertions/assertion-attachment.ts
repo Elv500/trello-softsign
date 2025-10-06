@@ -1,4 +1,4 @@
-import { BaseAssertion } from '../assertions-base';
+import { BaseAssertion } from './assertions-base';
 
 export class AssertionAttachment extends BaseAssertion {
   private static MODULE = 'attachment';
