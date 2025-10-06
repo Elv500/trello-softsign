@@ -1,5 +1,4 @@
 import { test, expect } from "@playwright/test";
-import Ajv from "ajv";
 import { TrelloRequest } from "../../../utils/api/trello-request";
 import { createBoardForSuite, deleteBoard } from "../../../utils/api/base-helper";
 import { createCardUtils } from "../../../utils/api/card-helper";
@@ -13,8 +12,7 @@ test.describe("Pruebas API de Checklist - PUT", () => {
   test.beforeAll(async () => {
     const board = await createBoardForSuite("Board API Test Checklist PUT");
     board_id = board.boardId;
-    const card = await createCardUtils("Card API Checklist PUT Tests", board.todoListId);
-    card_id = card.id;
+    card_id = board.cardId;
     const payload = { name: "Checklist Inicial", idCard: card_id };
     const response = await TrelloRequest.post("checklists", payload);
     expect(response.status()).toBe(200);
