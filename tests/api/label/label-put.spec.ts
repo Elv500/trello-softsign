@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { TrelloRequest } from '../../../utils/api/trello-request';
 import { createBoardForSuite, deleteBoard } from '../../../utils/api/base-helper';
-import { LabelHelper } from '../../../utils/api/label-helper';
 import { AssertionLabel } from '../../../assertions/assertions-label';
 import { buildLabelPayload } from '../../../resources/payloads/label';
+import { AssertionStatusCode } from '../../../assertions/assertions-status';
 
 test.describe('Tests de actualización de Labels en Trello', () => {
   
@@ -33,7 +33,7 @@ test.describe('Tests de actualización de Labels en Trello', () => {
         const newName = 'Label Modificada';
         const response = await TrelloRequest.put(`labels/${labelData.id}`, { name: newName });
         AssertionLabel.assert_put_input_schema({ name: newName });
-        expect(response.status()).toBe(200);
+        AssertionStatusCode.assert_status_code_200(response.status());
         const data = await response.json();
         AssertionLabel.assert_put_output_schema(data);
         expect(data.name).toBe(newName);
@@ -43,7 +43,7 @@ test.describe('Tests de actualización de Labels en Trello', () => {
         const newColor = 'blue';
         const response = await TrelloRequest.put(`labels/${labelData.id}`, { color: newColor });
         AssertionLabel.assert_put_input_schema({ color: newColor });
-        expect(response.status()).toBe(200);
+        AssertionStatusCode.assert_status_code_200(response.status());
         const data = await response.json();
         AssertionLabel.assert_put_output_schema(data);
         expect(data.color).toBe(newColor);
@@ -54,7 +54,7 @@ test.describe('Tests de actualización de Labels en Trello', () => {
         const newColor = 'green';
         const response = await TrelloRequest.put(`labels/${labelData.id}`, { name: newName, color: newColor });
         AssertionLabel.assert_put_input_schema({ name: newName, color: newColor });
-        expect(response.status()).toBe(200);
+        AssertionStatusCode.assert_status_code_200(response.status());
         const data = await response.json();
         AssertionLabel.assert_put_output_schema(data);
         expect(data.name).toBe(newName);
@@ -63,18 +63,18 @@ test.describe('Tests de actualización de Labels en Trello', () => {
 
     test('Modificar una Label con datos inválidos', async () => {
         const response = await TrelloRequest.put(`labels/${labelData.id}`, { color: 'invalidColor' });
-        expect(response.status()).toBe(400);
+        AssertionStatusCode.assert_status_code_400(response.status());
     });
 
     test('Modificar una Label que no existe', async () => {
         const response = await TrelloRequest.put(`labels/invalidId`, { name: 'No Existe' });
-        expect(response.status()).toBe(400);
+        AssertionStatusCode.assert_status_code_404(response.status());
     });
     
     test('Modificar una Label sin enviar datos', async () => {
         const response = await TrelloRequest.put(`labels/${labelData.id}`, {});
         AssertionLabel.assert_put_input_schema({});
-        expect(response.status()).toBe(200);
+        AssertionStatusCode.assert_status_code_200(response.status());
         const data = await response.json();
         AssertionLabel.assert_put_output_schema(data);
         expect(data.name).toBe(labelData.name);

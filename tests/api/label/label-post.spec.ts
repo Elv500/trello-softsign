@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { TrelloRequest } from '../../../utils/api/trello-request';
 import { createBoardForSuite, deleteBoard } from '../../../utils/api/base-helper';
-import { LabelHelper } from '../../../utils/api/label-helper';
 import { AssertionLabel } from '../../../assertions/assertions-label';
 import { buildLabelPayload } from '../../../resources/payloads/label';
+import { AssertionStatusCode } from '../../../assertions/assertions-status';
 
 test.describe('Tests de creación de Labels en Trello', () => {
   
@@ -26,7 +26,7 @@ test.describe('Tests de creación de Labels en Trello', () => {
         const payload = buildLabelPayload({ idBoard: boardId });
         AssertionLabel.assert_post_input_schema(payload);
         const response = await TrelloRequest.post('labels', payload);
-        expect(response.status()).toBe(200);
+        AssertionStatusCode.assert_status_code_200(response.status());
         const data = await response.json();
         AssertionLabel.assert_post_output_schema(data);
         expect(data.idBoard).toBe(payload.idBoard);
@@ -39,7 +39,7 @@ test.describe('Tests de creación de Labels en Trello', () => {
         const payload = buildLabelPayload({ idBoard: boardId, name: '' });
         AssertionLabel.assert_post_input_schema(payload);
         const response = await TrelloRequest.post('labels', payload);
-        expect(response.status()).toBe(200);
+        AssertionStatusCode.assert_status_code_200(response.status());
         const data = await response.json();
         AssertionLabel.assert_post_output_schema(data);
         expect(data.idBoard).toBe(payload.idBoard);
@@ -52,7 +52,7 @@ test.describe('Tests de creación de Labels en Trello', () => {
         const payload = buildLabelPayload({ idBoard: boardId, color: null });
         AssertionLabel.assert_post_input_schema(payload);
         const response = await TrelloRequest.post('labels', payload);
-        expect(response.status()).toBe(200);
+        AssertionStatusCode.assert_status_code_200(response.status());
         const data = await response.json();
         AssertionLabel.assert_post_output_schema(data);
         expect(data.idBoard).toBe(payload.idBoard);
@@ -65,7 +65,7 @@ test.describe('Tests de creación de Labels en Trello', () => {
         const payload = buildLabelPayload({ idBoard: boardId, color: 'invalid-color' });
         AssertionLabel.assert_post_input_schema(payload);
         const response = await TrelloRequest.post('labels', payload);
-        expect(response.status()).toBe(400);
+        AssertionStatusCode.assert_status_code_400(response.status());
         const data = await response.json();
         expect(data.message).toBe('invalid value for color');
     });
@@ -74,7 +74,7 @@ test.describe('Tests de creación de Labels en Trello', () => {
         const payload = buildLabelPayload({ idBoard: '' });
         AssertionLabel.assert_post_input_schema(payload);
         const response = await TrelloRequest.post('labels', payload);
-        expect(response.status()).toBe(400);
+        AssertionStatusCode.assert_status_code_400(response.status());
         const data = await response.json();
         expect(data.message).toBe('Invalid id');
     });
@@ -83,13 +83,13 @@ test.describe('Tests de creación de Labels en Trello', () => {
         const payload = buildLabelPayload({ idBoard: 'invalid-id' });
         AssertionLabel.assert_post_input_schema(payload);
         const response = await TrelloRequest.post('labels', payload);
-        expect(response.status()).toBe(400);
+        AssertionStatusCode.assert_status_code_400(response.status());
         const data = await response.json();
         expect(data.message).toBe('Invalid id');
     });
 
     test('Crear Label sin payload', async () => {
         const response = await TrelloRequest.post('labels', {});
-        expect(response.status()).toBe(400);
+        AssertionStatusCode.assert_status_code_400(response.status());
     });
 });

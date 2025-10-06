@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test';
 import { TrelloRequest } from '../../../utils/api/trello-request';
 import { createBoardForSuite, deleteBoard } from '../../../utils/api/base-helper';
-import { LabelHelper } from '../../../utils/api/label-helper';
 import { AssertionLabel } from '../../../assertions/assertions-label';
 import { buildLabelPayload } from '../../../resources/payloads/label';
+import { AssertionStatusCode } from '../../../assertions/assertions-status';
 
 test.describe('Tests de obtencion de Labels en Trello', () => {
   
@@ -29,6 +29,7 @@ test.describe('Tests de obtencion de Labels en Trello', () => {
 
     test('Obtener Label existente', async () => {
         const response = await TrelloRequest.get(`labels/${labelData.id}`);
+        AssertionStatusCode.assert_status_code_200(response.status());
         expect(response.status()).toBe(200);
         const data = await response.json();
         AssertionLabel.assert_get_output_schema(data);
@@ -40,17 +41,17 @@ test.describe('Tests de obtencion de Labels en Trello', () => {
 
     test('Obtener Label inexistente', async () => {
         const response = await TrelloRequest.get('labels/invalid_id123');
-        expect(response.status()).toBe(400);
+        AssertionStatusCode.assert_status_code_400(response.status());
     });
 
     test('Obtener Label sin ID', async () => {
         const response = await TrelloRequest.get('labels/');
-        expect(response.status()).toBe(404);
+        AssertionStatusCode.assert_status_code_404(response.status());
     });
 
     test('Obtener Labels de un Board', async () => {
         const response = await TrelloRequest.get(`boards/${boardId}/labels`);
-        expect(response.status()).toBe(200);
+        AssertionStatusCode.assert_status_code_200(response.status());
         const data = await response.json();
         expect(Array.isArray(data)).toBe(true);
         AssertionLabel.assert_get_list_schema(data);
@@ -58,6 +59,6 @@ test.describe('Tests de obtencion de Labels en Trello', () => {
 
     test('Obtener Labels de un Board inexistente', async () => {
         const response = await TrelloRequest.get('boards/invalid_board_id/labels');
-        expect(response.status()).toBe(400);
+        AssertionStatusCode.assert_status_code_400(response.status());
     });
 });
