@@ -1,8 +1,6 @@
 import { test, expect } from "@playwright/test";
-import Ajv from "ajv";
 import { TrelloRequest } from "../../../utils/api/trello-request";
 import { createBoardForSuite, deleteBoard } from "../../../utils/api/base-helper";
-import { createCardUtils } from "../../../utils/api/card-helper";
 import { AssertionChecklist } from "../../../assertions/assertion-checklist";
 
 test.describe("Pruebas API de Checklist", () => {

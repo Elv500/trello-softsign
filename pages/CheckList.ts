@@ -86,7 +86,7 @@ export class ChecklistPage {
     const checkboxInput = checkboxLabel.locator('input[type="checkbox"]');
     await checkboxLabel.waitFor({ state: "visible", timeout: 5000 });
 
-    for (let attempt = 1; attempt <= 3; attempt++) {
+    for (let attempt = 1; attempt <= 5; attempt++) {
       await checkboxLabel.click({ force: true });
       await this.page.waitForTimeout(200);
       if ((await checkboxInput.getAttribute("aria-checked")) === "true") return;
