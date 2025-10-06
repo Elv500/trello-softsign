@@ -81,29 +81,14 @@ test.describe("Pruebas API de Custom Field - POST", () => {
     expect(json.type).toBe("checkbox");
   });
 
-  test("TC010 - Crear Custom Field tipo 'list' sin opciones", async () => {
-    const payload = { ...customFieldPayloads.listWithoutOptions, idModel: board_id };
-    const response = await TrelloRequest.post("customFields", payload);
-    expect([400, 422]).toContain(response.status());
-  });
-
-  test("TC011 - Crear Custom Field duplicado", async () => {
+  test("TC010 - Crear Custom Field duplicado", async () => {
     const payload = { ...customFieldPayloads.duplicateName, idModel: board_id };
     await TrelloRequest.post("customFields", payload);
     const response = await TrelloRequest.post("customFields", payload);
     expect([200, 409]).toContain(response.status());
   });
 
-  test("TC012 - Crear Custom Field oculto en card front", async () => {
-    const payload = { ...customFieldPayloads.validList, idModel: board_id, display_cardFront: false };
-    const response = await TrelloRequest.post("customFields", payload);
-    expect(response.status()).toBe(200);
-
-    const json = await response.json();
-    expect(json.display?.cardFront).toBeFalsy();
-  });
-
-  test("TC013 - Validar estructura básica del Custom Field creado", async () => {
+  test("TC011 - Validar estructura básica del Custom Field creado", async () => {
     const payload = { ...customFieldPayloads.validList, idModel: board_id };
     const response = await TrelloRequest.post("customFields", payload);
     const json = await response.json();

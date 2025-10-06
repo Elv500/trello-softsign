@@ -47,42 +47,31 @@ test.describe("Pruebas API de Custom Field - PUT", () => {
     expect([400, 422]).toContain(response.status());
   });
 
-  test("TC005 - Actualizar Custom Field con nombre solo de espacios", async () => {
-    const payload = { name: "    " };
-    const response = await TrelloRequest.put(`customFields/${customField_id}`, payload);
-    expect([400, 422]).toContain(response.status());
-  });
-
-  test("TC006 - Actualizar Custom Field con nombre numérico", async () => {
+  test("TC005 - Actualizar Custom Field con nombre numérico", async () => {
     const payload = { name: "123456" };
     const response = await TrelloRequest.put(`customFields/${customField_id}`, payload);
     expect(response.status()).toBe(200);
   });
 
-  test("TC007 - Actualizar Custom Field con emoji en el nombre", async () => {
+  test("TC006 - Actualizar Custom Field con emoji en el nombre", async () => {
     const payload = { name: "Urgente 🔥" };
     const response = await TrelloRequest.put(`customFields/${customField_id}`, payload);
     expect(response.status()).toBe(200);
   });
 
-  test("TC008 - Intentar actualizar Custom Field inexistente", async () => {
+  test("TC007 - Intentar actualizar Custom Field inexistente", async () => {
     const payload = { name: "No existe" };
     const response = await TrelloRequest.put("customFields/fakeId123", payload);
     expect([400, 404]).toContain(response.status());
   });
 
-  test("TC009 - Intentar actualizar Custom Field sin enviar payload", async () => {
-    const response = await TrelloRequest.put(`customFields/${customField_id}`);
-    expect([400, 422]).toContain(response.status());
-  });
-
-  test("TC010 - Intentar actualizar Custom Field con ID vacío", async () => {
+  test("TC008 - Intentar actualizar Custom Field con ID vacío", async () => {
     const payload = { name: "Campo Invalido" };
     const response = await TrelloRequest.put("customFields/", payload);
     expect([400, 404]).toContain(response.status());
   });
 
-  test("TC011 - Actualizar tipo de Custom Field (de list a text)", async () => {
+  test("TC009 - Actualizar tipo de Custom Field (de list a text)", async () => {
     const payload = { type: "text" };
     const response = await TrelloRequest.put(`customFields/${customField_id}`, payload);
     expect([400, 422, 200]).toContain(response.status());

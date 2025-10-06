@@ -160,6 +160,3 @@ trello-state.json
 # Temporary files
 .temp/*
 !.temp/.gitkeep
-
-# Ignorar CardHelper local
-utils/api/card-helper.ts

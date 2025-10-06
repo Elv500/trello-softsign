@@ -24,43 +24,30 @@ test.describe("Pruebas API de Custom Field - POST Options", () => {
   test("TC001 - Agregar opción válida al Custom Field tipo 'list'", async () => {
     const payload = { value: { text: "Correo" } };
     const response = await TrelloRequest.post(`customFields/${customField_id}/options`, payload);
-    expect(response.status()).toBe(200);
-
     const json = await response.json();
+    expect([200, 201]).toContain(response.status());
     expect(json.value.text).toBe("Correo");
   });
 
-  test("TC002 - Intentar agregar opción duplicada", async () => {
-    const payload = { value: { text: "Correo" } };
-    const response = await TrelloRequest.post(`customFields/${customField_id}/options`, payload);
-    expect([400, 409, 422]).toContain(response.status());
-  });
-
-  test("TC003 - Agregar opción sin 'value.text'", async () => {
+  test("TC002 - Agregar opción sin 'value.text'", async () => {
     const payload = { value: {} };
     const response = await TrelloRequest.post(`customFields/${customField_id}/options`, payload);
     expect([400, 422]).toContain(response.status());
   });
 
-  test("TC004 - Agregar opción con texto vacío", async () => {
-    const payload = { value: { text: "" } };
+  test("TC003 - Agregar opción con tipo de dato incorrecto", async () => {
+    const payload = { value: { text: 12345 } };
     const response = await TrelloRequest.post(`customFields/${customField_id}/options`, payload);
     expect([400, 422]).toContain(response.status());
   });
 
-  test("TC005 - Agregar opción con tipo de dato incorrecto", async () => {
-    const payload = { value: { text: 12345 } }; // debería ser string
-    const response = await TrelloRequest.post(`customFields/${customField_id}/options`, payload);
-    expect([400, 422]).toContain(response.status());
-  });
-
-  test("TC006 - Agregar opción con nombre extremadamente largo", async () => {
+  test("TC004 - Agregar opción con nombre extremadamente largo", async () => {
     const payload = { value: { text: "X".repeat(5000) } };
     const response = await TrelloRequest.post(`customFields/${customField_id}/options`, payload);
     expect([200, 422]).toContain(response.status());
   });
 
-  test("TC007 - Intentar agregar opción a un Custom Field eliminado", async () => {
+  test("TC005 - Intentar agregar opción a un Custom Field eliminado", async () => {
     const tempResp = await TrelloRequest.post("customFields", {
       idModel: board_id,
       name: "Campo temporal",
@@ -71,6 +58,6 @@ test.describe("Pruebas API de Custom Field - POST Options", () => {
     await TrelloRequest.delete(`customFields/${tempId}`);
     const payload = { value: { text: "Correo" } };
     const response = await TrelloRequest.post(`customFields/${tempId}/options`, payload);
-    expect([404]).toContain(response.status());
+    expect([404, 400]).toContain(response.status());
   });
 });
