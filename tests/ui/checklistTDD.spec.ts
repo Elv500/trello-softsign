@@ -1,10 +1,8 @@
 import { test, expect, Page, BrowserContext } from "@playwright/test";
 import { ChecklistPage } from "./../../pages/CheckList";
 import { validateConfig } from "../../config/auth/ui/config";
-import { AuthHelper } from "../../config/auth/ui/auth";
 import checklists from "./../../data/checklist.json";
 import { createBoardForSuite, deleteBoard } from "../../utils/api/base-helper";
-import { createCardUtils } from "../../utils/api/card-helper";
 
 // Combina checklists de JSON con un checklist manual
 const allChecklists = [
@@ -31,11 +29,7 @@ test.describe("Checklist Tests - Trello UI (Single Session)", () => {
 
     const board = await createBoardForSuite("Board de Prueba UI");
     board_id = board.boardId;
-    const card = await createCardUtils(
-      "Tarjeta de Prueba UI",
-      board.todoListId
-    );
-    url_card = card.url;
+    url_card = board.cardUrl;
     page = await context.newPage();
     checklistPage = new ChecklistPage(page);
   });

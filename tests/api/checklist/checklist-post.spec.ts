@@ -12,8 +12,7 @@ test.describe("Pruebas API de Checklist", () => {
   test.beforeAll(async () => {
     const board = await createBoardForSuite("Board API Test Checklist");
     board_id = board.boardId;
-    const card = await createCardUtils("Card API Checklist Tests", board.todoListId);
-    card_id = card.id;
+    card_id = board.cardId;
   });
 
   test.afterAll(async () => {
