@@ -31,15 +31,15 @@ export class ChecklistPage {
   }
 
   async gotoCard(cardUrl: string) {
-    console.log("📦 Redirigiendo a card...");
+    console.log("Redirigiendo a card...");
     await this.page.goto(cardUrl, { waitUntil: "domcontentloaded" });
     await this.page.goto(cardUrl, { waitUntil: "networkidle" });
     await this.page.locator(this.selectors.openChecklistButton).waitFor({ state: "visible" });
-    console.log("✅ Tarjeta cargada y botón de checklist visible");
+    console.log("Tarjeta cargada y botón de checklist visible");
   }
 
   async createChecklist(title: string) {
-    console.log(`📝 Creando checklist: "${title}"`);
+    console.log(`Creando checklist: "${title}"`);
 
     const openBtn = this.page.locator(this.selectors.openChecklistButton);
     await openBtn.waitFor({ state: "attached" });
@@ -57,11 +57,11 @@ export class ChecklistPage {
     const checklistTitle = this.page.locator(this.selectors.checklistCreatedTitle, { hasText: title });
     await checklistTitle.waitFor({ state: "visible" });
 
-    console.log(`✅ Checklist "${title}" creado correctamente`);
+    console.log(`Checklist "${title}" creado correctamente`);
   }
 
   async addChecklistItem(itemText: string) {
-    console.log(`➕ Añadiendo item: "${itemText}"`);
+    console.log(`Añadiendo item: "${itemText}"`);
 
     const formVisible = await this.page.locator(`form:has(${this.selectors.itemInput})`).isVisible();
     if (!formVisible) {
@@ -73,11 +73,11 @@ export class ChecklistPage {
     await this.page.locator(this.selectors.confirmAddItemButton).click();
     await this.page.locator(`input[type="checkbox"][aria-label="${itemText}"]`).waitFor({ state: "attached" });
 
-    console.log(`✅ Item "${itemText}" añadido correctamente`);
+    console.log(`Item "${itemText}" añadido correctamente`);
   }
 
   async toggleChecklistItem(itemText: string) {
-    console.log(`☑️ Marcar/desmarcar item: "${itemText}"`);
+    console.log(`Marcar/desmarcar item: "${itemText}"`);
 
     const checkboxLabel = this.page
       .locator(this.selectors.itemContainer + `:has(div[aria-label="${itemText}"])`)
@@ -92,26 +92,26 @@ export class ChecklistPage {
       if ((await checkboxInput.getAttribute("aria-checked")) === "true") return;
     }
 
-    throw new Error(`❌ No se pudo marcar el item "${itemText}" después de 3 intentos`);
+    throw new Error(`No se pudo marcar el item "${itemText}" después de 3 intentos`);
   }
 
   async validateChecklistExists(title: string) {
-    console.log(`🔍 Validando checklist "${title}"...`);
+    console.log(`Validando checklist "${title}"...`);
     const checklist = this.page.locator(this.selectors.checklistCreatedTitle, { hasText: title }).first();
     expect(await checklist.isVisible()).toBeTruthy();
-    console.log("✅ Checklist visible");
+    console.log("Checklist visible");
   }
 
   async validateItemCompleted(itemText: string) {
-    console.log(`🔍 Validando item completado: "${itemText}"`);
+    console.log(`Validando item completado: "${itemText}"`);
     const checkbox = this.page.locator(`input[type="checkbox"][aria-label="${itemText}"]`);
     await checkbox.waitFor({ state: "visible", timeout: 8000 });
     expect(await checkbox.getAttribute("aria-checked")).toBe("true");
-    console.log("✅ Item completado");
+    console.log("Item completado");
   }
 
   async deleteChecklist(title: string) {
-    console.log(`🗑️ Eliminando checklist: "${title}"`);
+    console.log(`Eliminando checklist: "${title}"`);
     const checklistContainer = this.page.locator(this.selectors.checklistContainer, { hasText: title });
     await checklistContainer.waitFor({ state: "visible", timeout: 8000 });
 
@@ -120,6 +120,6 @@ export class ChecklistPage {
     await this.page.locator(this.selectors.confirmDeleteChecklistButton).click();
 
     await checklistContainer.waitFor({ state: "detached", timeout: 5000 });
-    console.log(`✅ Checklist "${title}" eliminado correctamente`);
+    console.log(`Checklist "${title}" eliminado correctamente`);
   }
 }
