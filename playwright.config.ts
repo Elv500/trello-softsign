@@ -19,7 +19,7 @@ export default defineConfig({
   reporter: 'html',
   /* Setting global configurations (Setup and Teardown) */
   globalSetup: require.resolve('./config/global-setup'),
-  globalTeardown: require.resolve('./config/api-global-teardown'),
+  globalTeardown: require.resolve('./config/global-teardown'),
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: process.env.BASE_URL,

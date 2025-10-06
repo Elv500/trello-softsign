@@ -68,7 +68,7 @@ test.describe('Tests de actualización de Labels en Trello', () => {
 
     test('Modificar una Label que no existe', async () => {
         const response = await TrelloRequest.put(`labels/invalidId`, { name: 'No Existe' });
-        AssertionStatusCode.assert_status_code_404(response.status());
+        AssertionStatusCode.assert_status_code_400(response.status());
     });
     
     test('Modificar una Label sin enviar datos', async () => {
