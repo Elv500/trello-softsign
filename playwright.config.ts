@@ -12,7 +12,9 @@ export default defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  // workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 1 : 1,
+
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Setting global configurations (Setup and Teardown) */
@@ -21,6 +23,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: process.env.BASE_URL,
+    headless: false,
     trace: 'on-first-retry',
   },
 
@@ -44,8 +47,8 @@ export default defineConfig({
     },
 
     {
-      name: 'ui-tests',
-      testIgnore: 'tests/ui/login.spec.ts',
+      name: 'authenticated-ui-tests',
+      testIgnore: ['tests/ui/login.spec.ts', 'tests/api/**/*.spec.ts'],
       testMatch: 'tests/ui/**/*.spec.ts',
       use: {
         ...devices['Desktop Chrome'],
