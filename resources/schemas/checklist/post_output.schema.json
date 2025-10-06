@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "required": ["id", "name", "idBoard", "idCard", "pos"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "idBoard": {
+      "type": "string"
+    },
+    "idCard": {
+      "type": "string"
+    },
+    "pos": {
+      "type": "number"
+    },
+    "checkItems": {
+      "type": "array",
+      "items": {}
+    },
+    "limits": {
+      "type": ["object", "null"]
+    }
+  },
+  "additionalProperties": false
+}

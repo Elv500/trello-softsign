@@ -14,7 +14,7 @@ type AttachmentByBase64 = {
 	mimeType?: string;
 };
 
-const attachmentsDataPath = join(__dirname, '../../../data/attachment.json');
+const attachmentsDataPath = join(__dirname, '../../data/attachment.json');
 
 function loadImages(): Array<{ name: string; url: string }> {
 	const raw = readFileSync(attachmentsDataPath, 'utf-8');
@@ -54,9 +54,9 @@ export function buildAttachmentInput(
 	// import dinámico para evitar ciclos en tiempo de compilación
 	// Schema validation y authParams se resuelven en tiempo de ejecución
 	// eslint-disable-next-line @typescript-eslint/no-var-requires
-	const { authParams } = require('../../../config/auth/api/auth-params');
+	const { authParams } = require('../../config/auth/api/auth-params');
 	// eslint-disable-next-line @typescript-eslint/no-var-requires
-	const { AssertionAttachment } = require('../../../assertions/attachment-assertions/assertion-attachment');
+	const { AssertionAttachment } = require('../../assertions/assertion-attachment');
 
 	const query = authParams(opts?.extraQuery);
 	const headers = { Accept: 'application/json', ...(opts?.headers ?? {}) };

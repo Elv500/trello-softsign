@@ -19,11 +19,11 @@ export default defineConfig({
   reporter: 'html',
   /* Setting global configurations (Setup and Teardown) */
   globalSetup: require.resolve('./config/global-setup'),
-  globalTeardown: require.resolve('./config/api-global-teardown'),
+  globalTeardown: require.resolve('./config/global-teardown'),
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: process.env.BASE_URL,
-    headless: false,
+    headless: true,
     trace: 'on-first-retry',
   },
 
@@ -47,7 +47,7 @@ export default defineConfig({
     },
 
     {
-      name: 'authenticated-ui-tests',
+      name: 'ui-tests',
       testIgnore: ['tests/ui/login.spec.ts', 'tests/api/**/*.spec.ts'],
       testMatch: 'tests/ui/**/*.spec.ts',
       use: {

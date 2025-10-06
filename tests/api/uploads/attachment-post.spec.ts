@@ -2,9 +2,9 @@ import { test, expect } from '@playwright/test';
 import { TrelloRequest } from '../../../utils/api/trello-request';
 import { createBoardForSuite, deleteBoard } from '../../../utils/api/base-helper';
 import { attachUrlToCard } from '../../../utils/api/attachment-helper';
-import { randomAttachmentByUrl } from '../../../resources/payloads/attachment/attachment';
-import { buildAttachmentInput } from '../../../resources/payloads/attachment/attachment';
-import { AssertionAttachment } from '../../../assertions/attachment-assertions/assertion-attachment';
+import { randomAttachmentByUrl } from '../../../resources/payloads/attachment';
+import { buildAttachmentInput } from '../../../resources/payloads/attachment';
+import { AssertionAttachment } from '../../../assertions/assertion-attachment';
 import { AssertionStatusCode } from '../../../assertions/assertions-status';
 
 let boardId: string;
