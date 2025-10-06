@@ -1,0 +1,12 @@
+{
+  "checklist_1": {
+    "title": "Smoke Test UI",
+    "item": "Validar carga inicial de tablero",
+    "description": "Checklist básico de prueba de tablero"
+  },
+  "checklist_2": {
+    "title": "Flujo QA",
+    "item": "Verificar creación de tarjetas",
+    "description": "Checklist de flujo QA"
+  }
+}
