@@ -1,7 +1,7 @@
 import { test } from "@playwright/test";
 import { TrelloRequest } from "../../../utils/api/trello-request";
 import { createBoardForSuite, deleteBoard } from "../../../utils/api/base-helper";
-import { customFieldPayloads } from "../../../resources/payloads/customfield/customField-payload";
+import { customFieldPayloads } from "../../../resources/payloads/customField-payload";
 import { AssertionStatusCode } from "../../../assertions/assertions-status";
 
 test.describe("Pruebas API de Custom Field - DELETE", () => {
@@ -14,7 +14,6 @@ test.describe("Pruebas API de Custom Field - DELETE", () => {
     const payload = { ...customFieldPayloads.validList, idModel: board_id };
     const response = await TrelloRequest.post("customFields", payload);
     AssertionStatusCode.assert_status_code_200(response);
-
     const json = await response.json();
     customField_id = json.id;
   });

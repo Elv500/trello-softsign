@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { TrelloRequest } from "../../../utils/api/trello-request";
 import { createBoardForSuite, deleteBoard } from "../../../utils/api/base-helper";
-import { customFieldPayloads } from "../../../resources/payloads/customfield/customField-payload";
+import { customFieldPayloads } from "../../../resources/payloads/customField-payload";
 import { AssertionStatusCode } from "../../../assertions/assertions-status";
 
 test.describe("Pruebas API de Custom Field - PUT", () => {

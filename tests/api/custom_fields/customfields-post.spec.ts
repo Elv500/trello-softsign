@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { TrelloRequest } from "../../../utils/api/trello-request";
 import { createBoardForSuite, deleteBoard } from "../../../utils/api/base-helper";
-import { customFieldPayloads } from "../../../resources/payloads/customfield/customField-payload";
+import { customFieldPayloads } from "../../../resources/payloads/customField-payload";
 import { AssertionStatusCode } from "../../../assertions/assertions-status";
 
 test.describe("Pruebas API de Custom Field - POST Options", () => {
@@ -57,9 +57,7 @@ test.describe("Pruebas API de Custom Field - POST Options", () => {
     AssertionStatusCode.assert_status_code_400(tempResp);
     const tempData = await tempResp.json();
     const tempId = tempData.id;
-
     await TrelloRequest.delete(`customFields/${tempId}`);
-
     const payload = { value: { text: "Correo" } };
     const response = await TrelloRequest.post(`customFields/${tempId}/options`, payload);
     AssertionStatusCode.assert_status_code_400(response);
