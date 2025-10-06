@@ -2,7 +2,6 @@ import { test, expect, Page, BrowserContext } from "@playwright/test";
 import { ChecklistPage } from "./../../pages/CheckList";
 import { validateConfig } from "../../config/auth/ui/config";
 import { createBoardForSuite, deleteBoard } from "../../utils/api/base-helper";
-import { createCardUtils } from "../../utils/api/card-helper";
 
 test.describe("Checklist Tests - Trello UI (Independent Test Cases with Separate Cards)", () => {
   let context: BrowserContext;
