@@ -44,15 +44,13 @@ test.describe("Checklist Tests - Trello UI (Single Session)", () => {
     if (page) await page.close();
     if (context) await context.close();
     await deleteBoard(board_id);
-    console.log("✅ Session cerrada");
+    console.log("Session cerrada");
   });
 
   test("Ejecutar todos los checklists en un solo flujo", async () => {
     for (const checklistCase of allChecklists) {
-      console.log(
-        `\n🧩 Testing checklist-----------------: ${checklistCase.title}`
-      );
-      console.log(`📌 Card URL: ${url_card}`);
+      console.log(`Testing checklist-----------------: ${checklistCase.title}`);
+      console.log(`Card URL: ${url_card}`);
 
       await test.step("Ir a la tarjeta", async () => {
         await checklistPage.gotoCard(url_card);
@@ -83,7 +81,7 @@ test.describe("Checklist Tests - Trello UI (Single Session)", () => {
       });
 
       console.log(
-        `✅ Checklist completado correctamente: ${checklistCase.title}`
+        `Checklist completado correctamente: ${checklistCase.title}`
       );
     }
   });

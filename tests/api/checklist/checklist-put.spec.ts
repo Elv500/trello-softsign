@@ -25,7 +25,7 @@ test.describe("Pruebas API de Checklist - PUT", () => {
   test.afterAll(async () => {
     if (checklist_id) await TrelloRequest.delete(`checklists/${checklist_id}`);
     await deleteBoard(board_id);
-    console.log("✅ Board eliminado después de todos los tests PUT");
+    console.log("Board eliminado después de todos los tests PUT");
   });
 
   test("TC001 - Actualizar checklist con nombre válido", async () => {
