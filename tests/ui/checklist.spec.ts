@@ -27,7 +27,7 @@ test.describe("Checklist Tests - Trello UI (Independent Test Cases with Separate
     if (page) await page.close();
     if (context) await context.close();
     await deleteBoard(board_id);
-    console.log("✅ Session cerrada");
+    console.log("Session cerrada");
   });
 
   // ---------------------- TEST CASES ---------------------- //
