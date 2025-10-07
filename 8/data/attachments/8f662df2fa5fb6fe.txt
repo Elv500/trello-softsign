@@ -1,0 +1,8 @@
+Redirigiendo a card...
+Tarjeta cargada y botón de checklist visible
+Creando checklist: "Checklist 6"
+Checklist "Checklist 6" creado correctamente
+Añadiendo item: "TC006 Item"
+Item "TC006 Item" añadido correctamente
+Validando checklist "Checklist 6"...
+Checklist visible

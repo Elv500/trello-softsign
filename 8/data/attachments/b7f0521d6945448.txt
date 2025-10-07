@@ -1,0 +1,9 @@
+Redirigiendo a card...
+Tarjeta cargada y botón de checklist visible
+Creando checklist: "Checklist 8"
+Checklist "Checklist 8" creado correctamente
+Añadiendo item: "TC008 Item"
+Item "TC008 Item" añadido correctamente
+Eliminando checklist: "Checklist 8"
+Checklist "Checklist 8" eliminado correctamente
+Session cerrada

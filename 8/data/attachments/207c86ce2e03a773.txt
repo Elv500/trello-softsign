@@ -1,0 +1,9 @@
+Redirigiendo a card...
+Tarjeta cargada y botón de checklist visible
+Creando checklist: "Checklist 7"
+Checklist "Checklist 7" creado correctamente
+Añadiendo item: "TC007 Item"
+Item "TC007 Item" añadido correctamente
+Marcar/desmarcar item: "TC007 Item"
+Validando item completado: "TC007 Item"
+Item completado

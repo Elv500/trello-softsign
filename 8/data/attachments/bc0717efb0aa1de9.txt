@@ -1,0 +1,8 @@
+Redirigiendo a card...
+Tarjeta cargada y botón de checklist visible
+Creando checklist: "Checklist 3"
+Checklist "Checklist 3" creado correctamente
+Añadiendo item: "TC003 Item"
+Item "TC003 Item" añadido correctamente
+Eliminando checklist: "Checklist 3"
+Checklist "Checklist 3" eliminado correctamente
