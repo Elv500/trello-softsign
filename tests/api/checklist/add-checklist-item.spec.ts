@@ -31,8 +31,8 @@ test.describe("Pruebas API de Checklist Items", () => {
     await deleteBoard(board_id);
   });
 
-  test("TC001 - Agregar item con nombre válido", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC001 - Agregar item con nombre válido @checklist @smoke @positive", async () => {
+    await allure.tags('checklist', 'smoke', 'positive');
 
     const payload = { name: "Item Válido" };
     AssertionChecklist.assert_add_item_input_schema(payload);
@@ -51,8 +51,8 @@ test.describe("Pruebas API de Checklist Items", () => {
     expect([400, 404]).toContain(response.status());
   });
 
-  test("TC003 - Agregar item sin nombre", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC003 - Agregar item sin nombre @checklist @smoke @negative", async () => {
+    await allure.tags('checklist', 'smoke', 'negative');
 
     const payload = {};
     const response = await TrelloRequest.post(`checklists/${checklist_id}/checkItems`, payload);
@@ -67,8 +67,8 @@ test.describe("Pruebas API de Checklist Items", () => {
     expect([400, 422]).toContain(response.status());
   });
 
-  test("TC005 - Agregar item a checklist eliminado", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC005 - Agregar item a checklist eliminado @checklist @smoke @negative", async () => {
+    await allure.tags('checklist', 'smoke', 'negative');
 
     const tempChecklistResp = await TrelloRequest.post("checklists", { name: "Temp", idCard: card_id });
     const tempChecklistData = await tempChecklistResp.json();
@@ -80,9 +80,9 @@ test.describe("Pruebas API de Checklist Items", () => {
     expect([404]).toContain(response.status());
   });
 
-  test("TC006 - Agregar item con nombre extremadamente largo", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
-    
+  test("TC006 - Agregar item con nombre extremadamente largo @checklist @smoke @negative", async () => {
+    await allure.tags('checklist', 'smoke', 'negative');
+
     const payload = { name: "X".repeat(5000) };
     AssertionChecklist.assert_add_item_input_schema(payload);
     const response = await TrelloRequest.post(`checklists/${checklist_id}/checkItems`, payload);
