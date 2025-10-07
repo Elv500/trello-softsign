@@ -5,18 +5,22 @@ import { uiGlobalSetup } from "./ui-global-setup";
 export default async function globalSetup(config: FullConfig) {
   console.log("[Ejecutando global-setup combinado]");
 
-  // Detectar el tipo de proyecto en ejecución
+  // Detectar los nombres de los proyectos configurados
   const projectNames = config.projects.map((p) => p.name);
 
+  // Ejecutar setup de API si corresponde
   if (projectNames.some((name) => name.includes("api"))) {
-    //console.log("Ejecutando setup de API...");
+    console.log(">>>Ejecutando global-setup - API<<<");
     await apiGlobalSetup(config);
-  } else if (projectNames.some((name) => name.includes("ui"))) {
-    //console.log("Ejecutando setup de UI...");
-    await uiGlobalSetup(config);
-  } else {
-    console.log("No se encontró un proyecto válido (ni api ni ui).");
+    console.log(">>>Global-setup - API completado correctamente<<<");
   }
 
-  console.log("[Global-setup completado correctamente]");
+  // Ejecutar setup de UI si corresponde
+  if (projectNames.some((name) => name.includes("ui"))) {
+    console.log(">>>Ejecutando global-setup - UI<<<");
+    await uiGlobalSetup(config);
+    console.log(">>>Global-setup - UI completado correctamente<<<");
+  }
+
+  console.log("[Global-setup combinado completado]");
 }
