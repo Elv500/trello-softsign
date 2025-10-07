@@ -4,6 +4,7 @@ import { createBoardForSuite, deleteBoard } from '../../../utils/api/base-helper
 import { AssertionLabel } from '../../../assertions/assertions-label';
 import { buildLabelPayload } from '../../../resources/payloads/label';
 import { AssertionStatusCode } from '../../../assertions/assertions-status';
+import * as allure from 'allure-js-commons';
 
 test.describe('Tests de actualización de Labels en Trello', () => {
   
@@ -20,6 +21,11 @@ test.describe('Tests de actualización de Labels en Trello', () => {
     });
 
     test.beforeEach(async () => {
+        await allure.owner("Elvis Alvarez");
+        await allure.epic("EPIC: Gestión de Cards");
+        await allure.feature("Feature: Label");
+        await allure.story("HU: Actualizar Label");
+
         const label = await TrelloRequest.post('labels', buildLabelPayload({ idBoard: boardId }));
         const labelJson = await label.json();
         labelData = labelJson;
@@ -30,6 +36,8 @@ test.describe('Tests de actualización de Labels en Trello', () => {
     });
 
     test('Modificar el nombre de una Label', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
         const newName = 'Label Modificada';
         const response = await TrelloRequest.put(`labels/${labelData.id}`, { name: newName });
         AssertionLabel.assert_put_input_schema({ name: newName });
@@ -40,6 +48,8 @@ test.describe('Tests de actualización de Labels en Trello', () => {
     });
 
     test('Modificar el color de una Label', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
         const newColor = 'blue';
         const response = await TrelloRequest.put(`labels/${labelData.id}`, { color: newColor });
         AssertionLabel.assert_put_input_schema({ color: newColor });
@@ -50,6 +60,8 @@ test.describe('Tests de actualización de Labels en Trello', () => {
     });
 
     test('Modificar el nombre y color de una Label', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+        
         const newName = 'Label Final';
         const newColor = 'green';
         const response = await TrelloRequest.put(`labels/${labelData.id}`, { name: newName, color: newColor });
@@ -62,16 +74,22 @@ test.describe('Tests de actualización de Labels en Trello', () => {
     });
 
     test('Modificar una Label con datos inválidos', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
         const response = await TrelloRequest.put(`labels/${labelData.id}`, { color: 'invalidColor' });
         AssertionStatusCode.assert_status_code_400(response.status());
     });
 
     test('Modificar una Label que no existe', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
         const response = await TrelloRequest.put(`labels/invalidId`, { name: 'No Existe' });
         AssertionStatusCode.assert_status_code_400(response.status());
     });
     
     test('Modificar una Label sin enviar datos', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
         const response = await TrelloRequest.put(`labels/${labelData.id}`, {});
         AssertionLabel.assert_put_input_schema({});
         AssertionStatusCode.assert_status_code_200(response.status());

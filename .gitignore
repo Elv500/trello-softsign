@@ -160,3 +160,7 @@ trello-state.json
 # Temporary files
 .temp/*
 !.temp/.gitkeep
+
+# Allure test result
+allure-results/
+allure-report/

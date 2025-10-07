@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import { TrelloRequest } from '../../../utils/api/trello-request';
 import { createBoardForSuite, deleteBoard } from '../../../utils/api/base-helper';
+import * as allure from 'allure-js-commons';
+import { Severity } from 'allure-js-commons';
 
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -16,11 +18,20 @@ test.describe('Cards | Actualizar fechas y recordatorio', () => {
         cardId = state.cardId;
     });
 
+    test.afterEach(async () => {
+        await allure.owner("Edwin Navia");
+        await allure.epic("EPIC: Gestión de Cards");
+        await allure.feature("Feature: Date");
+        await allure.story("HU: Actualizar fechas");
+    });
+
     test.afterAll(async () => {
         await deleteBoard(boardId);
     });
 
     test('PUT /cards/:id - actualiza start, due, dueReminder', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+        
         const payload = {
             start: '2025-10-05T12:00:44.615Z',
             due: '2025-10-20T12:00:44.615Z',
@@ -48,9 +59,11 @@ test.describe('Cards | Actualizar fechas y recordatorio', () => {
     });
 
     test('PUT /cards/:id - rechaza si due es anterior a start', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
         
-        //Agregar con allure luego
-        test.fail(true, 'Bug conocido: devuelve 200 en lugar de 400');
+        await allure.issue('BUG-1234', 'https://www.youtube.com/');
+        await allure.severity(Severity.NORMAL);
+        test.skip(true, 'Bug conocido: devuelve 200 en lugar de 400');
         
         const payload = {
             start: '2025-10-10T12:00:00.000Z',
@@ -65,6 +78,8 @@ test.describe('Cards | Actualizar fechas y recordatorio', () => {
     });
 
     test('PUT /cards/:id - rechaza dueReminder con formato inválido', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
         const payload = {
             start: '2025-10-05T12:00:00.000Z',
             due: '2025-10-07T12:00:00.000Z',
@@ -78,6 +93,8 @@ test.describe('Cards | Actualizar fechas y recordatorio', () => {
     });
 
     test('GET /cards/:id - persiste los cambios después de un tiempo', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
         const payload = {
             start: '2025-10-10T12:00:00.000Z',
             due: '2025-10-12T12:00:00.000Z',
@@ -104,6 +121,8 @@ test.describe('Cards | Actualizar fechas y recordatorio', () => {
     });
 
     test('PUT /cards/:id inexistente - devuelve 404', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+        
         const invalidCardId = '000000000000000000000000';
         const payload = {
             start: '2025-10-05T12:00:00.000Z',

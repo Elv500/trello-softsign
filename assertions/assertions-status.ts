@@ -3,7 +3,7 @@ import { expect } from '@playwright/test';
 export class AssertionStatusCode {
   static assert_status_code(responseOrStatus: { status?: () => number } | number, expected: number) {
     const status = typeof responseOrStatus === 'number' ? responseOrStatus : responseOrStatus.status?.();
-    expect(status, `Expected status ${expected} but got ${status}`).toBe(expected);
+    expect(status, `Expected status: ${expected} = Obtained: ${status}`).toBe(expected);
   }
 
   static assert_status_code_200(responseOrStatus: { status?: () => number } | number) {

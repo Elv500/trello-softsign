@@ -4,6 +4,7 @@ import { createBoardForSuite, deleteBoard } from '../../../utils/api/base-helper
 import { AssertionLabel } from '../../../assertions/assertions-label';
 import { buildLabelPayload } from '../../../resources/payloads/label';
 import { AssertionStatusCode } from '../../../assertions/assertions-status';
+import * as allure from 'allure-js-commons';
 
 test.describe('Tests de obtencion de Labels en Trello', () => {
   
@@ -23,11 +24,20 @@ test.describe('Tests de obtencion de Labels en Trello', () => {
         labelData = labelJson;
     });
 
+    test.afterEach(async () => {
+        await allure.owner("Elvis Alvarez");
+        await allure.epic("EPIC: Gestión de Cards");
+        await allure.feature("Feature: Label");
+        await allure.story("HU: Obtener Label");
+    });
+
     test.afterAll(async () => {
         await deleteBoard(boardId);
     });
 
     test('Obtener Label existente', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+        
         const response = await TrelloRequest.get(`labels/${labelData.id}`);
         AssertionStatusCode.assert_status_code_200(response.status());
         expect(response.status()).toBe(200);
@@ -40,16 +50,22 @@ test.describe('Tests de obtencion de Labels en Trello', () => {
     });
 
     test('Obtener Label inexistente', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
         const response = await TrelloRequest.get('labels/invalid_id123');
         AssertionStatusCode.assert_status_code_400(response.status());
     });
 
     test('Obtener Label sin ID', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
         const response = await TrelloRequest.get('labels/');
         AssertionStatusCode.assert_status_code_404(response.status());
     });
 
     test('Obtener Labels de un Board', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
         const response = await TrelloRequest.get(`boards/${boardId}/labels`);
         AssertionStatusCode.assert_status_code_200(response.status());
         const data = await response.json();
@@ -58,6 +74,8 @@ test.describe('Tests de obtencion de Labels en Trello', () => {
     });
 
     test('Obtener Labels de un Board inexistente', async () => {
+        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
         const response = await TrelloRequest.get('boards/invalid_board_id/labels');
         AssertionStatusCode.assert_status_code_400(response.status());
     });

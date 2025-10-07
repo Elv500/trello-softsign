@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { TrelloRequest } from "../../../utils/api/trello-request";
 import { createBoardForSuite, deleteBoard } from "../../../utils/api/base-helper";
 import { AssertionChecklist } from "../../../assertions/assertion-checklist";
+import * as allure from 'allure-js-commons';
 
 test.describe("Pruebas API de Checklist Items", () => {
   let board_id: string;
@@ -18,12 +19,21 @@ test.describe("Pruebas API de Checklist Items", () => {
     checklist_id = data.id;
   });
 
+  test.afterEach(async () => {
+    await allure.owner("Jessica Trujillo");
+    await allure.epic("EPIC: Gestión de Cards");
+    await allure.feature("Feature: Checklist");
+    await allure.story("HU: Agregar ítems a checklist");
+  });
+
   test.afterAll(async () => {
     if (checklist_id) await TrelloRequest.delete(`checklists/${checklist_id}`);
     await deleteBoard(board_id);
   });
 
   test("TC001 - Agregar item con nombre válido", async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const payload = { name: "Item Válido" };
     AssertionChecklist.assert_add_item_input_schema(payload);
     const response = await TrelloRequest.post(`checklists/${checklist_id}/checkItems`, payload);
@@ -33,6 +43,8 @@ test.describe("Pruebas API de Checklist Items", () => {
   });
 
   test("TC002 - Agregar item con checklist_id inválido", async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const payload = { name: "Item con checklist_id inválido" };
     AssertionChecklist.assert_add_item_input_schema(payload);
     const response = await TrelloRequest.post(`checklists/invalid-id/checkItems`, payload);
@@ -40,18 +52,24 @@ test.describe("Pruebas API de Checklist Items", () => {
   });
 
   test("TC003 - Agregar item sin nombre", async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const payload = {};
     const response = await TrelloRequest.post(`checklists/${checklist_id}/checkItems`, payload);
     expect([400, 422]).toContain(response.status());
   });
 
   test("TC004 - Agregar item con tipo de dato incorrecto", async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const payload = { name: 12345 };
     const response = await TrelloRequest.post(`checklists/${checklist_id}/checkItems`, payload);
     expect([400, 422]).toContain(response.status());
   });
 
   test("TC005 - Agregar item a checklist eliminado", async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const tempChecklistResp = await TrelloRequest.post("checklists", { name: "Temp", idCard: card_id });
     const tempChecklistData = await tempChecklistResp.json();
     const tempId = tempChecklistData.id;
@@ -63,6 +81,8 @@ test.describe("Pruebas API de Checklist Items", () => {
   });
 
   test("TC006 - Agregar item con nombre extremadamente largo", async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+    
     const payload = { name: "X".repeat(5000) };
     AssertionChecklist.assert_add_item_input_schema(payload);
     const response = await TrelloRequest.post(`checklists/${checklist_id}/checkItems`, payload);
