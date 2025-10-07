@@ -3,6 +3,7 @@ import { TrelloDataGenerator } from "../../utils/ui/trelloDataGenerator";
 import { DashboardPage } from "../../pages/dashboardPage";
 import { BoardPage } from "../../pages/boardPage";
 import { CardPage } from "../../pages/cardPage";
+import * as allure from 'allure-js-commons';
 
 test.describe("End-to-End Integration Test Suite - Complete Trello Workflow Validation", () => {
   let dashboardPage: DashboardPage;
@@ -18,8 +19,11 @@ test.describe("End-to-End Integration Test Suite - Complete Trello Workflow Vali
     await dashboardPage.deleteBoard();
   });
 
-  test('TC050 - Verify complete end-to-end workflow: board creation, lists setup, card management with attachments, dates, checklists and workflow transitions', async ({ page }) => {
+  test('TC050 - Verify complete end-to-end workflow: board creation, lists setup, card management with attachments, dates, checklists and workflow transitions', 
+    { tag: ['@E2E'] }, 
+    async ({ page }) => {
     test.setTimeout(180000); 
+    await allure.tags('regression', 'ui', 'e2e');
     
     const boardName = TrelloDataGenerator.generateBoardName();
     const cardName = TrelloDataGenerator.generateCardName();

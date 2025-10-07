@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { TrelloDataGenerator } from "../../utils/ui/trelloDataGenerator";
 import { DashboardPage } from "../../pages/dashboardPage";
 import { CardPage } from "../../pages/cardPage";
+import * as allure from 'allure-js-commons';
 
 test.describe("Card Advanced Features Test Suite - Attachments, Dates, Checklists and Labels", () => {
   let dashboardPage: DashboardPage;
@@ -58,6 +59,7 @@ test.describe("Card Advanced Features Test Suite - Attachments, Dates, Checklist
   });
 
   test('TC008 - Verify due date assignment functionality with start date and reminder configuration', async ({ page }) => {
+   await allure.tags('smoke', 'regression', 'ui');
     test.setTimeout(60000);
     
     const cardName = TrelloDataGenerator.generateCardName();
@@ -76,6 +78,7 @@ test.describe("Card Advanced Features Test Suite - Attachments, Dates, Checklist
   });
 
   test('TC009 - Verify checklist creation with multiple items and completion status functionality', async ({ page }) => {
+   await allure.tags('smoke', 'regression', 'ui');
     test.setTimeout(60000);
     
     const cardName = TrelloDataGenerator.generateCardName();
@@ -94,6 +97,7 @@ test.describe("Card Advanced Features Test Suite - Attachments, Dates, Checklist
   });
 
   test('TC010 - Verify label assignment functionality and visual identification on cards', async ({ page }) => {
+   await allure.tags('smoke', 'regression', 'ui');
     test.setTimeout(60000);
     
     const cardName = TrelloDataGenerator.generateCardName();
