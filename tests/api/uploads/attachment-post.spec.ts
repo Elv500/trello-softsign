@@ -32,8 +32,8 @@ test.describe('Attachment POST tests', () => {
   });
 
   // TC: Adjuntar imagen aleatoria a la card creada en el setup
-  test('Attach random image to the setup card', async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test('Attach random image to the setup card @attachment @smoke @positive', async () => {
+    await allure.tags('attachment','smoke', 'positive');
 
     const { url, name, setCover } = randomAttachmentByUrl();
     const inputPayload = buildAttachmentInput(cardId, { url, name, setCover }, { validate: true });
@@ -51,8 +51,8 @@ test.describe('Attachment POST tests', () => {
   });
 
   // TC: Adjuntar varias imágenes diferentes a la misma card
-  test('Attach multiple different images to same card', async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test('Attach multiple different images to same card @attachment @smoke @positive', async () => {
+    await allure.tags('attachment','smoke', 'positive');
 
     const attachments = [] as Array<any>;
     for (let i = 0; i < 3; i++) {
@@ -68,8 +68,8 @@ test.describe('Attachment POST tests', () => {
   });
 
   // TC: Adjuntar imágenes de diferentes extensiones
-  test('Attach images with different extensions', async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test('Attach images with different extensions @attachment @smoke @positive', async () => {
+    await allure.tags('attachment','smoke', 'positive');
 
     const urls = [
       'https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png',
@@ -87,8 +87,8 @@ test.describe('Attachment POST tests', () => {
   });
 
   // TC: Adjuntar imagen con URL inválida (validación de input)
-  test('Attach with invalid URL should fail schema validation', async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test('Attach with invalid URL should fail schema validation @attachment @smoke @negative', async () => {
+    await allure.tags('attachment','smoke', 'negative');
 
     const badUrl = 'nota-url-invalida';
     const name = 'Invalid URL Test';
@@ -103,8 +103,8 @@ test.describe('Attachment POST tests', () => {
   });
 
   // TC: Adjuntar imagen a una card inexistente
-  test('Attach image to non-existent card should return 404', async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test('Attach image to non-existent card should return 404 @attachment @smoke @negative', async () => {
+    await allure.tags('attachment','smoke', 'negative');
 
     const { url, name } = randomAttachmentByUrl();
     const fakeCardId = '000000000000000000000000';
@@ -115,8 +115,8 @@ test.describe('Attachment POST tests', () => {
   });
 
   // TC: Adjuntar imagen con nombre vacío
-  test('Attach image with empty name', async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test('Attach image with empty name @attachment @smoke @negative', async () => {
+    await allure.tags('attachment','smoke', 'negative');
 
     const { url } = randomAttachmentByUrl();
     const name = '';

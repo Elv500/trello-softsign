@@ -33,8 +33,8 @@ test.describe("Pruebas API de Checklist - PUT", () => {
     console.log("Board eliminado después de todos los tests PUT");
   });
 
-  test("TC001 - Actualizar checklist con nombre válido", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC001 - Actualizar checklist con nombre válido @checklist @smoke @positive", async () => {
+    await allure.tags('checklist', 'smoke', 'positive');
 
     const payload = { name: "Checklist Actualizado" };
     AssertionChecklist.assert_put_input_schema(payload);
@@ -44,8 +44,8 @@ test.describe("Pruebas API de Checklist - PUT", () => {
     AssertionChecklist.assert_put_output_schema(data);
   });
 
-  test("TC002 - Actualizar checklist con nombre vacío", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC002 - Actualizar checklist con nombre vacío @checklist @smoke @negative", async () => {
+    await allure.tags('checklist', 'smoke', 'negative');
 
     test.fail(true, 'BUG-001: La API permite actualizar checklist con nombre vacío');
     const payload = { name: "" };
@@ -56,8 +56,8 @@ test.describe("Pruebas API de Checklist - PUT", () => {
     AssertionChecklist.assert_put_output_schema(data);
   });
 
-  test("TC003 - Actualizar checklist con nombre muy largo", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC003 - Actualizar checklist con nombre muy largo @checklist @smoke @negative", async () => {
+    await allure.tags('checklist', 'smoke', 'negative');
 
     const payload = { name: "X".repeat(600) };
     AssertionChecklist.assert_put_input_schema(payload);;
@@ -67,8 +67,8 @@ test.describe("Pruebas API de Checklist - PUT", () => {
     AssertionChecklist.assert_put_output_schema(data);
   });
 
-  test("TC004 - Actualizar checklist con caracteres especiales", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC004 - Actualizar checklist con caracteres especiales @checklist @smoke @negative", async () => {
+    await allure.tags('checklist', 'smoke', 'negative');
 
     const payload = { name: "!@#$%^&*()_+|~`" };
     AssertionChecklist.assert_put_input_schema(payload);;
@@ -78,8 +78,8 @@ test.describe("Pruebas API de Checklist - PUT", () => {
     AssertionChecklist.assert_put_output_schema(data);
   });
 
-  test("TC005 - Actualizar checklist con espacio en blanco", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC005 - Actualizar checklist con espacio en blanco  @checklist @smoke @negative", async () => {
+    await allure.tags('checklist', 'smoke', 'negative');
 
     test.fail(true, 'BUG-005: La API permite actualizar checklist con solo espacios');
     const payload = { name: "   " };
@@ -90,8 +90,8 @@ test.describe("Pruebas API de Checklist - PUT", () => {
     AssertionChecklist.assert_put_output_schema(data);
   });
 
-  test("TC006 - Actualizar checklist con nombre numérico", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC006 - Actualizar checklist con nombre numérico  @checklist @smoke @negative", async () => {
+    await allure.tags('checklist', 'smoke', 'negative');
 
     const payload = { name: "987654" };
     AssertionChecklist.assert_put_input_schema(payload);;
@@ -101,9 +101,9 @@ test.describe("Pruebas API de Checklist - PUT", () => {
     AssertionChecklist.assert_put_output_schema(data);
   });
 
-  test("TC007 - Crear checklist sin idCard (fallido)", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
-    
+  test("TC007 - Crear checklist sin idCard (fallido)  @checklist @smoke @negative", async () => {
+    await allure.tags('checklist', 'smoke', 'negative');
+
     const payload = { name: "Checklist sin Card" };
     const response = await TrelloRequest.post("checklists", payload);
     expect([400, 422]).toContain(response.status());

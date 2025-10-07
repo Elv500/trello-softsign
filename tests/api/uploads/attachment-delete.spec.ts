@@ -31,8 +31,8 @@ test.describe('Attachment DELETE tests', () => {
   });
 
   // TC: Eliminar un attachment específico de una card
-  test('Delete attachment by id from card', async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test('Delete attachment by id from card @attachment @smoke @positive', async () => {
+    await allure.tags('attachment','smoke', 'positive');
 
     const { url, name } = loadRandomImageFromJson();
     const { status, body: attachData } = await attachUrlToCard(cardId, url, `Attachment for DELETE: ${name}`);
@@ -45,8 +45,8 @@ test.describe('Attachment DELETE tests', () => {
   });
 
   // TC: Intentar eliminar un attachment inexistente
-  test('Delete non-existent attachment returns 404 or 400', async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test('Delete non-existent attachment @attachment @smoke @negative', async () => {
+    await allure.tags('attachment', 'smoke', 'negative');
 
     const fakeId = '000000000000000000000000';
     const resp = await TrelloRequest.delete(`cards/${cardId}/attachments/${fakeId}`);
@@ -54,8 +54,8 @@ test.describe('Attachment DELETE tests', () => {
   });
 
   // TC: Eliminar el mismo attachment dos veces
-  test('Delete same attachment twice - second should fail', async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test('Delete same attachment twice - second should fail @attachment @smoke @negative', async () => {
+    await allure.tags('attachment', 'smoke', 'negative');
 
     const { url, name } = loadRandomImageFromJson();
     const { status, body: attachData } = await attachUrlToCard(cardId, url, `Attachment for double delete: ${name}`);
@@ -68,8 +68,8 @@ test.describe('Attachment DELETE tests', () => {
   });
 
   // TC: Attempt delete without authentication params
-  test('Delete attachment without auth should be unauthorized or forbidden', async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test('Delete attachment without auth should be unauthorized or forbidden @attachment @smoke @negative', async () => {
+    await allure.tags('attachment', 'smoke', 'negative');
 
     const { url, name } = loadRandomImageFromJson();
     const { status, body: attachData } = await attachUrlToCard(cardId, url, `Attachment for unauth delete: ${name}`);

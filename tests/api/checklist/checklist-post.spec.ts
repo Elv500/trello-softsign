@@ -26,9 +26,9 @@ test.describe("Pruebas API de Checklist", () => {
     console.log(" Board eliminado después de todos los tests");
   });
 
-  test("TC001 - Crear checklist 'Checklist válido'", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
-    
+  test("TC001 - Crear checklist 'Checklist válido @checklist @smoke @positive'", async () => {
+    await allure.tags('checklist', 'smoke', 'positive');
+
     const payload = { name: "Checklist Válido", idCard: card_id };
     AssertionChecklist.assert_post_input_schema(payload);
     const response = await TrelloRequest.post("checklists", payload);
@@ -37,8 +37,8 @@ test.describe("Pruebas API de Checklist", () => {
     AssertionChecklist.assert_post_output_schema(data);
   });
 
-  test("TC002 - Crear checklist con nombre vacío", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC002 - Crear checklist con nombre vacío @checklist @smoke @negative", async () => {
+    await allure.tags('checklist', 'smoke', 'negative');
 
     test.fail(true, "BUG-001: La API permite crear checklist con nombre vacío");
     const payload = { name: "", idCard: card_id };
@@ -49,8 +49,8 @@ test.describe("Pruebas API de Checklist", () => {
     AssertionChecklist.assert_post_output_schema(data);
   });
 
-  test("TC003 - Crear checklist con nombre muy largo", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC003 - Crear checklist con nombre muy largo @checklist @smoke @negative", async () => {
+    await allure.tags('checklist', 'smoke', 'negative');
 
     const payload = { name: "X".repeat(600), idCard: card_id };
     AssertionChecklist.assert_post_input_schema(payload);
@@ -60,8 +60,8 @@ test.describe("Pruebas API de Checklist", () => {
     AssertionChecklist.assert_post_output_schema(data);
   });
 
-  test("TC004 - Crear checklist con caracteres especiales", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC004 - Crear checklist con caracteres especiales @checklist @smoke @negative", async () => {
+    await allure.tags('checklist', 'smoke', 'negative');
 
     const payload = { name: "!@#$%^&*()_+|~`", idCard: card_id };
     AssertionChecklist.assert_post_input_schema(payload);
@@ -71,8 +71,8 @@ test.describe("Pruebas API de Checklist", () => {
     AssertionChecklist.assert_post_output_schema(data);
   });
 
-  test("TC005 - Crear checklist con espacio en blanco", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC005 - Crear checklist con espacio en blanco @checklist @smoke @negative", async () => {
+    await allure.tags('checklist', 'smoke', 'negative');
 
     test.fail(true, "BUG-005 La API permite crear checklist con espacio en blanco");
     const payload = { name: "    ", idCard: card_id };
@@ -83,9 +83,9 @@ test.describe("Pruebas API de Checklist", () => {
     AssertionChecklist.assert_post_output_schema(data);
   });
 
-  test("TC006 - Crear checklist con nombre numérico", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
-    
+  test("TC006 - Crear checklist con nombre numérico @checklist @smoke @negative", async () => {
+    await allure.tags('checklist', 'smoke', 'negative');
+
     const payload = { name: "123456", idCard: card_id };
     AssertionChecklist.assert_post_input_schema(payload);
     const response = await TrelloRequest.post("checklists", payload);

@@ -31,8 +31,8 @@ test.describe('Attachment GET tests', () => {
   });
 
   // TC: Obtener un attachment específico de una card
-  test('Get attachment by id from card', async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test('Get attachment by id from card @attachment @smoke @positive', async () => {
+    await allure.tags('attachment', 'smoke', 'positive');
 
     const { url, name } = randomAttachmentByUrl();
     const inputPayload = buildAttachmentInput(cardId, { url, name: `Attachment for GET: ${name}` }, { validate: true });
@@ -52,9 +52,9 @@ test.describe('Attachment GET tests', () => {
     expect(data.url).toContain('trello.com/1/cards/');
   });
 
-  // TC: Obtener attachments de una card inexistente -> 404
-  test('Get attachments for non-existent card should return 404', async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  // TC: Obtener attachments de una card inexistente
+  test('Get attachments for non-existent card should @attachment @smoke @negative', async () => {
+    await allure.tags('attachment', 'smoke', 'negative');
 
     const fakeCardId = '000000000000000000000000';
     const response = await TrelloRequest.get(`cards/${fakeCardId}/attachments`);
@@ -62,8 +62,8 @@ test.describe('Attachment GET tests', () => {
   });
 
   // TC: Obtener attachment inexistente en card válida -> 404
-  test('Get non-existent attachment id should return 404 or 400 (depending on API)', async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test('Get non-existent attachment id should @attachment @smoke @negative', async () => {
+    await allure.tags('attachment', 'smoke', 'negative');
     
     const fakeAttachmentId = '000000000000000000000000';
     const response = await TrelloRequest.get(`cards/${cardId}/attachments/${fakeAttachmentId}`);
