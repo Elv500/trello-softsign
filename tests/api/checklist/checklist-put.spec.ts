@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { TrelloRequest } from "../../../utils/api/trello-request";
 import { createBoardForSuite, deleteBoard } from "../../../utils/api/base-helper";
 import { AssertionChecklist } from "../../../assertions/assertion-checklist";
+import * as allure from 'allure-js-commons';
 
 test.describe("Pruebas API de Checklist - PUT", () => {
   let board_id: string;
@@ -19,6 +20,13 @@ test.describe("Pruebas API de Checklist - PUT", () => {
     checklist_id = data.id;
   });
 
+  test.afterEach(async () => {
+        await allure.owner("Jessica Trujillo");
+        await allure.epic("EPIC: Gestión de Cards");
+        await allure.feature("Feature: Checklist");
+        await allure.story("HU: Actualizar checklist");
+  });
+
   test.afterAll(async () => {
     if (checklist_id) await TrelloRequest.delete(`checklists/${checklist_id}`);
     await deleteBoard(board_id);
@@ -26,6 +34,8 @@ test.describe("Pruebas API de Checklist - PUT", () => {
   });
 
   test("TC001 - Actualizar checklist con nombre válido", async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const payload = { name: "Checklist Actualizado" };
     AssertionChecklist.assert_put_input_schema(payload);
     const response = await TrelloRequest.put(`checklists/${checklist_id}`, payload);
@@ -35,6 +45,8 @@ test.describe("Pruebas API de Checklist - PUT", () => {
   });
 
   test("TC002 - Actualizar checklist con nombre vacío", async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     test.fail(true, 'BUG-001: La API permite actualizar checklist con nombre vacío');
     const payload = { name: "" };
     AssertionChecklist.assert_put_input_schema(payload);;
@@ -45,6 +57,8 @@ test.describe("Pruebas API de Checklist - PUT", () => {
   });
 
   test("TC003 - Actualizar checklist con nombre muy largo", async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const payload = { name: "X".repeat(600) };
     AssertionChecklist.assert_put_input_schema(payload);;
     const response = await TrelloRequest.put(`checklists/${checklist_id}`, payload);
@@ -54,6 +68,8 @@ test.describe("Pruebas API de Checklist - PUT", () => {
   });
 
   test("TC004 - Actualizar checklist con caracteres especiales", async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const payload = { name: "!@#$%^&*()_+|~`" };
     AssertionChecklist.assert_put_input_schema(payload);;
     const response = await TrelloRequest.put(`checklists/${checklist_id}`, payload);
@@ -63,6 +79,8 @@ test.describe("Pruebas API de Checklist - PUT", () => {
   });
 
   test("TC005 - Actualizar checklist con espacio en blanco", async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     test.fail(true, 'BUG-005: La API permite actualizar checklist con solo espacios');
     const payload = { name: "   " };
     AssertionChecklist.assert_put_input_schema(payload);;
@@ -73,6 +91,8 @@ test.describe("Pruebas API de Checklist - PUT", () => {
   });
 
   test("TC006 - Actualizar checklist con nombre numérico", async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const payload = { name: "987654" };
     AssertionChecklist.assert_put_input_schema(payload);;
     const response = await TrelloRequest.put(`checklists/${checklist_id}`, payload);
@@ -80,7 +100,10 @@ test.describe("Pruebas API de Checklist - PUT", () => {
     const data = await response.json();
     AssertionChecklist.assert_put_output_schema(data);
   });
+
   test("TC007 - Crear checklist sin idCard (fallido)", async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+    
     const payload = { name: "Checklist sin Card" };
     const response = await TrelloRequest.post("checklists", payload);
     expect([400, 422]).toContain(response.status());

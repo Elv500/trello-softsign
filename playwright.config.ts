@@ -16,7 +16,10 @@ export default defineConfig({
   workers: process.env.CI ? 1 : 1,
 
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['html', { open: 'never' }],
+    ['allure-playwright', { outputFolder: 'allure-results' }],
+  ],
   /* Setting global configurations (Setup and Teardown) */
   globalSetup: require.resolve('./config/global-setup'),
   globalTeardown: require.resolve('./config/global-teardown'),

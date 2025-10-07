@@ -6,6 +6,7 @@ import { randomAttachmentByUrl } from '../../../resources/payloads/attachment';
 import { buildAttachmentInput } from '../../../resources/payloads/attachment';
 import { AssertionAttachment } from '../../../assertions/assertion-attachment';
 import { AssertionStatusCode } from '../../../assertions/assertions-status';
+import * as allure from 'allure-js-commons';
 
 let boardId: string;
 let todoListId: string;
@@ -19,12 +20,21 @@ test.describe('Attachment POST tests', () => {
     cardId = state.cardId;
   });
 
+  test.afterEach(async () => {
+    await allure.owner("Kevin Gutierrez");
+    await allure.epic("EPIC: Gestión de Cards");
+    await allure.feature("Feature: Upload");
+    await allure.story("HU: Crear adjuntos");
+  });
+
   test.afterAll(async () => {
     await deleteBoard(boardId);
   });
 
   // TC: Adjuntar imagen aleatoria a la card creada en el setup
   test('Attach random image to the setup card', async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const { url, name, setCover } = randomAttachmentByUrl();
     const inputPayload = buildAttachmentInput(cardId, { url, name, setCover }, { validate: true });
     AssertionAttachment.assert_post_input_schema(inputPayload);
@@ -42,6 +52,8 @@ test.describe('Attachment POST tests', () => {
 
   // TC: Adjuntar varias imágenes diferentes a la misma card
   test('Attach multiple different images to same card', async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const attachments = [] as Array<any>;
     for (let i = 0; i < 3; i++) {
       const { url, name } = randomAttachmentByUrl();
@@ -57,6 +69,8 @@ test.describe('Attachment POST tests', () => {
 
   // TC: Adjuntar imágenes de diferentes extensiones
   test('Attach images with different extensions', async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const urls = [
       'https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png',
       'https://upload.wikimedia.org/wikipedia/commons/3/3f/JPEG_example_flower.jpg',
@@ -74,6 +88,8 @@ test.describe('Attachment POST tests', () => {
 
   // TC: Adjuntar imagen con URL inválida (validación de input)
   test('Attach with invalid URL should fail schema validation', async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const badUrl = 'nota-url-invalida';
     const name = 'Invalid URL Test';
     const inputPayload = buildAttachmentInput(cardId, { url: badUrl, name }, { validate: false });
@@ -88,6 +104,8 @@ test.describe('Attachment POST tests', () => {
 
   // TC: Adjuntar imagen a una card inexistente
   test('Attach image to non-existent card should return 404', async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const { url, name } = randomAttachmentByUrl();
     const fakeCardId = '000000000000000000000000';
     const inputPayload = buildAttachmentInput(fakeCardId, { url, name }, { validate: true });
@@ -98,6 +116,8 @@ test.describe('Attachment POST tests', () => {
 
   // TC: Adjuntar imagen con nombre vacío
   test('Attach image with empty name', async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+
     const { url } = randomAttachmentByUrl();
     const name = '';
     const inputPayload = buildAttachmentInput(cardId, { url, name }, { validate: true });
@@ -107,5 +127,4 @@ test.describe('Attachment POST tests', () => {
     AssertionAttachment.assert_post_output_schema(body);
   });
 
-  
 });
