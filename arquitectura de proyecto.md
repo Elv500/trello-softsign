@@ -1,0 +1,99 @@
+
+## Árbol principal del proyecto
+
+- .env.example
+- .gitignore
+- README.md
+- package.json
+- playwright.config.ts
+- tsconfig.json
+- .github/workflows/playwright.yml
+- config/
+	- api-global-setup.ts
+	- api-global-teardown.ts
+	- global-setup.ts
+	- global-teardown.ts
+	- ui-global-setup.ts
+	- ui-global-teardown.ts
+	- auth/
+		- api/auth-params.ts
+		- ui/auth.ts
+		- ui/config.ts
+		- ui/mfaHelper.ts
+- data/
+	- attachment.json
+	- colors-label.json
+	- users.json
+- resources/
+	- images/
+		- ImageTest.jpeg
+		- image-test.png
+	- payloads/
+		- attachment.ts
+		- label.ts
+		- payload.ts
+	- schemas/
+		- schema.json
+		- attachment/
+			- attachment_input_schema.json
+			- attachment_post_output_schema.json
+		- label/
+			- label_post_input_schema.json
+			- label_post_output_schema.json
+			- label_get_output_schema.json
+			- label_get_list_schema.json
+			- label_put_input_schema.json
+			- label_put_output_schema.json
+			- label_delete_output_schema.json
+- assertions/
+	- assertions-base.ts
+	- assertions-status.ts
+	- assertions-label.ts
+	- assertion-attachment.ts
+	- attachment-assertions/
+		- assertion-attachment.ts
+- utils/
+	- api/
+		- trello-request.ts
+		- base-helper.ts
+		- attachment-helper.ts
+		- image-loader.ts
+		- schema-loader.ts
+		- schema-validator.ts
+		- state-manager.ts
+		- label-helper.ts
+	- ui/
+		- trelloDataGenerator.ts
+- pages/
+	- LoginPage.ts
+	- boardPage.ts
+	- dashboardPage.ts
+	- cardPage.ts
+- tests/
+	- api/
+		- uploads/
+			- attachment-post.spec.ts
+			- attchment-get.spec.ts
+			- attachment-delete.spec.ts
+		- label/
+			- label-post.spec.ts
+			- label-get.spec.ts
+			- label-put.spec.ts
+			- label-delete.spec.ts
+		- date/
+			- date-update.spec.ts
+	- ui/
+		- E2E.spec.ts
+		- board.spec.ts
+		- login.spec.ts
+		- dashboard.spec.ts
+		- card.spec.ts
+
+- **config/**: Setups/teardowns globales, helpers de autenticación.
+- **data/**: Datos de prueba en formato JSON.
+- **resources/**: Archivos de imágenes, payloads, y schemas para requests/responses.
+- **assertions/**: Validaciones compartidas para tests.
+- **utils/**: Funciones auxiliares para requests, manejo de datos y schemas.
+- **pages/**: Page Object Model para las páginas de la UI.
+- **tests/**: Casos de prueba de API y UI.
+
