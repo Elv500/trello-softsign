@@ -31,8 +31,8 @@ test.describe("Pruebas API de Custom Field - GET", () => {
     await deleteBoard(board_id);
   });
 
-  test("TC001 - Obtener Custom Field existente", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC001 - Obtener Custom Field existente @customField @positive", async () => {
+    await allure.tags('customfield', 'positive');
 
     const response = await TrelloRequest.get(`customFields/${customField_id}`);
     AssertionStatusCode.assert_status_code_200(response);
@@ -41,29 +41,29 @@ test.describe("Pruebas API de Custom Field - GET", () => {
     expect(json).toHaveProperty("name");
   });
 
-  test("TC002 - Obtener Custom Field inexistente", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC002 - Obtener Custom Field inexistente @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const response = await TrelloRequest.get("customFields/fakeId123");
     AssertionStatusCode.assert_status_code_400(response);
   });
 
-  test("TC003 - Obtener Custom Field con ID vacío", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC003 - Obtener Custom Field con ID vacío @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const response = await TrelloRequest.get("customFields/");
     AssertionStatusCode.assert_status_code_404(response);
   });
 
-  test("TC004 - Obtener Custom Field con ID con formato inválido", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC004 - Obtener Custom Field con ID con formato inválido @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const response = await TrelloRequest.get("customFields/!@#$$%");
     AssertionStatusCode.assert_status_code_400(response);
   });
 
-  test("TC005 - Intentar obtener Custom Field eliminado", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC005 - Intentar obtener Custom Field eliminado @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const payload = { ...customFieldPayloads.textField, idModel: board_id };
     const createResp = await TrelloRequest.post("customFields", payload);
@@ -74,8 +74,8 @@ test.describe("Pruebas API de Custom Field - GET", () => {
     AssertionStatusCode.assert_status_code_404(response);
   });
 
-  test("TC006 - Obtener Custom Field y validar tipo list", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC006 - Obtener Custom Field y validar tipo list @customField @positive", async () => {
+    await allure.tags('customfield', 'positive');
 
     const response = await TrelloRequest.get(`customFields/${customField_id}`);
     AssertionStatusCode.assert_status_code_200(response);
@@ -83,16 +83,16 @@ test.describe("Pruebas API de Custom Field - GET", () => {
     expect(json.type).toBe("list");
   });
 
-  test("TC007 - Obtener Custom Field sin permisos válidos", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
-    
+  test("TC007 - Obtener Custom Field sin permisos válidos @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
+
     const response = await TrelloRequest.get(`customFields/${customField_id}`);
     AssertionStatusCode.assert_status_code_200(response);
   });
 
-  test("TC008 - Verificar que el Custom Field pertenece al board correcto", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
-    
+  test("TC008 - Verificar que el Custom Field pertenece al board correcto @customField @positive", async () => {
+    await allure.tags('customfield', 'positive');
+
     const response = await TrelloRequest.get(`customFields/${customField_id}`);
     AssertionStatusCode.assert_status_code_200(response);
     const json = await response.json();

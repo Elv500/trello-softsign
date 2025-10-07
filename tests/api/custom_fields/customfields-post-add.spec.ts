@@ -26,8 +26,8 @@ test.describe("Pruebas API de Custom Field - POST", () => {
     await deleteBoard(board_id);
   });
 
-  test("TC001 - Crear Custom Field tipo 'list' con opciones válidas", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC001 - Crear Custom Field tipo 'list' con opciones válidas @customField @positive", async () => {
+    await allure.tags('customfield', 'positive');
 
     const payload = { ...customFieldPayloads.validList, idModel: board_id };
     const response = await TrelloRequest.post("customFields", payload);
@@ -39,56 +39,56 @@ test.describe("Pruebas API de Custom Field - POST", () => {
     expect(json.type).toBe("list");
   });
 
-  test("TC002 - Crear Custom Field con nombre muy largo", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC002 - Crear Custom Field con nombre muy largo @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const payload = { ...customFieldPayloads.longName, idModel: board_id };
     const response = await TrelloRequest.post("customFields", payload);
     AssertionStatusCode.assert_status_code_200(response);
   });
 
-  test("TC003 - Crear Custom Field con caracteres especiales", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC003 - Crear Custom Field con caracteres especiales @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const payload = { ...customFieldPayloads.specialChars, idModel: board_id };
     const response = await TrelloRequest.post("customFields", payload);
     AssertionStatusCode.assert_status_code_200(response);
   });
 
-  test("TC004 - Crear Custom Field con emoji", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC004 - Crear Custom Field con emoji @customField @positive", async () => {
+    await allure.tags('customfield', 'positive');
 
     const payload = { ...customFieldPayloads.withEmoji, idModel: board_id };
     const response = await TrelloRequest.post("customFields", payload);
     AssertionStatusCode.assert_status_code_200(response);
   });
 
-  test("TC005 - Crear Custom Field con tipo no soportado", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC005 - Crear Custom Field con tipo no soportado @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const payload = { ...customFieldPayloads.invalidType, idModel: board_id };
     const response = await TrelloRequest.post("customFields", payload);
     AssertionStatusCode.assert_status_code_400(response);
   });
 
-  test("TC006 - Crear Custom Field sin campo 'type'", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC006 - Crear Custom Field sin campo 'type' @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const payload = { ...customFieldPayloads.missingType, idModel: board_id };
     const response = await TrelloRequest.post("customFields", payload);
     AssertionStatusCode.assert_status_code_400(response);
   });
 
-  test("TC007 - Crear Custom Field sin 'idModel'", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC007 - Crear Custom Field sin 'idModel' @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const payload = { ...customFieldPayloads.noModelId };
     const response = await TrelloRequest.post("customFields", payload);
     AssertionStatusCode.assert_status_code_400(response);
   });
 
-  test("TC008 - Crear Custom Field tipo 'text'", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC008 - Crear Custom Field tipo 'text' @customField @positive", async () => {
+    await allure.tags('customfield', 'positive');
 
     const payload = { ...customFieldPayloads.textField, idModel: board_id };
     const response = await TrelloRequest.post("customFields", payload);
@@ -97,8 +97,8 @@ test.describe("Pruebas API de Custom Field - POST", () => {
     expect(json.type).toBe("text");
   });
 
-  test("TC009 - Crear Custom Field tipo 'checkbox'", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC009 - Crear Custom Field tipo 'checkbox' @customField @positive", async () => {
+    await allure.tags('customfield', 'positive');
 
     const payload = { ...customFieldPayloads.checkboxField, idModel: board_id };
     const response = await TrelloRequest.post("customFields", payload);
@@ -107,8 +107,8 @@ test.describe("Pruebas API de Custom Field - POST", () => {
     expect(json.type).toBe("checkbox");
   });
 
-  test("TC010 - Crear Custom Field duplicado", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC010 - Crear Custom Field duplicado @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
     
     const payload = { ...customFieldPayloads.duplicateName, idModel: board_id };
     await TrelloRequest.post("customFields", payload);
