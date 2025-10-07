@@ -30,29 +30,29 @@ test.describe("Pruebas API de Custom Field - DELETE", () => {
     await deleteBoard(board_id);
   });
 
-  test("TC001 - Eliminar Custom Field existente", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC001 - Eliminar Custom Field existente @customField @positive", async () => {
+    await allure.tags('customfield', 'positive');
 
     const response = await TrelloRequest.delete(`customFields/${customField_id}`);
     AssertionStatusCode.assert_status_code_200(response);
   });
 
-  test("TC002 - Intentar eliminar Custom Field inexistente", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC002 - Intentar eliminar Custom Field inexistente @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const response = await TrelloRequest.delete("customFields/fakeId123");
     AssertionStatusCode.assert_status_code_400(response);
   });
 
-  test("TC003 - Intentar eliminar Custom Field sin especificar ID", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC003 - Intentar eliminar Custom Field sin especificar ID @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const response = await TrelloRequest.delete("customFields/");
     AssertionStatusCode.assert_status_code_404(response);
   });
 
-  test("TC004 - Intentar eliminar Custom Field con ID vacío", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC004 - Intentar eliminar Custom Field con ID vacío @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
     
     const response = await TrelloRequest.delete("customFields/ ");
     AssertionStatusCode.assert_status_code_404(response);

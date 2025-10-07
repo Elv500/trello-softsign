@@ -30,8 +30,8 @@ test.describe("Pruebas API de Custom Field - POST Options", () => {
     await deleteBoard(board_id);
   });
 
-  test("TC001 - Agregar opción válida al Custom Field tipo 'list'", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC001 - Agregar opción válida al Custom Field tipo 'list' @customField @positive", async () => {
+    await allure.tags('customfield', 'positive');
 
     const payload = { value: { text: "Correo" } };
     const response = await TrelloRequest.post(`customFields/${customField_id}/options`, payload);
@@ -40,32 +40,32 @@ test.describe("Pruebas API de Custom Field - POST Options", () => {
     expect(json.value.text).toBe("Correo");
   });
 
-  test("TC002 - Agregar opción sin 'value.text'", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC002 - Agregar opción sin 'value.text' @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const payload = { value: {} };
     const response = await TrelloRequest.post(`customFields/${customField_id}/options`, payload);
     AssertionStatusCode.assert_status_code_400(response);
   });
 
-  test("TC003 - Agregar opción con tipo de dato incorrecto", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC003 - Agregar opción con tipo de dato incorrecto @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const payload = { value: { text: 12345 } };
     const response = await TrelloRequest.post(`customFields/${customField_id}/options`, payload);
     AssertionStatusCode.assert_status_code_400(response);
   });
 
-  test("TC004 - Agregar opción con nombre extremadamente largo", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC004 - Agregar opción con nombre extremadamente largo @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const payload = { value: { text: "X".repeat(5000) } };
     const response = await TrelloRequest.post(`customFields/${customField_id}/options`, payload);
     AssertionStatusCode.assert_status_code_200(response);
   });
 
-  test("TC005 - Intentar agregar opción a un Custom Field eliminado", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC005 - Intentar agregar opción a un Custom Field eliminado @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
     
     const tempResp = await TrelloRequest.post("customFields", {
       idModel: board_id,

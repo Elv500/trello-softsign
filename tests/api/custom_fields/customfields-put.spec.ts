@@ -31,8 +31,8 @@ test.describe("Pruebas API de Custom Field - PUT", () => {
     await deleteBoard(board_id);
   });
 
-  test("TC001 - Actualizar nombre de Custom Field existente", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC001 - Actualizar nombre de Custom Field existente @customField @positive", async () => {
+    await allure.tags('customfield', 'positive');
 
     const payload = { name: "Updated Priority" };
     const response = await TrelloRequest.put(`customFields/${customField_id}`, payload);
@@ -41,64 +41,64 @@ test.describe("Pruebas API de Custom Field - PUT", () => {
     expect(json.name).toBe("Updated Priority");
   });
 
-  test("TC002 - Actualizar Custom Field con nombre largo", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC002 - Actualizar Custom Field con nombre largo @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const payload = { name: "X".repeat(600) };
     const response = await TrelloRequest.put(`customFields/${customField_id}`, payload);
     AssertionStatusCode.assert_status_code_200(response);
   });
 
-  test("TC003 - Actualizar Custom Field con caracteres especiales", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC003 - Actualizar Custom Field con caracteres especiales @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const payload = { name: "!@#$%^&*()_+|~`" };
     const response = await TrelloRequest.put(`customFields/${customField_id}`, payload);
     AssertionStatusCode.assert_status_code_200(response);
   });
 
-  test("TC004 - Actualizar Custom Field con nombre vacío", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC004 - Actualizar Custom Field con nombre vacío @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const payload = { name: "" };
     const response = await TrelloRequest.put(`customFields/${customField_id}`, payload);
     AssertionStatusCode.assert_status_code_400(response);
   });
 
-  test("TC005 - Actualizar Custom Field con nombre numérico", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC005 - Actualizar Custom Field con nombre numérico @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
     
     const payload = { name: "123456" };
     const response = await TrelloRequest.put(`customFields/${customField_id}`, payload);
     AssertionStatusCode.assert_status_code_200(response);
   });
 
-  test("TC006 - Actualizar Custom Field con emoji en el nombre", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC006 - Actualizar Custom Field con emoji en el nombre @customField @positive", async () => {
+    await allure.tags('customfield', 'positive');
 
     const payload = { name: "Urgente 🔥" };
     const response = await TrelloRequest.put(`customFields/${customField_id}`, payload);
     AssertionStatusCode.assert_status_code_200(response);
   });
 
-  test("TC007 - Intentar actualizar Custom Field inexistente", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC007 - Intentar actualizar Custom Field inexistente @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
     
     const payload = { name: "No existe" };
     const response = await TrelloRequest.put("customFields/fakeId123", payload);
     AssertionStatusCode.assert_status_code_400(response);
   });
 
-  test("TC008 - Intentar actualizar Custom Field con ID vacío", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC008 - Intentar actualizar Custom Field con ID vacío @customField @negative", async () => {
+    await allure.tags('customfield', 'negative');
 
     const payload = { name: "Campo Invalido" };
     const response = await TrelloRequest.put("customFields/", payload);
     AssertionStatusCode.assert_status_code_404(response);
   });
 
-  test("TC009 - Actualizar tipo de Custom Field (de list a text)", async () => {
-    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+  test("TC009 - Actualizar tipo de Custom Field (de list a text) @customField @positive", async () => {
+    await allure.tags('customfield', 'positive');
     
     const payload = { type: "text" };
     const response = await TrelloRequest.put(`customFields/${customField_id}`, payload);
