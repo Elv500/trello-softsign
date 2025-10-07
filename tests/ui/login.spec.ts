@@ -3,6 +3,7 @@ import { LoginPage } from '../../pages/LoginPage';
 import { config, validateConfig } from '../../config/auth/ui/config';
 import { MfaHelper } from '../../config/auth/ui/mfaHelper';
 import users from '../../data/users.json';
+import * as allure from 'allure-js-commons';
 
 // Combinamos usuarios de users.json + usuario válido de .env
 const allTestUsers = [
@@ -47,6 +48,7 @@ test.afterEach(async ({ page }, testInfo) => {
   for (const userCase of allTestUsers) {
     test(`${userCase.description} - ${userCase.id}`, async ({ page }) => {
       const loginPage = new LoginPage(page);
+      await allure.tags('smoke', 'regression', 'ui');
       
       console.log(`🧪 Testing user: ${userCase.id}`);
       console.log(`"?" Expected to be valid: ${userCase.isValid}`);

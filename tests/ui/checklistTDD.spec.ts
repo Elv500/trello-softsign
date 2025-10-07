@@ -3,6 +3,7 @@ import { ChecklistPage } from "./../../pages/CheckList";
 import { validateConfig } from "../../config/auth/ui/config";
 import checklists from "./../../data/checklist.json";
 import { createBoardForSuite, deleteBoard } from "../../utils/api/base-helper";
+import * as allure from 'allure-js-commons';
 
 // Combina checklists de JSON con un checklist manual
 const allChecklists = [
@@ -42,6 +43,8 @@ test.describe("Checklist Tests - Trello UI (Single Session)", () => {
   });
 
   test("Ejecutar todos los checklists en un solo flujo", async () => {
+    await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+   
     for (const checklistCase of allChecklists) {
       console.log(`Testing checklist-----------------: ${checklistCase.title}`);
       console.log(`Card URL: ${url_card}`);

@@ -2,6 +2,7 @@ import { test, expect, Page, BrowserContext } from "@playwright/test";
 import { ChecklistPage } from "./../../pages/CheckList";
 import { validateConfig } from "../../config/auth/ui/config";
 import { createBoardForSuite, deleteBoard } from "../../utils/api/base-helper";
+import * as allure from 'allure-js-commons';
 
 test.describe("Checklist Tests - Trello UI (Independent Test Cases with Separate Cards)", () => {
   let context: BrowserContext;
@@ -37,6 +38,7 @@ test.describe("Checklist Tests - Trello UI (Independent Test Cases with Separate
   // ---------------------- TEST CASES ---------------------- //
 
   test('TC001 - Crear checklist "Checklist 1" en card nueva', async () => {
+   await allure.tags('smoke', 'regression', 'ui');
     const checklistTitle = 'Checklist 1';
     const item = 'TC001 Item';
 
@@ -47,6 +49,7 @@ test.describe("Checklist Tests - Trello UI (Independent Test Cases with Separate
   });
 
   test('TC002 - Marcar ítem de "Checklist 2" como completado en card nueva', async () => {
+   await allure.tags('smoke', 'regression', 'ui');
     const checklistTitle = 'Checklist 2';
     const item = 'TC002 Item';
 
@@ -59,6 +62,7 @@ test.describe("Checklist Tests - Trello UI (Independent Test Cases with Separate
   });
 
   test('TC003 - Eliminar checklist "Checklist 3" en card nueva', async () => {
+   await allure.tags('smoke', 'regression', 'ui');
     const checklistTitle = 'Checklist 3';
     const item = 'TC003 Item';
 
@@ -70,6 +74,7 @@ test.describe("Checklist Tests - Trello UI (Independent Test Cases with Separate
   });
 
   test('TC004 - Crear checklist "Checklist 4" con item adicional', async () => {
+   await allure.tags('smoke', 'regression', 'ui');
     const checklistTitle = 'Checklist 4';
     const item = 'TC004 Item';
 
@@ -80,6 +85,7 @@ test.describe("Checklist Tests - Trello UI (Independent Test Cases with Separate
   });
 
   test('TC005 - Completar item de "Checklist 5"', async () => {
+   await allure.tags('smoke', 'regression', 'ui');
     const checklistTitle = 'Checklist 5';
     const item = 'TC005 Item';
 
@@ -92,6 +98,7 @@ test.describe("Checklist Tests - Trello UI (Independent Test Cases with Separate
   });
 
   test('TC006 - Crear checklist "Checklist 6"', async () => {
+   await allure.tags('smoke', 'regression', 'ui');
     const checklistTitle = 'Checklist 6';
     const item = 'TC006 Item';
 
@@ -102,6 +109,7 @@ test.describe("Checklist Tests - Trello UI (Independent Test Cases with Separate
   });
 
   test('TC007 - Completar item de "Checklist 7"', async () => {
+   await allure.tags('regression', 'ui');
     const checklistTitle = 'Checklist 7';
     const item = 'TC007 Item';
 
@@ -114,6 +122,7 @@ test.describe("Checklist Tests - Trello UI (Independent Test Cases with Separate
   });
 
   test('TC008 - Eliminar checklist "Checklist 8"', async () => {
+   await allure.tags('smoke', 'regression', 'ui');
     const checklistTitle = 'Checklist 8';
     const item = 'TC008 Item';
 

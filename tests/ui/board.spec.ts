@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { TrelloDataGenerator } from "../../utils/ui/trelloDataGenerator";
 import { DashboardPage } from "../../pages/dashboardPage";
 import { BoardPage } from "../../pages/boardPage";
+import * as allure from 'allure-js-commons';
 
 test.describe("Board Management Test Suite - Creation, Modification and Navigation", () => {
   let dashboardPage: DashboardPage;
@@ -16,6 +17,7 @@ test.describe("Board Management Test Suite - Creation, Modification and Navigati
   });
 
   test('TC001 - Verify successful board creation with default lists and basic card functionality', async ({ page }) => {
+   await allure.tags('smoke', 'regression', 'ui');
     test.setTimeout(60000);
 
     const boardName = TrelloDataGenerator.generateBoardName();
@@ -41,6 +43,7 @@ test.describe("Board Management Test Suite - Creation, Modification and Navigati
   });
 
   test('TC002 - Verify creation of multiple cards across different board lists (To Do, In Progress, Done)', async ({ page }) => {
+   await allure.tags('smoke', 'regression', 'ui');
     test.setTimeout(60000);
 
     const boardName = TrelloDataGenerator.generateBoardName();
@@ -77,6 +80,7 @@ test.describe("Board Management Test Suite - Creation, Modification and Navigati
   });
 
    test('TC003 - Verify board name modification functionality and validation', async ({ page }) => {
+   await allure.tags('smoke', 'regression', 'ui');
     test.setTimeout(60000);
 
     const boardName = TrelloDataGenerator.generateBoardName();
@@ -99,7 +103,8 @@ test.describe("Board Management Test Suite - Creation, Modification and Navigati
   });
 
   test('TC004 - Verify inbox menu accessibility and proper display from board interface', async ({ page }) => {
-      test.setTimeout(60000);
+   await allure.tags('smoke', 'regression', 'ui');
+    test.setTimeout(60000);
 
       const boardName = TrelloDataGenerator.generateBoardName();
       const newBoardName = TrelloDataGenerator.generateBoardName();
@@ -121,7 +126,8 @@ test.describe("Board Management Test Suite - Creation, Modification and Navigati
     });
 
   test('TC005 - Verify planner menu accessibility and proper visualization from board interface', async ({ page }) => {
-      test.setTimeout(60000);
+   await allure.tags('smoke', 'regression', 'ui');
+    test.setTimeout(60000);
 
       const boardName = TrelloDataGenerator.generateBoardName();
       const newBoardName = TrelloDataGenerator.generateBoardName();

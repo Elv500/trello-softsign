@@ -1,6 +1,7 @@
 import { test, expect} from "@playwright/test";
 import { DashboardPage } from "../../pages/dashboardPage";
 import { TrelloDataGenerator } from "../../utils/ui/trelloDataGenerator";
+import * as allure from 'allure-js-commons';
 
 test.describe("Dashboard Management Test Suite - Board Lifecycle Operations", () => {
     let dashboardPage: DashboardPage;
@@ -59,6 +60,7 @@ test.describe("Dashboard Management Test Suite - Board Lifecycle Operations", ()
     });
 
     test('TC011 - Verify successful board creation from dashboard and visibility validation', async ({ page }) => {
+        await allure.tags('smoke', 'regression', 'ui');
         const boardName = TrelloDataGenerator.generateBoardName();
         createdBoards.push(boardName);
         
@@ -71,7 +73,8 @@ test.describe("Dashboard Management Test Suite - Board Lifecycle Operations", ()
     });
 
     test('TC012 - Verify board closure functionality and dashboard visibility update', async ({ page }) => {
-        const boardName = TrelloDataGenerator.generateBoardName();
+       await allure.tags('regression', 'ui');
+       const boardName = TrelloDataGenerator.generateBoardName();
         createdBoards.push(boardName);
         
         await dashboardPage.createNewBoard(boardName);
@@ -84,6 +87,7 @@ test.describe("Dashboard Management Test Suite - Board Lifecycle Operations", ()
     });
 
     test('TC013 - Verify complete board deletion process and removal from dashboard', async ({ page }) => {
+        await allure.tags('regression', 'ui');
         const boardName = TrelloDataGenerator.generateBoardName();
         createdBoards.push(boardName);
         
