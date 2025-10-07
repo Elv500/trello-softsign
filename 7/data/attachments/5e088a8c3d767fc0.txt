@@ -1,0 +1,9 @@
+Redirigiendo a card...
+Tarjeta cargada y botón de checklist visible
+Creando checklist: "Checklist 2"
+Checklist "Checklist 2" creado correctamente
+Añadiendo item: "TC002 Item"
+Item "TC002 Item" añadido correctamente
+Marcar/desmarcar item: "TC002 Item"
+Validando item completado: "TC002 Item"
+Item completado

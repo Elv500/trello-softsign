@@ -1,0 +1,33 @@
+Testing checklist-----------------: Smoke Test UI
+Card URL: https://trello.com/c/DYKR2w0y/1-card-test
+Redirigiendo a card...
+Tarjeta cargada y botón de checklist visible
+Creando checklist: "Smoke Test UI"
+Checklist "Smoke Test UI" creado correctamente
+Añadiendo item: "Validar carga inicial de tablero"
+Item "Validar carga inicial de tablero" añadido correctamente
+Validando checklist "Smoke Test UI"...
+Checklist visible
+Marcar/desmarcar item: "Validar carga inicial de tablero"
+Validando item completado: "Validar carga inicial de tablero"
+Item completado
+Eliminando checklist: "Smoke Test UI"
+Checklist "Smoke Test UI" eliminado correctamente
+Checklist completado correctamente: Smoke Test UI
+Testing checklist-----------------: Flujo QA
+Card URL: https://trello.com/c/DYKR2w0y/1-card-test
+Redirigiendo a card...
+Tarjeta cargada y botón de checklist visible
+Creando checklist: "Flujo QA"
+Checklist "Flujo QA" creado correctamente
+Añadiendo item: "Verificar creación de tarjetas"
+Item "Verificar creación de tarjetas" añadido correctamente
+Validando checklist "Flujo QA"...
+Checklist visible
+Marcar/desmarcar item: "Verificar creación de tarjetas"
+Validando item completado: "Verificar creación de tarjetas"
+Item completado
+Eliminando checklist: "Flujo QA"
+Checklist "Flujo QA" eliminado correctamente
+Checklist completado correctamente: Flujo QA
+Session cerrada

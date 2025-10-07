@@ -1,0 +1,13 @@
+Board created: technologies
+Lists created (To Do, In Progress, Done)
+Card created: relationships
+Date added to card
+Checklist added to card
+File uploaded to card
+✅ Complete card validation successful!
+Complete E2E workflow validation successful!
+Card features validated before workflow transitions
+Card moved to In Progress: relationships
+Card moved to Done: relationships
+Card archived: relationships
+Card is not visible: relationships

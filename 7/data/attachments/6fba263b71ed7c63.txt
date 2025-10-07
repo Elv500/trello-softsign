@@ -1,0 +1,10 @@
+🧪 Testing user: invalid2
+"?" Expected to be valid: false
+🔍 Validating failed login for user: invalid2...
+No specific error message found
+Current URL: https://id.atlassian.com/login?application=trello&continue=https%3A%2F%2Ftrello.com%2Fauth%2Fatlassian%2Fcallback%3FreturnUrl%3D%26display%3D%26aaOnboarding%3D%26updateEmail%3D%26traceId%3D%26ssoVerified%3D%26createMember%3D%26jiraInviteLink%3D
+Has error: false
+Error message: ""
+✅ LOGIN FAILED CORRECTLY: No redirect to boards
+Test completed for user: invalid2
+

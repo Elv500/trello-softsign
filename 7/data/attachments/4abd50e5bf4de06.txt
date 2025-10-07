@@ -1,0 +1,5 @@
+[Schema inválido] /attachment/attachment_input_schema.json
+/body/url => must match format "uri"
+/body => must have required property 'fileBase64'
+/body => must NOT have additional properties
+/body => must match exactly one schema in oneOf
