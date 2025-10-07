@@ -59,27 +59,5 @@ export default defineConfig({
         baseURL: process.env.BASE_URL_UI
       },
     },
-    {
-      name: 'cloud-tests',
-      testMatch: 'tests/ui/**/*.spec.ts',
-      use: {
-        baseURL: process.env.BASE_URL_UI,
-        storageState: 'auth-state.json',
-        connectOptions: {
-          wsEndpoint: `wss://cdp.browserstack.com/playwright?caps=${encodeURIComponent(JSON.stringify({
-            'browser': 'chrome',
-            'browser_version': 'latest',
-            'os': 'osx',
-            'os_version': 'ventura',
-            'name': 'Trello UI Tests (BrowserStack)',
-            'build': 'Playwright-CI',
-            'browserstack.username': process.env.BROWSERSTACK_USERNAME,
-            'browserstack.accessKey': process.env.BROWSERSTACK_ACCESS_KEY,
-            //'browserstack.video': 'true',
-            //'browserstack.networkLogs': 'true',
-          }))}`
-        },
-      },
-    },
   ],
 });

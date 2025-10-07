@@ -8,7 +8,6 @@
     "test:ui": "npx playwright test --project=ui-tests",
     "test:api": "npx playwright test --project=api-tests",
     "test:login": "npx playwright test --project=login-tests",
-    "test:cloud": "npx playwright test --project=cloud-tests",
     "report": "npx playwright show-report",
     "postinstall": "npx playwright install chromium"
   },
