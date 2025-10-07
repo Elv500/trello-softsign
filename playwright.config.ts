@@ -1,6 +1,13 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Compatibilidad con ESM: reemplazo de __dirname / __filename
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Cargar variables de entorno
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 export default defineConfig({
@@ -21,8 +28,8 @@ export default defineConfig({
     ['allure-playwright', { outputFolder: 'allure-results' }],
   ],
   /* Setting global configurations (Setup and Teardown) */
-  globalSetup: require.resolve('./config/global-setup'),
-  globalTeardown: require.resolve('./config/global-teardown'),
+  globalSetup: './config/global-setup.ts',
+  globalTeardown: './config/global-teardown.ts',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL: process.env.BASE_URL,
