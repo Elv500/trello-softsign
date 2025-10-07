@@ -1,0 +1,11 @@
+{
+    "type": "object",
+    "required": [
+        "limits"
+    ],
+    "properties": {
+        "limits": {
+            "type": "object"
+        }
+    }
+}

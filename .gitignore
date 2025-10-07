@@ -92,7 +92,7 @@ dist
 .vuepress/dist
 
 # vuepress v2.x temp and cache directory
-.temp
+
 .cache
 
 # Sveltekit cache directory
@@ -144,3 +144,23 @@ test-results/
 
 # MacOS files
 .DS_Store
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+#Archivos temporales de la aplicacion
+#UI
+auth-state.json
+#API
+trello-state.json
+
+# Temporary files
+.temp/*
+!.temp/.gitkeep
+
+# Allure test result
+allure-results/
+allure-report/

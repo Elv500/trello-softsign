@@ -1,0 +1,13 @@
+{
+    "type": "object",
+    "required": [
+    ],
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "color": {
+            "type": "string"
+        }
+    }
+}

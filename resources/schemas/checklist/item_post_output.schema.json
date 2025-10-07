@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string" },
+    "nameData": {
+      "type": "object",
+      "properties": {
+        "emoji": { "type": "object" }
+      },
+      "required": ["emoji"]
+    },
+    "pos": { "type": "number" },
+    "state": { "type": "string" },
+    "due": { "type": ["string", "null"] },
+    "dueReminder": { "type": ["integer", "null"] },
+    "idMember": { "type": ["string", "null"] },
+    "idChecklist": { "type": "string" },
+    "limits": { "type": "object" }
+  },
+  "required": ["id", "name", "idChecklist", "state"],
+  "additionalProperties": false
+}
