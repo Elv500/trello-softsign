@@ -30,8 +30,8 @@ test.describe('Tests de creación de Labels en Trello', () => {
         await deleteBoard(boardId);
     });
 
-    test('Crear Label completo', async () => {
-        await allure.tags('smoke', 'regression', 'api', 'cards', 'date');
+    test('Crear Label completo @label @smoke @negative', async () => {
+        await allure.tags('label', 'smoke', 'negative');
         
         const payload = buildLabelPayload({ idBoard: boardId });
         AssertionLabel.assert_post_input_schema(payload);

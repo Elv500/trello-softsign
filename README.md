@@ -45,6 +45,8 @@ El proyecto está configurado con **Playwright Projects** para separar API y UI:
 |---------|-------------|
 | `npx playwright test tests/api/api.spec.ts` | Ejecuta un archivo específico |
 | `npx playwright test -g "Recuperar board"` | Ejecuta un test específico por su título |
+| `npx playwright test -g "@smoke"` | Ejecuta un tipo de test etiqueta |
+| `npx playwright test -g "@api" --grep-invert "@regression"`  | Ejecuta @api y excluye @regression |
 | `npx playwright test --headed` | Corre los tests con navegador visible |
 | `npx playwright test --ui` | Abre la interfaz visual de Playwright Test Runner |
 | `npx playwright test --debug` | Corre en modo debug (pausas, inspector) |
