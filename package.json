@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Automatización API y UI con Playwright para Trello Softsign",
   "main": "index.js",
+  "type":"module",
   "scripts": {
     "test": "npx playwright test",
     "test:ui": "npx playwright test --project=ui-tests",
