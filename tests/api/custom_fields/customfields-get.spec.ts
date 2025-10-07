@@ -31,7 +31,7 @@ test.describe("Pruebas API de Custom Field - GET", () => {
     await deleteBoard(board_id);
   });
 
-  test("TC001 - Obtener Custom Field existente @customField @api @positive", async () => {
+  test("TC001 - Obtener Custom Field existente @customField @positive", async () => {
     await allure.tags('customfield', 'positive');
 
     const response = await TrelloRequest.get(`customFields/${customField_id}`);
