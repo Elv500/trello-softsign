@@ -4,6 +4,8 @@
 
 ---
 
+> Se necesita una version de node >= 20.19.0
+
 ### Instalación
 
 1. Inicializar Playwright (opcional, ya está configurado en este proyecto):  
