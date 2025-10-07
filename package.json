@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Automatización API y UI con Playwright para Trello Softsign",
   "main": "index.js",
-  "type":"module",
   "scripts": {
     "test": "npx playwright test",
     "test:ui": "npx playwright test --project=ui-tests",
@@ -29,6 +28,7 @@
   },
   "homepage": "https://github.com/Elv500/trello-softsign#readme",
   "devDependencies": {
+    "@faker-js/faker": "^9.0.0",
     "@playwright/test": "^1.55.1",
     "@types/node": "^24.6.1",
     "@types/speakeasy": "^2.0.10",
@@ -39,7 +39,6 @@
     "dotenv": "^17.2.3"
   },
   "dependencies": {
-    "@faker-js/faker": "^10.0.0",
     "speakeasy": "^2.0.0"
   }
 }
