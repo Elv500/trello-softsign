@@ -38,6 +38,7 @@ El proyecto está configurado con **Playwright Projects** para separar API y UI:
 | `npm run test:api` | Ejecuta solo los tests de **API** (`tests/api/**/*.spec.ts`) |
 | `npm run test:login` | Ejecuta solo el test de **login UI** (`tests/ui/login.spec.ts`) |
 | `npm run test:ui` | Ejecuta los tests de **UI autenticados** (`tests/ui/**/*.spec.ts` excepto `login.spec.ts`) |
+| `npm run test:cloud` | Ejecuta los tests de **UI** en la nube con BrowserStack |
 
 > Comandos extras
 
